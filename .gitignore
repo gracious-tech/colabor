@@ -1,0 +1,8 @@
+
+node_modules/
+
+/app/dist/
+/app/.env.development.local
+
+/backend/.aws-sam/
+/backend/config.yaml
