@@ -1,0 +1,22 @@
+{
+    "private": true,
+    "devDependencies": {
+        "@material-symbols/svg-400": "^0.21.0",
+        "@types/lodash-es": "^4.17.12",
+        "@types/pug": "^2.0.10",
+        "@vitejs/plugin-vue": "^5.0.5",
+        "@volar/vue-language-plugin-pug": "^1.6.5",
+        "pug": "^3.0.3",
+        "sass": "^1.77.6",
+        "vite": "^5.3.3",
+        "vite-plugin-vuetify": "^2.0.3",
+        "vite-svg-loader": "^5.1.0",
+        "vue": "^3.4.31"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.609.0",
+        "@tinymce/tinymce-vue": "^6.0.1",
+        "lodash-es": "^4.17.21",
+        "vuetify": "^3.6.11"
+    }
+}
