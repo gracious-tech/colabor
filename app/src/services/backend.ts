@@ -4,6 +4,11 @@ import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
 import {hex_to_buffer, buffer_to_url64} from './utils'
 
 
+export function data_url(fundraiser:string){
+    return `${import.meta.env['VITE_DATA_URL']}/${fundraiser}`
+}
+
+
 const S3 = new S3Client({
     region: import.meta.env['VITE_REGION'],
     signer: {

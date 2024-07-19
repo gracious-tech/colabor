@@ -21,6 +21,7 @@ import {RouterView} from 'vue-router'
 .v-application
     max-width: 800px
     margin: 48px auto
+    margin-bottom: 400px
     @media (max-width: 860px)
         margin-top: 0
         max-width: none

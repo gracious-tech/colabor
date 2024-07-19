@@ -2,9 +2,9 @@
 <template lang='pug'>
 
 div.fund
-    img.header(src='/causes/example/header.jpg')
+    img.header(:src='`${fund.url}/header.jpg`')
     div.profile
-        img(src='/causes/example/profile.jpg')
+        img(:src='`${fund.url}/profile.jpg`')
     div.text
         h1 {{ fund.name }}
         h2 {{ fund.subheading }}
@@ -22,6 +22,9 @@ div.fund
     FundDonate(:activity='selected_activity')
 
 div.extra
+
+    h3 Resources Produced
+
     h3 Milestones
 
     FundMilestones
@@ -61,6 +64,7 @@ const support_activity = (id:string) => {
     align-items: center
     overflow: hidden
     background-color: white
+    color: #000c
     margin-bottom: 48px
     border-radius: 18px
     @media (max-width: 860px)
@@ -105,12 +109,5 @@ h3
 
 .activities
     margin: var(--gutter)
-
-    .activity
-        cursor: pointer
-        border: 2px solid transparent
-
-        &.selected
-            border-color: rgb(var(--v-theme-secondary))
 
 </style>

@@ -5,19 +5,20 @@
 div.donate
     h3 Support
     div.quote {{ subheading }}
+    h4 100% of donations go to the fundraiser's accounts
     div.options
         div
-            v-btn(size='large')
+            v-btn(size='large' color='')
                 app-icon(name='account_balance')
-                | Bank transfer
-            div.fees No transaction fees for {{ fund.currency.toUpperCase() }}
+                | Bank Transfer
+            div.fees No fees for domestic transfers
         div
-            v-btn(size='large')
+            v-btn(size='large' color='')
                 app-icon(name='credit_card')
                 | Card
-            div.fees Some transaction fees
+            div.fees Some third-party fees
         div
-            v-btn(size='large')
+            v-btn(size='large' color='')
                 app-icon(name='currency_bitcoin')
                 | Bitcoin
 

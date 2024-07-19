@@ -6,8 +6,8 @@ div.pray
     h3 Pray
     div.quote “Pray for us, that the word of the Lord may spread quickly and be held in honor.” (2 Thes 3:1)
 
-    v-btn(variant='tonal' text="Subscribe to newsletter")
-    v-btn(variant='tonal' text="Follow on Facebook")
+    v-btn(variant='tonal' color='' text="Subscribe to newsletter")
+    v-btn(variant='tonal' color='' text="Follow on Facebook")
 
 
 </template>

@@ -3,7 +3,7 @@
 import {readFileSync} from 'node:fs'
 
 import pug from 'pug'
-import sass from 'sass'
+import * as sass from 'sass'
 import {Plugin, ResolvedConfig} from 'vite'
 
 

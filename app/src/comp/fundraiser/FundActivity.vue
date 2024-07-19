@@ -2,7 +2,7 @@
 <template lang='pug'>
 
 div.activity
-    img(:src='`/causes/example/activity${activity.id}.jpg`')
+    img(:src='`${fund.url}/activity${activity.id}.jpg`')
     div
         h3 {{ activity.title }}
         div(v-html='activity.desc')
@@ -13,7 +13,12 @@ div.activity
 
 <script lang='ts' setup>
 
+import {inject} from 'vue'
+
+
 const props = defineProps<{activity:unknown}>()
+const fund = inject('fund')
+
 
 </script>
 
@@ -24,10 +29,17 @@ const props = defineProps<{activity:unknown}>()
     display: flex
     overflow: hidden
     width: 100%
+    border: 2px solid transparent
     border-radius: 12px
     margin-bottom: 24px
-    background-color: #eee
     font-size: 15px
+    cursor: pointer
+
+    &.selected
+        border-color: rgb(var(--v-theme-secondary)) !important
+
+    &:hover
+        border-color: rgb(var(--v-theme-secondary-lighten-2))
 
     img
         width: 30%
@@ -36,6 +48,7 @@ const props = defineProps<{activity:unknown}>()
 
     & > div
         padding: calc(var(--gutter) / 2)
+        background-color: #eee
 
         p
             margin-top: 0

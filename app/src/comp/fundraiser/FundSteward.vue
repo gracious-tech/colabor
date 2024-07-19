@@ -15,7 +15,9 @@ div.steward
         FundStewardPolicy(title="Non-profit ministry" explain="They agree to redirect donations to other ministries if they exceed the income/assets caps they have stated. They also agree to carefully keep track of donations received for this purpose.")
         FundStewardPolicy(title="Beliefs faithful to Scripture" explain="Those fundraising affirm the divinity of Jesus, agree to the creeds, and the authority of Scripture.")
 
-
+div.trust(class='text-center')
+    p Donations go directly to fundraisers. You should only donate if you trust the organisers of this fundraiser.
+    VBtn() Learn more
 
 </template>
 
@@ -25,24 +27,30 @@ div.steward
 import {inject, computed} from 'vue'
 
 import FundStewardPolicy from './FundStewardPolicy.vue'
+import type {Fundraiser} from '@/types'
 
 
-const fund = inject('fund')
+const fund = inject('fund') as Fundraiser
 
 const towards_title = computed(() => {
-    if (fund.steward.towards === 'livelihood'){
-        return "Livelihood"
-    }
+    return {
+        income: "Livelihood",
+        cause: "Cause",
+        mixed: "Livelihood & Cause",
+    }[fund.steward.towards]
 })
 
 const towards_explain = computed(() => {
-    if (fund.steward.towards === 'livelihood'){
-        return "Funds go directly to their personal bank account. This allows them to spend less time with admin and more time in their ministry."
-    }
+    const personal = fund.steward.organiser_type === 'individual' ? 'personal' : ''
+    return {
+        income: `Funds go directly towards the organiser's own ${personal} income rather than to a specific cause.`,
+        cause: `Funds go solely towards the stated cause and no one draws any personal benefit from it.`,
+        mixed: `Funds go both towards the cause and also towards the organiser's own ${personal} income`,
+    }[fund.steward.towards]
 })
 
 const income_cap = computed(() => {
-    return fund.steward.income_cap.toLocaleString(undefined, {
+    return fund.steward.max_personal_income.toLocaleString(undefined, {
         style: 'currency',
         currencyDisplay: 'narrowSymbol',
         currency: fund.currency,
@@ -51,7 +59,7 @@ const income_cap = computed(() => {
 })
 
 const assets_cap = computed(() => {
-    return fund.steward.assets_cap.toLocaleString(undefined, {
+    return fund.steward.max_personal_assets.toLocaleString(undefined, {
         style: 'currency',
         currencyDisplay: 'narrowSymbol',
         currency: fund.currency,

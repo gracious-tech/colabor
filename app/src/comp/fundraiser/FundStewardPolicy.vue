@@ -3,7 +3,7 @@
 
 div.policy(@click='show_explain = !show_explain')
     div.state
-        AppIcon(v-if='!value').check(name='check')
+        AppIcon.check(v-if='!value' name='check')
         span.title {{ title }}
         span.value(v-if='value') {{ value }}
         AppIcon.help(:name='show_explain ? "expand_circle_up" : "help"')

@@ -23,6 +23,12 @@ import credit_card from '@material-symbols/svg-400/outlined/credit_card.svg?comp
 import account_balance from '@material-symbols/svg-400/outlined/account_balance.svg?component'
 import check from '@material-symbols/svg-400/outlined/check.svg?component'
 import expand_circle_up from '@material-symbols/svg-400/outlined/expand_circle_up.svg?component'
+import paid from '@material-symbols/svg-400/outlined/paid.svg?component'
+import step_out from '@material-symbols/svg-400/outlined/step_out.svg?component'
+import stacks from '@material-symbols/svg-400/outlined/stacks.svg?component'
+import emoji_people from '@material-symbols/svg-400/outlined/emoji_people.svg?component'
+import equalizer from '@material-symbols/svg-400/outlined/equalizer.svg?component'
+import world from '@material-symbols/svg-400/outlined/public.svg?component'
 
 import planner_banner from '@/assets/planner_banner.svg?component'
 
@@ -37,7 +43,7 @@ defineProps({
 const icons = {
     drag_indicator, close, arrow_back, planner_banner, copyright, auto_stories, check,
     subject, download, error, help, currency_bitcoin, credit_card, account_balance,
-    expand_circle_up,
+    expand_circle_up, step_out, paid, stacks, emoji_people, equalizer, world,
 } as Record<string, FunctionalComponent>
 
 

@@ -2,6 +2,7 @@
 node_modules/
 
 /app/dist/
+/app/src/public/dev/
 /app/.env.development.local
 
 /backend/.aws-sam/
