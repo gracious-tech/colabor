@@ -100,6 +100,20 @@ div(class='mt-4')
 
 p In most cases registration will be complicated and require you to setup structures similar to a charity. So if registration is required for your situation then it may be simpler to either join an existing non-profit or charity, or start your own if necessary.
 
+
+
+
+
+h2 United States
+
+VBtn(href='https://www.irs.gov/newsroom/money-received-through-crowdfunding-may-be-taxable-taxpayers-should-understand-their-obligations-and-the-benefits-of-good-recordkeeping' target='_blank') Tax Obligations
+
+VBtn(href='https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/charitable-solicitation-registration' target='_blank') Fundraising Regulations
+
+
+
+
+
 h2 Other countries
 
 p We don't have any advice for other countries yet. If you have carefully researched the laws for your country you can send us a summary that we'll consider adding to this page.

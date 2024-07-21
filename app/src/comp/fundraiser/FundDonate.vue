@@ -24,10 +24,11 @@ div.donate
 
 
 div.progress
-    v-progress-linear(:model-value='40' :height='40' :max='100' color='#8db' striped)
+    v-progress-linear(:model-value='fund.steward.progress_current'
+            :max='fund.steward.progress_total' color='#8db' :height='40' striped)
         div.amount
-            span.current 4 days / week
-            span.total 10 days / week
+            span.current {{ current }}
+            span.total {{ total }}
 
 
 </template>
@@ -37,15 +38,40 @@ div.progress
 
 import {computed, inject} from 'vue'
 
+import {currency_str} from '@/services/utils'
+import type {Fundraiser} from '@/types'
+
 
 const props = defineProps<{activity:string|null}>()
-const fund = inject('fund')
+const fund = inject('fund') as Fundraiser
 
 const subheading = computed(() => {
     if (props.activity){
-        return fund.activities.filter(a => a.id === props.activity)[0].title
+        return fund.activities.filter(a => a.id === props.activity)[0]!.title
     }
     return "“So that we may be fellow workers for the truth.” (3 John 1:8)"
+})
+
+const current = computed(() => {
+    if (fund.steward.progress_type === '%'){
+        return `${fund.steward.progress_current}%`
+    } else if (fund.steward.progress_type === 'money'){
+        return currency_str(fund.steward.progress_current, fund.currency)
+    } else if (fund.steward.progress_type === 'days'){
+        return `${fund.steward.progress_current} days/week`
+    }
+    throw new Error("Impossible progress_type")
+})
+
+const total = computed(() => {
+    if (fund.steward.progress_type === '%'){
+        return ''
+    } else if (fund.steward.progress_type === 'money'){
+        return currency_str(fund.steward.progress_total, fund.currency)
+    } else if (fund.steward.progress_type === 'days'){
+        return `${fund.steward.progress_total} days/week`
+    }
+    throw new Error("Impossible progress_type")
 })
 
 </script>

@@ -72,3 +72,12 @@ export function debounce<T>(fn:T, ms=500){
     // @ts-ignore -- Lodash uses 'any' types and can't work out how to declare unknown args fn
     return lodash_debounce(fn, ms) as unknown as T
 }
+
+export function currency_str(number:number, currency:string){
+    return number.toLocaleString(undefined, {
+        style: 'currency',
+        currencyDisplay: 'narrowSymbol',
+        currency: currency,
+        minimumFractionDigits: 0,
+    }) + ' ' + currency.toUpperCase()
+}

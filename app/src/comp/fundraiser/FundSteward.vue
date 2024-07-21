@@ -4,11 +4,10 @@
 div.steward
 
     div.unique
+        FundStewardPolicy(title="Donations received by" :value='fund.steward.organiser_name')
         FundStewardPolicy(title="Donations go towards" :value='towards_title'
             :explain="towards_explain")
-        FundStewardPolicy(title="Household Income Cap"
-            :value='`< ${income_cap} / year`' explain="This is the maximum amount they say they will earn before redirecting donations to other ministries more in need than theirs.")
-        FundStewardPolicy(title="Household Assets Cap" :value='`< ${assets_cap}`' explain="This is the maximum amount of assets they say they will store before redirecting donations to other ministries more in need than theirs.")
+        FundStewardPolicy(title="Fundraising goal" :value='goal' explain="")
 
     div.common
         FundStewardPolicy(title="Non-commercial ministry" explain="Recipients of this ministry receive it free of charge. Resources created are free of copyright and there is always a means of free access to them. Physical distribution costs may be charged but there is always a free alternative, such as digital access.")
@@ -49,24 +48,14 @@ const towards_explain = computed(() => {
     }[fund.steward.towards]
 })
 
-const income_cap = computed(() => {
-    return fund.steward.max_personal_income.toLocaleString(undefined, {
+const goal = computed(() => {
+    return fund.steward.goal.toLocaleString(undefined, {
         style: 'currency',
         currencyDisplay: 'narrowSymbol',
         currency: fund.currency,
         minimumFractionDigits: 0,
     }) + ' ' + fund.currency.toUpperCase()
 })
-
-const assets_cap = computed(() => {
-    return fund.steward.max_personal_assets.toLocaleString(undefined, {
-        style: 'currency',
-        currencyDisplay: 'narrowSymbol',
-        currency: fund.currency,
-        minimumFractionDigits: 0,
-    }) + ' ' + fund.currency.toUpperCase()
-})
-
 
 </script>
 

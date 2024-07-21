@@ -13,6 +13,9 @@ export interface Fundraiser {
         max_personal_income:number
         max_personal_assets:number
         goal:number
+        progress_current:number
+        progress_total:number
+        progress_type:'%'|'days'|'money'
         ends:string|boolean  // Date to auto-end, true if ends when goal reached, false for ongoing
     }
 }

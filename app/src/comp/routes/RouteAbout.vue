@@ -14,17 +14,17 @@ h2 Support
 div
     VBtn(href='https://gracious.tech/contact' target='_blank' color='secondary') Contact Us
 
-h2 Backstory
+//- h2 Backstory
 
-p Over the last several decades, some Christian ministries have grown into large entities
+//- p Over the last several decades, some Christian ministries have grown into large entities
 
-p Ministries grow and dominate fundraising. Smaller ministries struggle to stay on top of compliance and to fundraise. Leading to the evangelical industrial complex. Centralising ministry into large organisations has not resulted in biblical faithfulness but rather the diluting of beliefs to stay compatible with a large pool of donors.
+//- p Ministries grow and dominate fundraising. Smaller ministries struggle to stay on top of compliance and to fundraise. Leading to the evangelical industrial complex. Centralising ministry into large organisations has not resulted in biblical faithfulness but rather the diluting of beliefs to stay compatible with a large pool of donors.
 
-p Individuals are forced to join a large organisation or commercialise their ministry.
+//- p Individuals are forced to join a large organisation or commercialise their ministry.
 
-p The name comes from the dorean principle.
+//- p The name comes from the dorean principle.
 
-p Jon Here<br>Founder of Gracious Tech
+//- p Jon Here<br>Founder of Gracious Tech
 
 
 </template>

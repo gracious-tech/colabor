@@ -12,22 +12,12 @@ h2 Fundraiser Agreement
 
 p We make all fundraisers agree to the following before they can use our platform:
 
-ol
-    li I am responsible for my own page and financial obligations:
-        ol
-            li I will obey the tax and finance laws of my country of residence
-            li I will not hold Gracious Tech responsible for any legal issues related to my use of this platform
-    li I will keep track of donations:
-        ol
-            li I will keep track of how much I receive
-            li I will keep my fundraising page up-to-date
-            li I will notify my supporters of signficant changes in circumstance
-    li I will stop accepting donations and disable my fundraising page if:
-        ol
-            li I am no longer doing ministry
-            li I exceed my stated income cap
-            li I exceed my stated assets cap
-            li Changes in my beliefs or practices contradict this agreement
+FundraiserAgreement
+
+
+h2 Why is it wrong to earn more than your limits?
+
+p It may not be wrong. We set reasonable limits so that donors can be assured that any fundraiser on this platform is reasonably likely to be funding ministry rather than a life of leisure. There may be situations that are still reasonable but outside of our limits. We don't claim they are all wrong, we just don't permit them on our particular platform.
 
 
 h2 What's the best way to get funding?
@@ -82,6 +72,7 @@ h3 How can I honour God in the way I go about fundraising?
 
 <script lang='ts' setup>
 
+import FundraiserAgreement from '../common/FundraiserAgreement.vue'
 
 </script>
 
