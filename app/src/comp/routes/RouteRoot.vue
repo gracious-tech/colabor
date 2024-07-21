@@ -28,12 +28,6 @@ div.features
 
 div.cont(class='text-center')
 
-    h2 Use Cases
-    div.cases
-        div.case Ministries that are seasonal
-        div.case Ministries that are uncommon
-        div.case Ministries that are typically commercialised
-
     h2(class='my-10') Example Fundraisers
     div.examples
         FundButton(id='example-people' name="Jordan & Sarah"
