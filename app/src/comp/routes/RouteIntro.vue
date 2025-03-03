@@ -57,7 +57,7 @@ div.cs-positive
 
 h2 3. Authentically Christian
 
-p We only allow fundraisers for Christian ministry or for causes that are explicitly Christian in nature, such as poverty relief. We also require you to agree to our statement of beliefs.
+p We only allow fundraisers for Christian ministry or for causes that are explicitly Christian in nature, such as poverty relief. We also require you to agree with our statement of beliefs.
 
 div.cs-negative
     div
