@@ -27,6 +27,7 @@ import RouteGuideFundraisers from './comp/routes/RouteGuideFundraisers.vue'
 import RouteGuideSupporters from './comp/routes/RouteGuideSupporters.vue'
 import AppOfficial from './comp/AppOfficial.vue'
 import RouteCompliance from './comp/routes/RouteCompliance.vue'
+import RouteBitcoin from '@/comp/routes/RouteBitcoin.vue'
 import GO from './comp/global/GO.vue'
 
 
@@ -49,6 +50,7 @@ const router = createRouter({
             {path: 'compliance', component: RouteCompliance},
             {path: 'fundraisers', component: RouteGuideFundraisers},
             {path: 'supporters', component: RouteGuideSupporters},
+            {path: 'bitcoin', component: RouteBitcoin},
             {path: 'legal', component: RouteLegal},
             {path: 'about', component: RouteAbout},
             {path: 'create', component: RouteCreate},
