@@ -8,6 +8,8 @@ Source code for [fund.freely.giving](https://fund.freely.giving)
 
  * Optionally receive email reminders to donate (especially for Bitcoin, e.g. donate monthly/yearly)
  * Collect email addresses so can send notifications when new updates
+ * Collect amount expected to pay so can issue receipts
+    * Should be able to send receipt with single button as soon as funds confirmed in account
 
 
 # NSW Law
