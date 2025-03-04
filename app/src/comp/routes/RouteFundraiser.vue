@@ -6,7 +6,8 @@ FundMain
 
 div.footer(class='text-center')
     div.created created with
-    AppLogo(clickable)
+    GO(href='/' target='_blank')
+        img.logo(src='@/assets/logo_with_tagline.svg')
 
 </template>
 
@@ -42,6 +43,9 @@ provide<Fundraiser>('fund', data)
 
 .footer
     margin-top: 200px
+
+    .logo
+        max-width: 250px
 
 .created
     color: white
