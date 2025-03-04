@@ -1,0 +1,49 @@
+{
+    "name": "Reaching Refugees",
+    "subheading": "Showing God's love to the neediest in Green Hills",
+    "currency": "aud",
+    "intro": "<p>Reaching Refugees is an inter-church ministry in the suburb of Green Hills. Our mission is to provide spiritual, emotional, and practical support to refugees as they rebuild their lives. Our goal is to demonstrate God's love and hope to refugees, helping them integrate into their new community and find purpose and belonging. Through our ministry, we aim to share the love of Christ and ensure everyone, from any background, knows the good news about Jesus.</p><p>Jacob Miller<br>Organiser</p>",
+    "activities": [
+        {
+            "id": 1,
+            "title": "English language classes",
+            "desc": "Our English language classes equip refugees with the language skills they need to navigate everyday life, access education and employment, and build connections in their new community."
+        },
+        {
+            "id": 2,
+            "title": "Job skills training",
+            "desc": "Our job skills training programs empower refugees to acquire the skills and knowledge necessary to secure employment and become self-sufficient. From resume-building and interview preparation to vocational training and certification."
+        },
+        {
+            "id": 3,
+            "title": "Evangelism & discipleship",
+            "desc": "Through Bible studies, mentorship, and community events, we provide opportunities for refugees to encounter the Gospel, deepen their understanding of God's love, and become disciples of Jesus Christ."
+        }
+    ],
+    "steward": {
+        "organiser_type": "individual",
+        "organiser_name": "Jacob Miller",
+        "towards": "cause",
+        "goal": 30000,
+        "progress_current": 60,
+        "progress_total": 100,
+        "progress_type": "%",
+        "ends": true
+    },
+    "milestones": [
+        {
+            "id": 1,
+            "date": "2023-03-02T13:00:00.000Z",
+            "title": "First language learning class up and running",
+            "desc": "",
+            "link": ""
+        },
+        {
+            "id": 2,
+            "date": null,
+            "title": "First employment workshop",
+            "desc": "",
+            "link": ""
+        }
+    ]
+}
