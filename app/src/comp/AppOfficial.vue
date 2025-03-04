@@ -4,12 +4,19 @@
 
 div.nav
     RouterLink(to='/')
-        AppLogo(class='my-4')
+        img.icon(src='@/assets/icon.svg')
     VBtn(variant='outlined' color='' to='/official/intro') Introduction
     VBtn(variant='outlined' color='' to='/official/fundraisers') Fundraisers
     VBtn(variant='outlined' color='' to='/official/supporters') Supporters
-    VBtn(variant='outlined' color='' to='/official/about') About
-    VBtn(color='secondary' to='/official/create') Create
+    VMenu
+        template(#activator='{props}')
+            VBtn(icon variant='text' color='' v-bind='props')
+                AppIcon(name='more_vert')
+        VList
+            VListItem(to='/official/about')
+                VListItemTitle About
+            VListItem(to='/official/contact')
+                VListItemTitle Contact
 
 div.typo
     router-view
@@ -43,12 +50,19 @@ useRouter().afterEach((to) => {
 .nav
     display: flex
     align-items: center
-    border-bottom: 1px solid #999
+    padding-left: 12px
+
+    .icon
+        width: 100px
 
     > *
-        margin-right: 24px
+        margin: 0 12px
 
 .typo
-    padding: 0 24px
+    padding: 48px 36px
+    border-radius: 24px
+
+    > :first-child
+        margin-top: 0
 
 </style>
