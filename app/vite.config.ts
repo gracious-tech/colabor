@@ -17,7 +17,7 @@ export default defineConfig(({mode}) => {
             plugin_index(path.join(__dirname, 'src/index.pug')),
             plugin_vue(),
             plugin_vuetify({autoImport: true}),
-            plugin_svg_loader(),
+            plugin_svg_loader({defaultImport: 'url'}),
         ],
         resolve: {
             alias: [
