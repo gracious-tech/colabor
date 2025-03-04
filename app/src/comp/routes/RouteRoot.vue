@@ -2,7 +2,7 @@
 <template lang='pug'>
 
 div(class='text-center my-4')
-    AppLogo
+    img.logo(src='@/assets/logo.svg')
 
 RouteRootSlideshow
 
@@ -36,7 +36,7 @@ div.cont(class='text-center')
             subheading="Showing God's love to the neediest in Green Hills" newtab)
 
     div(class='my-16')
-        VBtn(color='secondary' to='/official/intro' size='large') Get Started
+        VBtn(color='secondary' to='/official/intro' size='large') Learn More
 
 </template>
 
@@ -51,6 +51,9 @@ import RouteRootSlideshow from './parts/RouteRootSlideshow.vue'
 
 
 <style lang='sass' scoped>
+
+.logo
+    max-width: 600px
 
 .cont
     padding: 12px
