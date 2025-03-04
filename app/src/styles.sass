@@ -22,9 +22,12 @@ ol > li > ol
     list-style-type: lower-alpha
 
 
-a
-    color: rgb(var(--v-theme-secondary))
+a:not(.v-theme--custom)  // Hack to exclude Vuetify components
+    color: rgb(var(--v-theme-secondary-darken-1))
     text-decoration: none
+
+    &:hover
+        text-decoration: underline
 
 
 hr
@@ -57,12 +60,12 @@ iframe
     border-radius: 12px
     padding: 12px
     margin: 24px
-    color: hsl(0, 0%, 100%, 70%)
+    color: hsl(0, 0%, 0%, 70%)
 
     > div
         position: absolute
         margin-top: -24px
-        background-color: #2c2c2c
+        background-color: var(--typo-bg)
         padding: 0 6px
         font-size: 14px
         font-weight: bold
@@ -74,19 +77,25 @@ iframe
         margin-bottom: 0
 
 .cs-negative
-    border-color: hsl(0, 40%, 60%)
-    color: hsl(0, 40%, 85%)
+    border-color: hsl(0, 40%, 40%)
+    color: hsl(0, 40%, 25%)
     > div
-        color: hsl(0, 40%, 60%)
+        color: hsl(0, 40%, 40%)
 
 .cs-positive
-    border-color: hsl(120, 40%, 60%)
-    color: hsl(120, 40%, 85%)
+    border-color: hsl(120, 40%, 40%)
+    color: hsl(120, 40%, 25%)
     > div
-        color: hsl(120, 40%, 60%)
+        color: hsl(120, 40%, 40%)
 
 .typo
-    font-size: 18px
+    --typo-bg: #ddd
+    background-color: var(--typo-bg)
+    color: black
+
+    p
+        font-size: 20px
+        font-family: Crimson Pro
 
     h1, h2, h3, h4
         margin: 2em 0 0.5em 0
