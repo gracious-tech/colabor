@@ -62,9 +62,9 @@ useRouter().afterEach((to) => {
     min-height: 70px
 
     .logo
-        width: 120px
-        @media (min-width: 800px)
-            width: 200px
+        width: 200px
+        @media (max-width: 800px)
+            width: 120px
 
     .btns > *
         margin-left: 18px
@@ -74,8 +74,10 @@ useRouter().afterEach((to) => {
 
 .typo
     padding: 48px 36px
-    @media (min-width: 860px)
-        border-radius: 24px
+    border-radius: 24px
+    @media (max-width: 860px)
+        border-radius: 0
+        padding: 48px 16px
 
     > :first-child
         margin-top: 0

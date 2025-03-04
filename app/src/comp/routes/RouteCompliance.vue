@@ -129,7 +129,7 @@ ul
     li Ensure you trust the people fundraising (either personally or based on the fruit of their ministry)
     li Stop donating if you are no longer comfortable with their beliefs, lifestyle, or practices
 
-p This proposal will by no means ensure that fraud does not take place, as Scripture affirms that some will raise money for impure motives (1 Tim 6:5 ). But as explained already, nonprofits can't completely guard against this either. While donations to individuals may involve less legal protections, we should not let that dissuade us from supporting the many people who serve the Lord with integrity. It is biblical to not be overly concerned about bringing people to justice ourselves (Prov 20:22, Rom 12:19, 1 Cor 6:7), as the Lord will deal with those who are servants of money in his own time (John 12:6). We should focus on ensuring that those who do go out on behalf of the Name are well supported so we may be fellow workers for the truth with them (3 John 1:8).
+p This proposal will by no means ensure that fraud does not take place, as Scripture affirms that some will raise money for impure motives (1 Tim 6:5). But as explained already, nonprofits can't completely guard against this either. While donations to individuals may involve less legal protections, we should not let that dissuade us from supporting the many people who serve the Lord with integrity. It is biblical to not be overly concerned about bringing people to justice ourselves (Prov 20:22, Rom 12:19, 1 Cor 6:7), as the Lord will deal with those who are servants of money in his own time (John 12:6). We should focus on ensuring that those who do go out on behalf of the Name are well supported so we may be fellow workers for the truth with them (3 John 1:8).
 
 
 div.cs-positive
