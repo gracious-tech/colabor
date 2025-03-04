@@ -54,6 +54,7 @@ import RouteRootSlideshow from './parts/RouteRootSlideshow.vue'
 
 .logo
     max-width: 600px
+    margin: 0 24px
 
 .cont
     padding: 12px
