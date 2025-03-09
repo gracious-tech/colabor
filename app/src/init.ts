@@ -7,10 +7,10 @@ import {createApp} from 'vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import {createVuetify} from 'vuetify'
 import {md3} from 'vuetify/blueprints'
-import CheckboxBlank from '@material-symbols/svg-400/rounded/check_box_outline_blank.svg'
-import Checkbox from '@material-symbols/svg-400/rounded/check_box.svg'
-import RadioChecked from '@material-symbols/svg-400/rounded/radio_button_checked.svg'
-import RadioUnchecked from '@material-symbols/svg-400/rounded/radio_button_unchecked.svg'
+import CheckboxBlank from '@material-symbols/svg-400/rounded/check_box_outline_blank.svg?component'
+import Checkbox from '@material-symbols/svg-400/rounded/check_box.svg?component'
+import RadioChecked from '@material-symbols/svg-400/rounded/radio_button_checked.svg?component'
+import RadioUnchecked from '@material-symbols/svg-400/rounded/radio_button_unchecked.svg?component'
 
 import AppMain from './comp/AppMain.vue'
 import AppIcon from './comp/global/AppIcon.vue'
@@ -44,7 +44,7 @@ const router = createRouter({
     routes: [
         {path: '/', component: RouteRoot},
         {path: '/official', component: AppOfficial, children: [
-            {path: 'intro', component: RouteIntro},
+            {path: '', component: RouteIntro},
             {path: 'compliance', component: RouteCompliance},
             {path: 'fundraisers', component: RouteGuideFundraisers},
             {path: 'supporters', component: RouteGuideSupporters},
