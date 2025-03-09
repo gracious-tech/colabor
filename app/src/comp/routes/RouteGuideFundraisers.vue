@@ -5,19 +5,23 @@ h1 Guide For Fundraisers
 
 h2 What legal obligations do I have?
 
+p We do not handle any legal or financial matters for you. You must comply with the laws of where you and your donors reside.
+
 div
-    VBtn(to='/official/legal' color='secondary') Legal Guide
+    VBtn(to='/official/legal' color='secondary') See Legal Guide
 
 h2 Fundraiser Agreement
 
 p We make all fundraisers agree to the following before they can use our platform:
 
+VAlert(color='#dfd' class='my-4') Please do actually read it... we've tried to keep it as simple as possible.
+
 FundraiserAgreement
 
 
-h2 Why is it wrong to earn more than your limits?
+h2 Why is it wrong to earn more than this platform's limits?
 
-p It may not be wrong. We set reasonable limits so that donors can be assured that any fundraiser on this platform is reasonably likely to be funding ministry rather than a life of leisure. There may be situations that are still reasonable but outside of our limits. We don't claim they are all wrong, we just don't permit them on our particular platform.
+p It may not be wrong. We set reasonable limits so that donors can be assured that any fundraiser on this platform is reasonably likely to be funding ministry rather than a life of leisure. There may be situations that are still reasonable but outside of our limits. We don't claim they are all wrong, we just don't permit them on our platform.
 
 
 h2 What's the best way to get funding?

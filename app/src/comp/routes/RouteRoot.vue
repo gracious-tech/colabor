@@ -36,7 +36,7 @@ div.cont(class='text-center')
             subheading="Showing God's love to the neediest in Green Hills" newtab)
 
     div(class='my-16')
-        VBtn(color='secondary' to='/official/intro' size='large') Learn More
+        VBtn(color='secondary' to='/official' size='large') Learn More
 
 </template>
 

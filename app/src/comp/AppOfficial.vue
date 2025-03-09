@@ -6,7 +6,7 @@ div.nav
     RouterLink(to='/')
         img.logo(src='@/assets/logo.svg')
     div.btns(class='official-wide')
-        VBtn(variant='outlined' color='' to='/official/intro') Introduction
+        VBtn(variant='outlined' color='' to='/official') Introduction
         VBtn(variant='outlined' color='' to='/official/fundraisers') I'm fundraising
         VBtn(variant='outlined' color='' to='/official/supporters') I'm donating
     VMenu
@@ -15,7 +15,7 @@ div.nav
                 AppIcon(name='more_vert' class='official-wide')
                 AppIcon(name='menu' class='official-narrow')
         VList
-            VListItem(to='/official/intro' class='official-narrow')
+            VListItem(to='/official' class='official-narrow')
                 VListItemTitle Introduction
             VListItem(to='/official/fundraisers' class='official-narrow')
                 VListItemTitle I'm fundraising
@@ -23,7 +23,7 @@ div.nav
                 VListItemTitle I'm donating
             VListItem(to='/official/about')
                 VListItemTitle About
-            VListItem(to='/official/contact')
+            VListItem(href='https://gracious.tech/contact' target='_blank')
                 VListItemTitle Contact
 
 div.typo

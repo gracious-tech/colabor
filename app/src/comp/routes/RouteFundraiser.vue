@@ -28,12 +28,6 @@ const data = await (await fetch(url)).json()
 
 data.id = props.fundraiser
 data.url = data_url(props.fundraiser)
-for (const milestone of data.milestones){
-    if (milestone.date){
-        milestone.date = new Date(milestone.date)
-    }
-}
-
 provide<Fundraiser>('fund', data)
 
 </script>

@@ -6,7 +6,7 @@ div.policy(@click='show_explain = !show_explain')
         AppIcon.check(v-if='!value' name='check')
         span.title {{ title }}
         span.value(v-if='value') {{ value }}
-        AppIcon.help(:name='show_explain ? "expand_circle_up" : "help"')
+        AppIcon(:name='show_explain ? "expand_circle_up" : "help"')
     transition(name='explain')
         div.explain(v-if='show_explain') {{ explain }}
 

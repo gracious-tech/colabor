@@ -31,6 +31,9 @@ import equalizer from '@material-symbols/svg-400/outlined/equalizer.svg?componen
 import world from '@material-symbols/svg-400/outlined/public.svg?component'
 import more_vert from '@material-symbols/svg-400/outlined/more_vert.svg?component'
 import menu from '@material-symbols/svg-400/outlined/menu.svg?component'
+import mail from '@material-symbols/svg-400/outlined/mail.svg?component'
+
+import facebook from '@/assets/icons/facebook.svg?component'
 
 import planner_banner from '@/assets/planner_banner.svg?component'
 
@@ -44,8 +47,9 @@ defineProps({
 
 const icons = {
     drag_indicator, close, arrow_back, planner_banner, copyright, auto_stories, check,
-    subject, download, error, help, currency_bitcoin, credit_card, account_balance,
+    subject, download, error, help, currency_bitcoin, credit_card, account_balance, mail,
     expand_circle_up, step_out, paid, stacks, emoji_people, equalizer, world, more_vert, menu,
+    facebook,
 } as Record<string, FunctionalComponent>
 
 

@@ -15,9 +15,11 @@ div.activity
 
 import {inject} from 'vue'
 
+import type {Fundraiser} from '@/types'
+
 
 const props = defineProps<{activity:unknown}>()
-const fund = inject('fund')
+const fund = inject('fund') as Fundraiser
 
 
 </script>
@@ -29,17 +31,18 @@ const fund = inject('fund')
     display: flex
     overflow: hidden
     width: 100%
-    border: 2px solid transparent
+    border: 2px dashed transparent
     border-radius: 12px
     margin-bottom: 24px
     font-size: 15px
     cursor: pointer
 
     &.selected
-        border-color: rgb(var(--v-theme-secondary)) !important
+        border-color: rgb(var(--v-theme-secondary))
+        border-style: solid
 
     &:hover
-        border-color: rgb(var(--v-theme-secondary-lighten-2))
+        border-color: rgb(var(--v-theme-secondary))
 
     img
         width: 30%
