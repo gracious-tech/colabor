@@ -4,5 +4,10 @@ node_modules/
 /app/dist/
 /app/.env.development.local
 
+# Ignore all in dev except for examples
+/app/src/public/dev/*
+!/app/src/public/dev/example-cause
+!/app/src/public/dev/example-people
+
 /backend/.aws-sam/
 /backend/config.yaml
