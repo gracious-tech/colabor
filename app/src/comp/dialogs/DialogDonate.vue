@@ -4,7 +4,7 @@
 VDialog(v-model='show' persistent max-width='600' class='text-center')
     VCard(style='min-height: 500px')
         VCardTitle(class='text-right')
-            VBtn(@click='show = false' icon variant='text')
+            VBtn(@click='show = false' icon variant='text' color='')
                 AppIcon(name='close')
         VCardText
             VWindow(v-model='step')
