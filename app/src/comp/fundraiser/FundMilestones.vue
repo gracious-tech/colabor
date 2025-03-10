@@ -3,15 +3,13 @@
 
 div.milestones
     div.milestone(v-for='milestone of milestones' :key='milestone.id'
-            :class='{upcoming: !milestone.date}')
+            :class='{upcoming: !milestone.date, clickable: milestone.url}' @click='open(milestone.url)')
         div.date
             AppIcon(name='step_out')
-            span {{ milestone.date ? month_only(milestone.date) : "Upcoming" }}
+            span {{ milestone.upcoming ? "Upcoming" : milestone.date }}
         div.box
-            img(:src='`${fund.url}/milestone${milestone.id}.jpg`')
-            div.text
-                h3 {{ milestone.title }}
-                div {{ milestone.desc }}
+            img(:src='`${fund.url}/milestone-${milestone.id}.jpg`')
+            div.text {{ milestone.title }}
 
 
 
@@ -22,17 +20,25 @@ div.milestones
 
 import {inject, computed} from 'vue'
 
+import type {Fundraiser} from '@/types'
 
-const fund = inject('fund')
+
+const fund = inject('fund') as Fundraiser
 
 const milestones = computed(() => {
-    const ms = [...fund.milestones]
-    ms.sort((a, b) => (b.date?.getTime() ?? Infinity) - (a.date?.getTime() ?? Infinity))
-    return ms
+    let upcoming = true
+    return fund.milestones.map(ms => {
+        if (ms.date){
+            upcoming = false  // Can't be upcoming once first item with date reached
+        }
+        return {...ms, upcoming}
+    })
 })
 
-const month_only = (date:Date) => {
-    return date.toLocaleDateString(undefined, {month: 'short', year: 'numeric'})
+const open = (url:string) => {
+    if (url){
+        self.open(url, '_blank')
+    }
 }
 
 </script>
@@ -49,8 +55,10 @@ const month_only = (date:Date) => {
     &:nth-child(odd)
         flex-direction: row-reverse
 
-        .date
-            text-align: left
+    &.clickable .box
+        cursor: pointer
+        &:hover
+            filter: brightness(1.1)
 
     &.upcoming
         .date
@@ -65,7 +73,7 @@ const month_only = (date:Date) => {
         display: flex
         flex-direction: column
         align-items: center
-        text-align: right
+        text-align: center
         color: white
         margin: 0 24px
         font-weight: bold
@@ -78,22 +86,22 @@ const month_only = (date:Date) => {
         background-color: #ccc
         color: #000c
         display: flex
+        width: 100%
         max-width: 300px
         border-radius: 8px
         overflow: hidden
-        min-height: 100px
+        height: 80px
 
         img
-            width: 40%
+            height: 100%
             object-fit: cover
-            aspect-ratio: 10 / 1  // Really different just so height set by text and not image
+            aspect-ratio: 1 / 1
 
         .text
-            padding: 6px
+            padding: 8px
             align-self: center
-
-        h3
-            font-size: 15px
+            font-size: 14px
+            font-weight: bold
 
 
 </style>
