@@ -5,7 +5,8 @@ import {hex_to_buffer, buffer_to_url64} from './utils'
 
 
 export function data_url(fundraiser:string){
-    return `${import.meta.env['VITE_DATA_URL']}/${fundraiser}`
+    const base = import.meta.env.DEV ? '/dev' : '/dev'
+    return `${base}/${fundraiser}`
 }
 
 
