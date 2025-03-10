@@ -5,6 +5,7 @@ export interface Fundraiser {
     intro:string
     activities:FundraiserActivity[]
     subscribe:SubscribeButton[]
+    resources:Resource[]
     quotes:Quote[]
     milestones:FundraiserMilestone[]
     style:{
@@ -41,6 +42,13 @@ export interface FundraiserActivity {
 export interface SubscribeButton {
     label:string
     icon:'email'|'facebook'|null
+    url:string
+}
+
+export interface Resource {
+    id:string
+    title:string
+    desc:string
     url:string
 }
 
