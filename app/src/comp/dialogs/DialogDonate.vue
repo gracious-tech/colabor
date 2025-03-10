@@ -46,7 +46,7 @@ VDialog(v-model='show' persistent max-width='600' class='text-center')
                 VWindowItem(:value='5')
                     h2 How much?
                     div.amount(class='d-flex align-center justify-center')
-                        VTextField(v-model='entered_amount' type='number' max-width='200' label="Amount")
+                        VTextField(v-model='entered_amount_cleaned' max-width='200' label="Amount")
                         span(v-if='selected_currency && selected_currency !== "other"' class='ml-3') {{ selected_currency.toUpperCase() }}
                         VAutocomplete(v-else v-model='entered_amount_currency' :items='top_currencies' max-width='125' label="Currency")
                     p(v-if='selected_frequency === "monthly"') per month
@@ -96,10 +96,21 @@ const step = ref(1)
 const selected_currency = ref<string|null>(null)
 const selected_option = ref<string|null>(null)
 const selected_frequency = ref<'single'|'monthly'|null>(null)
-const entered_amount = ref('')
+const entered_amount = ref(0)
 const entered_amount_currency = ref(fund.payment.preferred_currency.toUpperCase())
 const entered_name = ref('')
 const entered_email = ref('')
+
+
+const entered_amount_cleaned = computed({
+    get(){
+        return entered_amount.value ? entered_amount.value.toString() : ''
+    },
+    set(value:string){
+        const parsed = parseInt(value, 10) || 0
+        entered_amount.value = Math.max(0, parsed)
+    },
+})
 
 
 const analysed_options = computed(() => {
