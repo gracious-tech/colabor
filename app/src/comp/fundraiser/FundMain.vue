@@ -12,18 +12,22 @@ div.fund
 
     div.activities
         VTooltip(v-for='activity of fund.activities' :key='activity.id'
-                text="Give in appreciation of this" location='bottom right')
+                :text='selected_activity === activity.id ? "✕" : "Give in appreciation of this"' location='bottom right')
             template(#activator='{props}')
                 FundActivity(v-bind='props'
                     :activity='activity' :class='{selected: selected_activity === activity.id}'
                     @click='support_activity(activity.id)')
 
     FundPray
-    FundDonate(:activity='selected_activity' @show='show_donation_dialog = true')
+    FundDonate(:activity='selected_activity' @show='show_donation_dialog = true'
+        @noactivity='selected_activity = null')
 
 div.extra
 
-    h3 Resources Produced
+    template(v-if='fund.resources.length')
+        h3 Resources Produced
+        div.resources
+            FundResource(v-for='resource of fund.resources' :resource='resource')
 
     template(v-if='fund.quotes.length')
         h3 Feedback received
@@ -39,33 +43,42 @@ div.extra
 
 DialogDonate(v-model='show_donation_dialog')
 
-VBtn.donate(@click='show_donation_dialog = true' size='large' color='secondary') Donate
+VBtn.donate(@click='show_donation_dialog = true' :size='donate_btn_size' color='secondary') Donate
 
 </template>
 
 
 <script lang='ts' setup>
 
-import {provide, ref} from 'vue'
+import {provide, ref, computed} from 'vue'
+import {useDisplay} from 'vuetify'
 
 import FundSteward from './FundSteward.vue'
 import FundActivity from './FundActivity.vue'
 import FundDonate from './FundDonate.vue'
 import FundMilestones from './FundMilestones.vue'
 import FundPray from './FundPray.vue'
+import FundResource from './FundResource.vue'
 import FundQuote from './FundQuote.vue'
 import DialogDonate from '../dialogs/DialogDonate.vue'
 
 import type {Fundraiser} from '@/types'
 
+const display = useDisplay()
 const props = defineProps<{fund:Fundraiser}>()
 provide<Fundraiser>('fund', props.fund)
+
+
 const selected_activity = ref<string|null>(null)
 const show_donation_dialog = ref(false)
 
 const support_activity = (id:string) => {
     selected_activity.value = selected_activity.value === id ? null : id
 }
+
+const donate_btn_size = computed(() => {
+    return display.mdAndUp.value ? "large" : "small"
+})
 
 </script>
 
@@ -77,7 +90,7 @@ const support_activity = (id:string) => {
     overflow: hidden
     background-color: white
     color: #000c
-    margin-bottom: 48px
+    margin-bottom: 120px
     border-radius: 18px
     @media (max-width: 860px)
         border-radius: 0
@@ -117,15 +130,24 @@ const support_activity = (id:string) => {
 
 h3
     color: white
-    margin: 48px 0
+    margin-top: 80px
+    margin-bottom: 24px
     font-size: 26px
+
+.resources
+    display: grid
+    grid-gap: 24px
+    grid-template-columns: 1fr 1fr 1fr
+    @media (max-width: 860px)
+        grid-gap: 12px
+        grid-template-columns: 1fr 1fr
 
 .quotes
     display: grid
     grid-gap: 36px
     grid-template-columns: 1fr 1fr
     @media (max-width: 800px)
-        grid-template-columns: 100%
+        grid-template-columns: 1fr
 
 .activities
     margin: var(--gutter)
@@ -135,7 +157,9 @@ h3
     bottom: 20px
     right: 20px
     @media (min-width: 1100px)
+        bottom: auto
+        right: auto
         top: 48px
-        right: 48px
+        left: calc(100vw / 2 + 400px + 48px)
 
 </style>
