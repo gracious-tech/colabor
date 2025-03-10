@@ -45,7 +45,7 @@ const current = computed(() => {
     if (fund.steward.progress_type === '%'){
         return `${fund.steward.progress_current}%`
     } else if (fund.steward.progress_type === 'money'){
-        return currency_str(fund.steward.progress_current, fund.currency)
+        return currency_str(fund.steward.progress_current, fund.steward.goal_currency)
     } else if (fund.steward.progress_type === 'days'){
         return `${fund.steward.progress_current} days/week`
     }
@@ -56,7 +56,7 @@ const total = computed(() => {
     if (fund.steward.progress_type === '%'){
         return ''
     } else if (fund.steward.progress_type === 'money'){
-        return currency_str(fund.steward.progress_total, fund.currency)
+        return currency_str(fund.steward.progress_total, fund.steward.goal_currency)
     } else if (fund.steward.progress_type === 'days'){
         return `${fund.steward.progress_total} days/week`
     }
