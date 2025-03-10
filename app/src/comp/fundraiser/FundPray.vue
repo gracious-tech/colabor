@@ -4,10 +4,12 @@
 
 div.pray
     h3 Pray
-    div.quote “Pray for us, that the word of the Lord may spread quickly and be held in honor.” (2 Thes 3:1)
-
-    v-btn(variant='tonal' color='' text="Subscribe to newsletter")
-    v-btn(variant='tonal' color='' text="Follow on Facebook")
+    div
+        v-btn(v-for='button of fund.subscribe' variant='tonal' color='' :href='button.url'
+                target='_blank' size='large')
+            template(v-if='button.icon' #prepend)
+                AppIcon(:name='get_icon_name(button.icon)')
+            | {{ button.label }}
 
 
 </template>
@@ -15,6 +17,19 @@ div.pray
 
 <script lang='ts' setup>
 
+import {inject} from 'vue'
+
+import type {Fundraiser} from '@/types'
+
+
+const fund = inject('fund') as Fundraiser
+
+const get_icon_name = (icon_id:string) => {
+    return {
+        email: 'mail',
+        facebook: 'facebook',
+    }[icon_id]
+}
 
 </script>
 
@@ -30,11 +45,6 @@ div.pray
 
     h3
         font-size: 40px
-
-    .quote
-        font-size: 16px
-        font-style: italic
-        margin-bottom: 48px
 
     .v-btn
         margin: 12px
