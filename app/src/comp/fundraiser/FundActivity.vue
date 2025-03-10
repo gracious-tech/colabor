@@ -52,6 +52,7 @@ const fund = inject('fund') as Fundraiser
     & > div
         padding: calc(var(--gutter) / 2)
         background-color: #eee
+        width: 100%
 
         p
             margin-top: 0
