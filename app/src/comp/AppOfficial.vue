@@ -74,7 +74,7 @@ useRouter().afterEach((to) => {
 
 .typo
     padding: 48px 36px
-    border-radius: 24px
+    border-radius: 12px
     @media (max-width: 860px)
         border-radius: 0
         padding: 48px 16px
