@@ -50,7 +50,8 @@ const open = (url:string) => {
     display: flex
     justify-content: flex-end
     align-items: center
-    margin: 24px 0
+    @media (max-width: 860px)
+        margin: 24px 0
 
     &:nth-child(odd)
         flex-direction: row-reverse
@@ -83,8 +84,8 @@ const open = (url:string) => {
             margin-bottom: 12px
 
     .box
-        background-color: #ccc
-        color: #000c
+        background-color: #333
+        color: #fffd
         display: flex
         width: 100%
         max-width: 300px
@@ -98,10 +99,9 @@ const open = (url:string) => {
             aspect-ratio: 1 / 1
 
         .text
-            padding: 8px
+            padding: 12px
             align-self: center
             font-size: 14px
-            font-weight: bold
 
 
 </style>
