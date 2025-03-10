@@ -4,19 +4,21 @@
 div.steward
 
     div.unique
-        FundStewardPolicy(title="Donations received by" :value='fund.steward.organiser_name')
-        FundStewardPolicy(title="Donations go towards" :value='towards_title'
-            :explain="towards_explain")
-        FundStewardPolicy(title="Fundraising goal" :value='goal' explain="")
+        FundStewardPolicy(title="Donations received by" :value='fund.steward.organiser_name'
+            :explain='explain_received')
+        FundStewardPolicy(title="Donations go towards" :value='value_towards'
+            :explain="explain_towards")
+        FundStewardPolicy(title="Fundraising goal" :value='value_goal'
+            :explain='explain_goal')
 
     div.common
-        FundStewardPolicy(title="Non-commercial ministry" explain="Recipients of this ministry receive it free of charge. Resources created are free of copyright and there is always a means of free access to them. Physical distribution costs may be charged but there is always a free alternative, such as digital access.")
+        FundStewardPolicy(title="Non-commercial ministry" explain="This ministry serves people free of charge. Resources created are free of copyright and there is always a means of free access to them. Physical distribution costs may be charged but there is always a free alternative, such as digital access.")
         FundStewardPolicy(title="Non-profit ministry" explain="They agree to redirect donations to other ministries if they exceed the income/assets caps they have stated. They also agree to carefully keep track of donations received for this purpose.")
-        FundStewardPolicy(title="Beliefs faithful to Scripture" explain="Those fundraising affirm the divinity of Jesus, agree to the creeds, and the authority of Scripture.")
+        FundStewardPolicy(title="Beliefs faithful to Scripture" explain="Those fundraising affirm the Apostles' Creed, the Trinity, and the authority of Scripture.")
 
 div.trust(class='text-center')
     p Donations go directly to fundraisers. You should only donate if you trust the organisers of this fundraiser.
-    VBtn() Learn more
+    VBtn(variant='outlined' color='' href='/official' target='_blank') Learn more
 
 </template>
 
@@ -26,12 +28,13 @@ div.trust(class='text-center')
 import {inject, computed} from 'vue'
 
 import FundStewardPolicy from './FundStewardPolicy.vue'
+
 import type {Fundraiser} from '@/types'
 
 
 const fund = inject('fund') as Fundraiser
 
-const towards_title = computed(() => {
+const value_towards = computed(() => {
     return {
         income: "Livelihood",
         cause: "Cause",
@@ -39,7 +42,11 @@ const towards_title = computed(() => {
     }[fund.steward.towards]
 })
 
-const towards_explain = computed(() => {
+const explain_received = computed(() => {
+    return "This is who stewards the donations and ensures they go towards the stated cause."
+})
+
+const explain_towards = computed(() => {
     const personal = fund.steward.organiser_type === 'individual' ? 'personal' : ''
     return {
         income: `Funds go directly towards the organiser's own ${personal} income rather than to a specific cause.`,
@@ -48,13 +55,25 @@ const towards_explain = computed(() => {
     }[fund.steward.towards]
 })
 
-const goal = computed(() => {
-    return fund.steward.goal.toLocaleString(undefined, {
+const explain_goal = computed(() => {
+    return "When this goal is reached the fundraiser will either cease seeking new donors or will clarify the next goal's amount and purpose."
+})
+
+const value_goal = computed(() => {
+    let str = fund.steward.goal.toLocaleString(undefined, {
         style: 'currency',
         currencyDisplay: 'narrowSymbol',
-        currency: fund.currency,
+        currency: fund.steward.goal_currency,
         minimumFractionDigits: 0,
-    }) + ' ' + fund.currency.toUpperCase()
+    })
+    str += ' ' + fund.steward.goal_currency.toUpperCase()
+    if (fund.steward.plus_super){
+        str += ' + super'
+    }
+    if (fund.steward.goal_period){
+        str += ' / ' + fund.steward.goal_period
+    }
+    return str
 })
 
 </script>
@@ -71,6 +90,8 @@ const goal = computed(() => {
 
     @media (max-width: 860px)
         flex-direction: column
+        > *:last-child
+            max-width: 450px !important  // Make things align better on narrow screens
 
     > *
         flex-basis: 0
