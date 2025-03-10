@@ -1,20 +1,21 @@
 
 <template lang='pug'>
 
-FundMain
-
-
-div.footer(class='text-center')
-    div.created created with
-    GO(href='/' target='_blank')
-        img.logo(src='@/assets/logo_with_tagline.svg')
+template(v-if='error')
+    h1 {{ error === 'missing' ? "Not Found" : "Offline" }}
+template(v-else-if='fund')
+    FundMain(:fund='fund')
+    div.footer(class='text-center')
+        div.created created with
+        GO(href='/' target='_blank')
+            img.logo(src='@/assets/logo_with_tagline.svg')
 
 </template>
 
 
 <script lang='ts' setup>
 
-import {provide} from 'vue'
+import {ref} from 'vue'
 
 import FundMain from '@/comp/fundraiser/FundMain.vue'
 import {data_url} from '@/services/backend'
@@ -24,11 +25,18 @@ import type {Fundraiser} from '@/types'
 const props = defineProps<{fundraiser:string}>()
 
 const url = data_url(props.fundraiser) + '/data.json'
-const data = await (await fetch(url)).json()
+let fund = ref<Fundraiser>()
+let error = ref<'offline'|'missing'>()
+fetch(url).then(async resp => {
+    if (!resp.ok || !resp.headers.get('content-type')?.includes('json')){
+        error.value = 'missing'
+    }
+    const data = await resp.json()
+    data.id = props.fundraiser
+    data.url = data_url(props.fundraiser)
+    fund.value = data
+}, () => {error.value = 'offline'})
 
-data.id = props.fundraiser
-data.url = data_url(props.fundraiser)
-provide<Fundraiser>('fund', data)
 
 </script>
 
