@@ -16,7 +16,8 @@ div.steward
         FundStewardPolicy(title="Non-profit ministry" explain="They agree to redirect donations to other ministries if they exceed the income/assets caps they have stated. They also agree to carefully keep track of donations received for this purpose.")
         FundStewardPolicy(title="Beliefs faithful to Scripture" explain="Those fundraising affirm the Apostles' Creed, the Trinity, and the authority of Scripture.")
 
-div.trust(class='text-center')
+div(class='text-center')
+    div.explain {{ fund.steward.goal_explain }}
     p Donations go directly to fundraisers. You should only donate if you trust the organisers of this fundraiser.
     VBtn(variant='outlined' color='' href='/official' target='_blank') Learn more
 
@@ -96,13 +97,19 @@ const value_goal = computed(() => {
     > *
         flex-basis: 0
         flex-grow: 1
-        margin-bottom: 24px
 
         &:first-child
             max-width: 450px
 
         &:last-child
             max-width: 300px
+
+.explain
+    opacity: 0.7
+    font-weight: 300
+    font-size: 0.9em
+    margin-top: 12px
+    margin-bottom: 36px
 
 
 </style>
