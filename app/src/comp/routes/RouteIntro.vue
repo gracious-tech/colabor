@@ -41,14 +41,14 @@ div.cs-positive
         li A conference charges entrance fees but ensures livestream attendance is free of charge
         li A musician dedicates their music to the public domain so churches can sing it without a license
 
-h2 2. Non-profit #[span.np (whether an individual or organisation)]
+h2 2. Non-profit #[span.np (whether an individual or organization)]
 
-p We only allow fundraisers where there is a real need for funding; where money does not excessively accumulate or go towards things that are not ministry. Our definition is different to that of "non-profit" organisations in that we also consider high salaries and large savings as a form of profit. We do not allow anyone to raise more than $200,000 USD/year and they cannot fundraise if they have personal assets (aside from a single home of residence or savings for one) that exceed $400,000 USD.
+p We only allow fundraisers where there is a real need for funding; where money does not excessively accumulate or go towards things that are not ministry. Our definition is different to that of "non-profit" organizations in that we also consider high salaries and large savings as a form of profit. We do not allow anyone to raise more than $200,000 USD/year and they cannot fundraise if they have personal assets (aside from a single home of residence or savings for one) that exceed $400,000 USD.
 
 div.cs-negative
     div
     ul
-        li A non-profit organisation pays its CEO industry standard wages (e.g. $400k/year)
+        li A non-profit organization pays its CEO industry standard wages (e.g. $400k/year)
         li An unmarried man raises $180,000 USD despite the median wage in his country being only $50,000.
 div.cs-positive
     div
@@ -74,7 +74,7 @@ div.cs-positive
 
 h2 4. Character Before Compliance
 
-p We do <span class='ul'>not</span> require fundraisers to be part of an organisation. It is biblical to support individuals directly (3 John 1:8) and they may receive funds directly into their personal bank account. However, we do require basic record keeping. We encourage givers to judge the <em>character</em> of those organising fundraisers rather than accountability measures alone, so more time and funds go directly to the ministry rather than to admin.
+p We do <span class='ul'>not</span> require fundraisers to be part of an organization. It is biblical to support individuals directly (3 John 1:8) and they may receive funds directly into their personal bank account. However, we do require basic record keeping. We encourage givers to judge the <em>character</em> of those organising fundraisers rather than accountability measures alone, so more time and funds go directly to the ministry rather than to admin.
 
 div.cs-negative
     div
