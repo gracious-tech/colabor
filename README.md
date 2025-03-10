@@ -1,7 +1,7 @@
 
 # Fund Freely Giving
 
-Source code for [fund.freely.giving](https://fund.freely.giving)
+Source code for [colabor.ing](https://colabor.ing)
 
 
 ## TODO

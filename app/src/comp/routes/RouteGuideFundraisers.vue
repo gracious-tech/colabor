@@ -68,7 +68,7 @@ h3 How can I honour God in the way I go about fundraising?
 
 //- p We require you to provide us with a zpub public key so that we can generate unique taproot addresses for you per donation. This is to protect your privacy but also to protect the privacy of your donors, and means that you don't have to run your own server or enlist a third-party to generate unique addresses for you. We do not require any private key so you do not need to trust us with access to your funds.
 
-//- p Lightning is also supported. We'll create invoices for you to receive funds as well as setup an LNURL and lightning address (user@fund.freely.giving) for you. Alternatively you can provide your own lightning address.
+//- p Lightning is also supported. We'll create invoices for you to receive funds as well as setup an LNURL and lightning address (user@colabor.ing) for you. Alternatively you can provide your own lightning address.
 
 
 </template>
