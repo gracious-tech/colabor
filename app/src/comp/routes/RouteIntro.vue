@@ -11,7 +11,9 @@ div.cs-neutral
         li We have a $200,000 USD/year fundraising limit
         li We encourage directly giving to individuals in ministry (see below)
 
-p Scripture says we ought to support those who minister in God’s name “so that we may be fellow workers for the truth” (3 John 1:8). We call this “colabor”, where believers become partners in ministry by generously funding it. In that spirit, we offer this platform free of charge to <em>support</em> the support of those furthering the Kingdom of God.
+p Scripture says we ought to support those who minister in God’s name “so that we may be fellow workers for the truth” (3 John 1:8). This is called “colabor”, where those who fund the ministry and those who do the ministry are co-laboring together for the Lord.
+
+p In that spirit, we offer this platform free of charge to <em>support</em> the support of those furthering the Kingdom of God.
 
 h2
     em We're not your average crowdfunding platform…
