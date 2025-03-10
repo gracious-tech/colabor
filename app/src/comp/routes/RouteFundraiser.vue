@@ -8,7 +8,7 @@ template(v-else-if='fund')
     div.footer(class='text-center')
         div.created created with
         GO(href='/' target='_blank')
-            img.logo(src='@/assets/logo_with_tagline.svg')
+            img.logo(src='@/assets/logo.svg')
 
 </template>
 
