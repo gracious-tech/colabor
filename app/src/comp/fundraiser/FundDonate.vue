@@ -6,7 +6,10 @@ div.donate
     h3 Support
     div.quote
         | {{ subheading }}
-        AppIcon(v-if='activity' name='help' class='ml-2' v-tooltip='"Donations will not specifically go toward an activity you choose but the fundraiser will be informed that you appreciate it"')
+        template(v-if='activity')
+            AppIcon(name='help' class='ml-2' v-tooltip='"Donations will not specifically go toward an activity you choose but the fundraiser will be informed that you appreciate it"')
+            VBtn(@click='$emit("noactivity")' icon size='x-small' variant='text' color='')
+                AppIcon(name='close')
     VBtn(@click='$emit("show")' size='large' color='' variant='elevated' class='mt-10 mb-4') Donate
 
 
@@ -31,14 +34,14 @@ import type {Fundraiser} from '@/types'
 
 
 const props = defineProps<{activity:string|null}>()
-defineEmits(['show'])
+defineEmits(['show', 'noactivity'])
 const fund = inject('fund') as Fundraiser
 
 const subheading = computed(() => {
     if (props.activity){
         return "In appreciation of: " + fund.activities.filter(a => a.id === props.activity)[0]!.title
     }
-    return "“So that we may be fellow workers for the truth.” (3 John 1:8)"
+    return fund.name
 })
 
 const current = computed(() => {
@@ -80,6 +83,7 @@ const total = computed(() => {
         font-size: 16px
         font-style: italic
         justify-content: center
+        align-items: center
 
     h3
         font-size: 40px
