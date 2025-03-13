@@ -1,45 +1,50 @@
 
-import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
+import {initializeApp} from 'firebase/app'
+import {getFirestore, setDoc, doc, connectFirestoreEmulator} from 'firebase/firestore'
+import {getFunctions, httpsCallable, connectFunctionsEmulator} from 'firebase/functions'
 
-import {hex_to_buffer, buffer_to_url64} from './utils'
+
+export interface Pledge {
+    id:string
+    fundraiser:string
+    currency:string
+    amount:number
+    frequency:'single'|'monthly'
+    means:string
+    name:string
+    email:string
+}
 
 
+// Init firebase
+const fire_app = initializeApp({projectId: 'colabor-ing'})
+const fire_functions = getFunctions(fire_app)
+const fire_db = getFirestore(fire_app)
+if (import.meta.env.DEV){
+    connectFirestoreEmulator(fire_db, '127.0.0.1', 8080)
+    connectFunctionsEmulator(fire_functions, '127.0.0.1', 5001)
+}
+
+
+// Access to cloud functions
+const fire_get_stripe_url = httpsCallable(fire_functions, 'get_stripe_url')
+
+
+// Get url for fundraiser data
 export function data_url(fundraiser:string){
     const base = import.meta.env.DEV ? '/dev' : '/dev'
     return `${base}/${fundraiser}`
 }
 
 
-const S3 = new S3Client({
-    region: import.meta.env['VITE_REGION'],
-    signer: {
-        // Don't require authentication https://github.com/aws/aws-sdk-js-v3/issues/2321
-        sign: async (request) => request,
-    },
-})
-
-
-export async function put_request(id:string, data:string):Promise<string>{
-    // Put new request and return creation id
-    const resp = await S3.send(new PutObjectCommand({
-        Bucket: import.meta.env['VITE_BUCKET'],
-        Key: `requests/${id}`,
-        Body: data,
-    }))
-
-    // AWS very annoyingly wraps etag in quotes :/
-    const etag = resp.ETag!.replace(/\"/g, '')
-
-    // Return creation id
-    const url64_etag = buffer_to_url64(hex_to_buffer(etag))
-    return id.slice(0, 2) + url64_etag
+// Get a URL for a Stripe checkout session with given settings
+export async function get_stripe_url({currency, amount, frequency, email, fundraiser}:Pledge){
+    const resp = await fire_get_stripe_url({currency, amount, frequency, email, fundraiser})
+    return (resp.data as {stripe_url:string}).stripe_url
 }
 
 
-// Generate url for creation with given id and file type
-export function gen_creation_url(id:string, type:'blue'|'result'|'pdf'):string{
-    const bucket = import.meta.env['VITE_BUCKET']
-    const region = import.meta.env['VITE_REGION']
-    const ext = type === 'pdf' ? type : `${type}.json`
-    return `https://${bucket}.s3.${region}.amazonaws.com/creations/${id}.${ext}`
+// Save pledge data to db
+export async function save_pledge({id, ...other_props}:Pledge){
+    await setDoc(doc(fire_db, 'pledges', id), other_props)
 }
