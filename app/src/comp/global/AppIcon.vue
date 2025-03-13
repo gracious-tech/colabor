@@ -12,6 +12,7 @@ component.icon(:is='icons[name]')
 import drag_indicator from '@material-symbols/svg-400/outlined/drag_indicator.svg?component'
 import close from '@material-symbols/svg-400/outlined/close.svg?component'
 import arrow_back from '@material-symbols/svg-400/outlined/arrow_back.svg?component'
+import arrow_forward from '@material-symbols/svg-400/outlined/arrow_forward.svg?component'
 import copyright from '@material-symbols/svg-400/outlined/copyright.svg?component'
 import auto_stories from '@material-symbols/svg-400/outlined/auto_stories.svg?component'
 import subject from '@material-symbols/svg-400/outlined/subject.svg?component'
@@ -32,6 +33,7 @@ import world from '@material-symbols/svg-400/outlined/public.svg?component'
 import more_vert from '@material-symbols/svg-400/outlined/more_vert.svg?component'
 import menu from '@material-symbols/svg-400/outlined/menu.svg?component'
 import mail from '@material-symbols/svg-400/outlined/mail.svg?component'
+import send_money from '@material-symbols/svg-400/outlined/send_money.svg?component'
 
 import facebook from '@/assets/icons/facebook.svg?component'
 
@@ -49,7 +51,7 @@ const icons = {
     drag_indicator, close, arrow_back, planner_banner, copyright, auto_stories, check,
     subject, download, error, help, currency_bitcoin, credit_card, account_balance, mail,
     expand_circle_up, step_out, paid, stacks, emoji_people, equalizer, world, more_vert, menu,
-    facebook,
+    facebook, send_money, arrow_forward,
 } as Record<string, FunctionalComponent>
 
 
