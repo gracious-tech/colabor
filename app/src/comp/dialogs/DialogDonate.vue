@@ -249,6 +249,66 @@ const options = computed(() => {
 })
 
 
+const displayed_options = computed(() => {
+    return options.value.filter(option => {
+        if (option.data.type === 'transfer' && selected_currency.value !== option.data.currency
+                && !option.international){
+            return false  // Not same currency and not international option
+        }
+        if (option.data.type === 'custom' && selected_currency.value !== option.data.currency
+                && !option.international){
+            return false  // Not same currency and not international option
+        }
+        return true
+    })
+})
+
+
+const selected_option_data = computed(() => {
+    return options.value.find(opt => opt.data.id === selected_option.value)!
+})
+
+
+const pledge = computed(() => {
+    return {
+        id: pledge_id,
+        fundraiser: fund.id,
+        amount: entered_amount.value,
+        currency: entered_amount_currency.value,
+        frequency: selected_frequency.value!,
+        email: entered_email.value,
+        name: entered_name.value,
+        means: selected_option_data.value.title ?? "Unknown",
+    } as Pledge
+})
+
+
+// Whether a Stripe URL needs to be fetched when form is completed
+const requires_stripe = computed(() => {
+    return selected_option_data.value.data.type === 'card'
+        && selected_option_data.value.data.service === 'stripe'
+})
+
+
+// Whether contact details are required or not
+// NOTE Even if Stripe will require email address, don't let that interrupt donor just yet
+const contact_required = computed(() => {
+    return !fund.payment.allow_anonymous || selected_option_data.value.data.type === 'contact'
+})
+
+
+// What message should be displayed under the name/email fields
+const contact_explanation = computed(() => {
+    if (selected_option_data.value.data.type === 'contact'){
+        return ''  // Won't be arranging payment yet so don't talk about receipts
+    } else if (fund.payment.allow_anonymous){
+        return `Please provide if you'd like to receive a receipt.
+            However, you can remain anonymous if you prefer.`
+    }
+    return "Please provide so you can receive a receipt."
+})
+
+
 const select_option = (id:string) => {
     selected_option.value = selected_option.value === id ? null : id
 }
