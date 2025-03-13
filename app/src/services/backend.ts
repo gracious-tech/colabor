@@ -9,10 +9,11 @@ export interface Pledge {
     fundraiser:string
     currency:string
     amount:number
-    frequency:'single'|'monthly'
+    recurring:'single'|'month'
     means:string
     name:string
     email:string
+    appreciate:string|null
 }
 
 
