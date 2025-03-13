@@ -92,12 +92,12 @@ import type {Fundraiser} from '@/types'
 
 
 const top_currencies = [
-    'USD', 'EUR', 'GBP', 'JPY', 'CNY', 'CHF', 'CAD', 'AUD', 'SGD', 'HKD',
-    'KRW', 'INR', 'BRL', 'MXN', 'ZAR', 'RUB', 'TRY', 'NZD', 'THB', 'MYR',
-    'IDR', 'PHP', 'VND', 'SAR', 'AED', 'SEK', 'NOK', 'DKK', 'PLN', 'HUF',
-    'CZK', 'ILS', 'TWD', 'ARS', 'CLP', 'COP', 'PEN', 'EGP', 'QAR', 'KWD',
-    'OMR', 'BDT', 'PKR', 'LKR', 'RON', 'BGN', 'HRK', 'UYU', 'KZT', 'UAH',
-].sort()
+    'usd', 'eur', 'gbp', 'jpy', 'cny', 'chf', 'cad', 'aud', 'sgd', 'hkd',
+    'krw', 'inr', 'brl', 'mxn', 'zar', 'rub', 'try', 'nzd', 'thb', 'myr',
+    'idr', 'php', 'vnd', 'sar', 'aed', 'sek', 'nok', 'dkk', 'pln', 'huf',
+    'czk', 'ils', 'twd', 'ars', 'clp', 'cop', 'pen', 'egp', 'qar', 'kwd',
+    'omr', 'bdt', 'pkr', 'lkr', 'ron', 'bgn', 'hrk', 'uyu', 'kzt', 'uah',
+].map(c => ({title: c.toUpperCase(), value: c})).sort()
 
 
 const show = defineModel<boolean>({required: true})
