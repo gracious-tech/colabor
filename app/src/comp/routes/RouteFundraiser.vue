@@ -4,7 +4,7 @@
 template(v-if='error')
     h1 {{ error === 'missing' ? "Not Found" : "Offline" }}
 template(v-else-if='fund')
-    FundMain(:fund='fund')
+    FundMain(:fund='fund' :key='fund.id')
     div.footer(class='text-center')
         div.created created with
         GO(href='/' target='_blank')
