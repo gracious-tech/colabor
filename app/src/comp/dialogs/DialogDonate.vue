@@ -8,51 +8,63 @@ VDialog(v-model='show' persistent max-width='600' class='text-center')
                 AppIcon(name='close')
         VCardText
             VWindow(v-model='step')
+
                 VWindowItem(:value='1')
                     h2 Let's support this!
                     p This is a free platform, so 100% of your donation will go to the fundraiser 🎉
                     p The following steps help to avoid transaction fees from banks as well.
                     div.btns
                         span
-                        VBtn(color='secondary' @click='step = currencies.length ? 2 : 3') Next
+                        DialogDonateNext(@click='step = currencies.length ? 2 : 3')
+
                 VWindowItem(:value='2')
                     h2 What currency will you be sending?
                     VRadioGroup(v-model='selected_currency' inline)
-                        VRadio(v-for='currency of currencies' :value='currency' :label='currency.toUpperCase()')
+                        VRadio(v-for='currency of currencies' :key='currency' :value='currency'
+                            :label='currency.toUpperCase()')
                         VRadio(value='other' label="Other")
                     p We'll then work out how to transfer it with the least fees.
                     div.btns
-                        VBtn(color='secondary' @click='step--') Prev
-                        VBtn(color='secondary' @click='step++' :disabled='!selected_currency') Next
+                        DialogDonatePrev(@click='step--')
+                        DialogDonateNext(@click='step++' :disabled='!selected_currency')
+
                 VWindowItem(:value='3')
                     h2 How would you like to donate?
                     div(class='d-flex')
-                        VCard.option(v-for='option of displayed_options' @click='select_option(option.id)' :title='option.title'
+                        VCard.option(v-for='option of displayed_options' :key='option.data.id'
+                                @click='select_option(option.data.id)' :title='option.title'
                                 color='surface-variant' variant='tonal' max-width='300'
-                                class='ma-2' :class='{selected: selected_option === option.id}')
+                                :class='{selected: selected_option === option.data.id}'
+                                class='ma-2')
                             VCardText {{ option.desc }}
                     div.btns
-                        VBtn(color='secondary' @click='step = currencies.length ? 2 : 1') Prev
-                        VBtn(color='secondary' @click='step++' :disabled='!displayed_options.find(o => o.id === selected_option)') Next
+                        DialogDonatePrev(@click='step = currencies.length ? 2 : 1')
+                        DialogDonateNext(@click='step++'
+                            :disabled='!displayed_options.find(o => o.data.id === selected_option)')
+
                 VWindowItem(:value='4')
                     h2 How often?
                     VRadioGroup(v-model='selected_frequency' inline)
                         VRadio(value='single' label="One-off")
                         VRadio(value='monthly' label="Monthly")
-                        p Regular support makes it easier for ministries to plan ahead and have a stable base of funding, though one-off gifts are also appreciated.
+                        p.
+                            Regular support makes it easier for ministries to plan ahead and have
+                            a stable base of funding, though one-off gifts are also appreciated.
                     div.btns
-                        VBtn(color='secondary' @click='step--') Prev
-                        VBtn(color='secondary' @click='step++' :disabled='!selected_frequency') Next
+                        DialogDonatePrev(@click='step--')
+                        DialogDonateNext(@click='step++' :disabled='!selected_frequency')
+
                 VWindowItem(:value='5')
                     h2 How much?
                     div.amount(class='d-flex align-center justify-center')
                         VTextField(v-model='entered_amount_cleaned' max-width='200' label="Amount")
-                        span(v-if='selected_currency && selected_currency !== "other"' class='ml-3') {{ selected_currency.toUpperCase() }}
-                        VAutocomplete(v-else v-model='entered_amount_currency' :items='top_currencies' max-width='125' label="Currency")
+                        VAutocomplete(v-model='entered_amount_currency' :items='top_currencies'
+                            max-width='125' label="Currency")
                     p(v-if='selected_frequency === "monthly"') per month
                     div.btns
-                        VBtn(color='secondary' @click='step--') Prev
-                        VBtn(color='secondary' @click='step++' :disabled='!entered_amount') Next
+                        DialogDonatePrev(@click='step--')
+                        DialogDonateNext(@click='step++' :disabled='!entered_amount')
+
                 VWindowItem(:value='6')
                     h2 How can you be contacted?
                     VTextField(v-model='entered_name' label="Name (optional)")
