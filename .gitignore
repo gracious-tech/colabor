@@ -1,5 +1,12 @@
 
+# Anywhere
 node_modules/
+
+# Specific
+/firestore-debug.log
+/firebase-debug.log
+
+/functions/lib/
 
 /app/dist/
 /app/.firebase/
@@ -9,6 +16,3 @@ node_modules/
 /app/src/public/dev/*
 !/app/src/public/dev/example-cause
 !/app/src/public/dev/example-people
-
-/backend/.aws-sam/
-/backend/config.yaml
