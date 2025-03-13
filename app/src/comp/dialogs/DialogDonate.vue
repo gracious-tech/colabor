@@ -231,18 +231,18 @@ const options = computed(() => {
 
     // Add option to contact fundraiser
     if (fund.payment.allow_other){
-    items.push({
+        items.push({
             data: {
-        id: 'contact',
+                id: 'contact',
                 type: 'contact',
             },
             icon: 'mail',
-        title: "Something else",
+            title: "Something else",
             desc: `If no other options are suitable,
                 the fundraiser will get in touch about other possibilities.`,
             international: true,
-        recommended: false,
-    })
+            recommended: false,
+        })
     }
 
     return items
