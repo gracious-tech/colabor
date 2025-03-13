@@ -14,7 +14,6 @@ import RadioUnchecked from '@material-symbols/svg-400/rounded/radio_button_unche
 
 import AppMain from './comp/AppMain.vue'
 import AppIcon from './comp/global/AppIcon.vue'
-import AppHtml from './comp/global/AppHtml.vue'
 import FundButton from './comp/global/FundButton.vue'
 import RouteRoot from './comp/routes/RouteRoot.vue'
 import RouteFundraiser from './comp/routes/RouteFundraiser.vue'
@@ -34,7 +33,6 @@ import GO from './comp/global/GO.vue'
 const app = createApp(AppMain)
 app.component('GO', GO)
 app.component('AppIcon', AppIcon)
-app.component('AppHtml', AppHtml)
 app.component('FundButton', FundButton)
 
 
