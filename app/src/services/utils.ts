@@ -81,3 +81,14 @@ export function currency_str(number:number, currency:string){
         minimumFractionDigits: 0,
     }) + ' ' + currency.toUpperCase()
 }
+
+
+// Get the most appropriate label for a bank code field
+export function bank_code_label(currency:string){
+    if (currency === 'aud'){
+        return "BSB"
+    } else if (currency === 'usd'){
+        return "Routing number"
+    }
+    return "Bank/branch code"
+}
