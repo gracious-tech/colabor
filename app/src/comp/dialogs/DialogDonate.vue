@@ -97,9 +97,14 @@ VDialog(v-model='show' persistent max-width='600' class='text-center')
 
 <script lang='ts' setup>
 
-import {inject, computed, ref} from 'vue'
+import {inject, computed, ref, watch} from 'vue'
 
-import type {Fundraiser} from '@/types'
+import DialogDonatePrev from './parts/DialogDonatePrev.vue'
+import DialogDonateNext from './parts/DialogDonateNext.vue'
+import {generate_token} from '@/services/utils'
+import {get_stripe_url, save_pledge, type Pledge} from '@/services/backend'
+
+import type {Fundraiser, PaymentOption} from '@/types'
 
 
 const top_currencies = [
@@ -116,6 +121,7 @@ const show = defineModel<boolean>({required: true})
 const fund = inject('fund') as Fundraiser
 
 const step = ref(1)
+const pledge_id = generate_token()
 const selected_currency = ref<string|null>(null)
 const selected_option = ref<string|null>(null)
 const selected_frequency = ref<'single'|'monthly'|null>(null)
@@ -123,6 +129,19 @@ const entered_amount = ref(0)
 const entered_amount_currency = ref(fund.payment.preferred_currency.toUpperCase())
 const entered_name = ref('')
 const entered_email = ref('')
+const save_status = ref<boolean|null>(null)
+const stripe_url = ref<string|null|false>(null)
+
+
+// SELECT CURRENCY
+
+
+// When selected currency changes, ensure the amount currency defaults to it
+watch(selected_currency, () => {
+    if (selected_currency.value && selected_currency.value !== 'other'){
+        entered_amount_currency.value = selected_currency.value
+    }
+})
 
 
 const entered_amount_cleaned = computed({
@@ -156,41 +175,75 @@ const currencies = computed(() => {
 })
 
 
-const displayed_options = computed(() => {
-    const items:{id:string, title:string, icon:string, desc:string, recommended:boolean}[] = []
+interface PaymentOptionUI {
+    data:PaymentOption|{id: 'contact', type: 'contact'}
+    icon:string
+    title:string
+    desc:string
+    international:boolean
+    recommended:boolean
+}
+
+
+// Access to payment options that includes props helpful to UI
+const options = computed(() => {
+    const items:PaymentOptionUI[] = []
+
+    // Helper to map icon code in db to icon code used in UI
+    const conform_icon = (icon:string) => {
+        return {
+            bank: 'bank',
+            card: 'credit_card',
+            email: 'mail',
+        }[icon] ?? 'send_money'
+    }
 
     for (const option of fund.payment.options){
-
         if (option.type === 'transfer'){
-            if (selected_currency.value !== option.currency && !option.swift){
-                continue  // Not same currency and no international payment option
-            }
             items.push({
-                id: option.id,
-                title: `Bank transfer (${option.currency.toUpperCase()})`,
+                data: option,
                 icon: 'bank',
+                title: `Bank transfer (${option.currency.toUpperCase()})`,
                 desc: "",
+                international: !!option.swift,
                 recommended: selected_currency.value === option.currency,
             })
+        } else if (option.type === 'card'){
+            items.push(({
+                data: option,
+                icon: 'credit_card',
+                title: "Credit/Debit Card",
+                desc: "",
+                international: true,
+                recommended: false,
+            }))
         } else if (option.type === 'custom'){
             items.push(({
-                id: option.id,
+                data: option,
+                icon: conform_icon(option.icon),
                 title: option.title,
-                icon: option.icon,
                 desc: option.desc,
+                international: option.international,
                 recommended: false,
             }))
         }
     }
 
-    // Always add option to contact fundraiser
+    // Add option to contact fundraiser
+    if (fund.payment.allow_other){
     items.push({
+            data: {
         id: 'contact',
+                type: 'contact',
+            },
+            icon: 'mail',
         title: "Something else",
-        icon: '?',
-        desc: "If no other options are suitable, the fundraiser will get in touch about other possibilities.",
+            desc: `If no other options are suitable,
+                the fundraiser will get in touch about other possibilities.`,
+            international: true,
         recommended: false,
     })
+    }
 
     return items
 })
@@ -199,6 +252,55 @@ const displayed_options = computed(() => {
 const select_option = (id:string) => {
     selected_option.value = selected_option.value === id ? null : id
 }
+
+
+// Verify if name input is valid (doesn't need to take value to work)
+const check_name = () => {
+    return !contact_required.value || !!entered_name.value
+}
+
+
+// Verify if email input is valid (doesn't need to take value to work)
+const check_email = () => {
+    if (!contact_required.value && !entered_email.value){
+        return true
+    }
+    return /^[^\s@]+@[^\s@]+$/.test(entered_email.value)
+}
+
+
+// Whether contact details entered are valid and can continue
+const contact_details_valid = computed(() => {
+    return check_name() && check_email()
+})
+
+
+// Save the pledge and get details ready for payment page
+// WARN Always reset statuses as user may go back and forth and modify options
+const submit = async () => {
+    step.value++
+
+    // Try to save the pledge to db
+    // WARN This may be blocked by browsers like Brave. Don't let that stop user from progressing
+    //      to payment, but need to warn them if they chose option to be contacted.
+    save_status.value = null
+    save_pledge(pledge.value).then(() => {
+        save_status.value = true
+    }, () => {
+        save_status.value = false
+    })
+
+    // Get Stripe URL if needed
+    if (requires_stripe.value){
+        stripe_url.value = null
+        get_stripe_url(pledge.value).then(url => {
+            stripe_url.value = url === null ? false : url
+        }, () => {
+            stripe_url.value = false
+        })
+    }
+}
+
 
 </script>
 
