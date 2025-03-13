@@ -1,5 +1,7 @@
 
 export interface Fundraiser {
+    id:string  // Set at runtime
+    url:string  // Set at runtime
     name:string
     subheading:string
     intro:string
