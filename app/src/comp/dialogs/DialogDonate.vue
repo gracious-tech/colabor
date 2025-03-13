@@ -125,25 +125,13 @@ const entered_amount_cleaned = computed({
 })
 
 
-const analysed_options = computed(() => {
-    return fund.payment.options.map(option => {
-        return {
-            props: option,
-            international: (option.type === 'transfer' && option.swift)
-                || option.type === 'card'
-                || (option.type === 'custom' && option.international),
-        }
-    })
-})
-
-
 const currencies = computed(() => {
     // List currencies that have options that are exclusive to that currency
 
     const detected = new Set<string>()
-    for (const option of analysed_options.value){
-        if (!option.international && 'currency' in option.props && option.props.currency){
-            detected.add(option.props.currency)
+    for (const option of options.value){
+        if (!option.international && 'currency' in option.data && option.data.currency){
+            detected.add(option.data.currency)
         }
     }
 
