@@ -67,18 +67,29 @@ VDialog(v-model='show' persistent max-width='600' class='text-center')
 
                 VWindowItem(:value='6')
                     h2 How can you be contacted?
-                    VTextField(v-model='entered_name' label="Name (optional)")
-                    VTextField(v-model='entered_email' label="Email address (optional)")
-                    p So you can receive confirmation that your donation is received. However, you can remain anonymous if you prefer.
+                    VTextField(v-model='entered_name' :rules='[check_name]'
+                        :label='"Name" + (contact_required ? "" : " (optional)")')
+                    VTextField(v-model.trim='entered_email' :rules='[check_email]'
+                        :label='"Email address" + (contact_required ? "" : " (optional)")')
+                    div(class='mt-4') {{ contact_explanation }}
                     div.btns
-                        VBtn(color='secondary' @click='step--') Prev
-                        VBtn(color='secondary' @click='step++') Donate
+                        DialogDonatePrev(@click='step--')
+                        DialogDonateNext(@click='submit' :disabled='!contact_details_valid')
+                            | Confirm
+
                 VWindowItem(:value='7')
                     h2 Thanks for your support!
-                    p(class='opacity-60') If you'd like to modify your choices, simply go back and they'll be updated.
+                    div(v-if='requires_stripe')
+                        template(v-if='!stripe_url')
+                            div Connecting to payment platform...
+                            VProgressCircular(indeterminate)
+                        VBtn(v-else color='secondary' :href='stripe_url' target='_blank')
+                            template(#prepend)
+                                AppIcon(name='credit_card')
+                            | Give by card
                     div.btns
-                        VBtn(color='secondary' @click='step--') Prev
-                        span
+                        DialogDonatePrev(@click='step--')
+                            | Modify
 
 
 </template>
