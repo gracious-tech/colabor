@@ -6,9 +6,9 @@ div.nav
     RouterLink(to='/')
         img.logo(src='@/assets/logo.svg')
     div.btns(class='official-wide')
-        VBtn(variant='outlined' color='' to='/official') Introduction
-        VBtn(variant='outlined' color='' to='/official/fundraisers') I'm fundraising
-        VBtn(variant='outlined' color='' to='/official/supporters') I'm donating
+        VBtn(variant='outlined' exact color='' to='/official') Introduction
+        VBtn(variant='outlined' exact color='' to='/official/fundraisers') I'm fundraising
+        VBtn(variant='outlined' exact color='' to='/official/supporters') I'm donating
     VMenu
         template(#activator='{props}')
             VBtn.menu(icon variant='text' color='' v-bind='props')
