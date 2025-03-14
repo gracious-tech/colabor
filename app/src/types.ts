@@ -14,24 +14,37 @@ export interface Fundraiser {
         show_profile:boolean
     }
     payment:{
+        third_party:string  // If set to a URL, Colabor's system will be skipped entirely
         options:PaymentOption[]
         preferred_currency:string  // Required, as used for default for currency selection field
+        allow_recurring:boolean  // May want to only raise money for short time, so no recurring
+        allow_anonymous:boolean  // Some countries may forbid
+        allow_other:boolean  // Whether to show other/"contact us" option
+        manage_recurring:string  // E.g. Stripe URL
+        tax_deductible:string  // Should be a country code/name
     }
     steward:{
         organiser_type:'individual'|'organisation'
         organiser_name:string
         towards:'income'|'cause'|'mixed'
-        max_personal_income:number
-        max_personal_assets:number
         goal:number
         goal_period:'year'|'month'|null
         goal_currency:string
+        goal_explain:string
         plus_super:boolean
         progress_current:number
         progress_total:number
         progress_type:'%'|'days'|'money'
         ends:string|boolean  // Date to auto-end, true if ends when goal reached, false for ongoing
     }
+    contact:{
+        email:string  // Required
+    }
+}
+
+
+export interface FundraiserPrivate {
+    stripe_key:string
 }
 
 
@@ -55,6 +68,7 @@ export interface Resource {
 }
 
 export interface Quote {
+    id:string
     text:string
     author:string
     context:string
@@ -72,6 +86,7 @@ export interface PaymentOptionTransfer {
     id:string
     type:'transfer'
     currency:string
+    name:string
     account:string
     bank_code:string
     swift:string
@@ -79,29 +94,25 @@ export interface PaymentOptionTransfer {
     other:string
 }
 
-export interface PaymentOptionCard {
+export interface PaymentOptionStripe {
     id:string
-    type:'card'
-    urls:PaymentURL[]  // Auto-detect and display icon/security msg from URL domain
+    type:'stripe'
 }
 
+// NOTE Stick any options like PayPal in as "custom" items as the UX will still be the same as for
+//      an unknown third-party service, and can build a nice admin UI for choosing PayPal instead
 export interface PaymentOptionCustom {
     id:string
     type:'custom'
     currency:string|null
     international:boolean
-    icon:string  // Either single char or code that matches a builtin icon
+    icon:string
     title:string
     desc:string
     instructions:string
-    urls:PaymentURL[]  // Requires currency to be set
-}
-
-export interface PaymentURL {
+    // NOTE Rather than mess around with multiple URLs and determining recurrance etc.
+    //      Just skip recurr/amount steps
     url:string
-    amount:string  // Empty if payment service will allow setting own amount
-    // NOTE Not adding other frequencies as these links need manual creation, would be over the top
-    recurring:'single'|'month'|null  // Null if payment service will allow setting frequency
 }
 
-export type PaymentOption = PaymentOptionTransfer|PaymentOptionCard|PaymentOptionCustom
+export type PaymentOption = PaymentOptionTransfer|PaymentOptionStripe|PaymentOptionCustom
