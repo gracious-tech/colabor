@@ -18,14 +18,8 @@ div.steward
 
 div(class='text-center')
     div(class='explain') {{ fund.steward.goal_explain }}
-    div(class='explain')
-        template(v-if='fund.payment.tax_deductible')
-            | Donations are tax-deductible in {{ fund.payment.tax_deductible }}.
-        template(v-else)
-            | Donations are #[strong not] tax-deductible.
-    p(class='mt-12').
-        Donations go directly to fundraisers.
-        You should only donate if you trust the organisers of this fundraiser.
+    div(class='explain') {{ get_tax_notice(fund.payment.tax_deductible) }}
+    p(class='mt-12') {{ disclaimer }}
     VBtn(variant='outlined' color='' href='/official' target='_blank') Learn more
 
 </template>
@@ -36,6 +30,7 @@ div(class='text-center')
 import {inject, computed} from 'vue'
 
 import FundStewardPolicy from './FundStewardPolicy.vue'
+import {disclaimer, get_tax_notice} from '@/services/utils'
 
 import type {Fundraiser} from '@/types'
 

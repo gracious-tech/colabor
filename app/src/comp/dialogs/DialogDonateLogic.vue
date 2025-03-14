@@ -109,6 +109,9 @@ VCardText.content
                 div
                     a(:href='`mailto:${fund.contact.email}`' class='text-h6')
                         | {{ fund.contact.email }}
+            div(class='mt-16 text-left text-body-2')
+                div(class='mb-4') #[strong Please note:] {{ disclaimer }}
+                div {{ get_tax_notice(fund.payment.tax_deductible) }}
 
 VCardActions.actions(class='pa-4')
     VBtn(v-if='step !== "intro"' @click='move(-1)' color='' variant='tonal' class='pr-4')
@@ -130,7 +133,8 @@ VCardActions.actions(class='pa-4')
 
 import {inject, computed, ref, watch} from 'vue'
 
-import {bank_code_label, currency_str, generate_token} from '@/services/utils'
+import {bank_code_label, currency_str, generate_token, disclaimer, get_tax_notice}
+    from '@/services/utils'
 import {get_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 
 import type {Fundraiser, PaymentOption} from '@/types'

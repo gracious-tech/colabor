@@ -92,3 +92,16 @@ export function bank_code_label(currency:string){
     }
     return "Bank/branch code"
 }
+
+
+export const disclaimer = `Donations go directly to fundraisers and are not managed by
+    this platform. You should only donate if you trust the organizer of this fundraiser.`
+
+
+export function get_tax_notice(country:string){
+    if (country){
+        return `Donations are tax-deductible in ${country}.`
+    } else {
+        return "Donations are not tax-deductible."
+    }
+}
