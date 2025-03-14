@@ -84,7 +84,7 @@ export const get_stripe_url = onCall(async (request):Promise<{stripe_url:string|
             metadata: {colabor_id: pledge_id},
             mode: recurring === 'single' ? 'payment' : 'subscription',
             success_url: `${domain_origin}/${fundraiser}#stripe={CHECKOUT_SESSION_ID}`,
-            customer_email: with_email ? email : '',
+            ...with_email ? {customer_email: email} : {},
             submit_type: recurring === 'single' ? 'donate' : 'subscribe',  // Can't change subscr.
             line_items: [{
                 quantity: 1,
