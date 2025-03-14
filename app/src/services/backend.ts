@@ -39,8 +39,8 @@ export function data_url(fundraiser:string){
 
 
 // Get a URL for a Stripe checkout session with given settings
-export async function get_stripe_url({currency, amount, recurring, email, fundraiser}:Pledge){
-    const resp = await fire_get_stripe_url({currency, amount, recurring, email, fundraiser})
+export async function get_stripe_url({id, currency, amount, recurring, email, fundraiser}:Pledge){
+    const resp = await fire_get_stripe_url({id, currency, amount, recurring, email, fundraiser})
     return (resp.data as {stripe_url:string|null}).stripe_url
 }
 
