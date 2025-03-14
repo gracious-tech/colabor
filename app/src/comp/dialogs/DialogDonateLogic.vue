@@ -41,8 +41,7 @@ VCardText.content
                 VRadio(value='month' label="Monthly")
             div.amount(v-if='selected_option.data.type === "stripe"'
                     class='d-flex align-center justify-center')
-                VTextField(v-model='cleaned_amount' max-width='200' label="Amount"
-                    class='mr-3')
+                VTextField(v-model='cleaned_amount' max-width='200' label="Amount" class='mr-3')
                 VCombobox(v-model='cleaned_amount_currency' :items='top_currencies'
                     max-width='125' label="Currency" minlength='3' maxlength='3')
             p.
@@ -80,8 +79,7 @@ VCardText.content
                 template(v-if='stripe_url === null')
                     div(class='mb-4 font-italic') Connecting to payment platform...
                     VProgressCircular(indeterminate color='secondary')
-                VBtn(v-else-if='stripe_url' color='secondary' :href='stripe_url'
-                        target='_blank')
+                VBtn(v-else-if='stripe_url' color='secondary' :href='stripe_url' target='_blank')
                     template(#prepend)
                         AppIcon(name='credit_card')
                     | Give by card
