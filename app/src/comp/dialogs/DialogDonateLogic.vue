@@ -411,7 +411,14 @@ const displayed_options = computed(() => {
 
 // The data for the selected option
 const selected_option = computed(() => {
-    return options.value.find(opt => opt.data.id === selected_option_id.value)!
+    /* WARN Defaults to first option to prevent errors when user goes to later steps but then
+        backtracks, as that renders components that rely on an option being selected.
+        If the user then deselects an option it would break existing components out-of-view.
+        In other words, this will always return a valid value to prevent things breaking,
+            so don't rely on it pre-options-step when an option is actually deselected.
+    */
+    return options.value.find(opt => opt.data.id === selected_option_id.value)
+        || options.value[0]!
 })
 
 
