@@ -84,13 +84,16 @@ VCardText.content
                     template(v-if='selected_option.data.other')
                         textarea(:value='selected_option.data.other' readonly rows='3')
             div(v-else-if='selected_type === "stripe"')
+                div(class='mb-8 text-body-2')
+                    | Please finish by continuing to the secure card payment platform, Stripe.
                 template(v-if='stripe_url === null')
                     div(class='mb-4 font-italic') Connecting to payment platform...
                     VProgressCircular(indeterminate color='secondary')
                 VBtn(v-else-if='stripe_url' color='secondary' :href='stripe_url' target='_blank')
                     template(#prepend)
                         AppIcon(name='credit_card')
-                    | Give by card
+                    | Donate {{ currency_str(entered_amount ?? 0, entered_amount_currency) }}
+                    template(v-if='selected_recurring === "month"') /month
             div(v-else-if='selected_type === "contact" && !need_email_fallback')
                 | The fundraiser will contact you about alternate payment options.
             div(v-else-if='selected_option.data.type === "custom"')
@@ -127,7 +130,7 @@ VCardActions.actions(class='pa-4')
 
 import {inject, computed, ref, watch} from 'vue'
 
-import {bank_code_label, generate_token} from '@/services/utils'
+import {bank_code_label, currency_str, generate_token} from '@/services/utils'
 import {get_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 
 import type {Fundraiser, PaymentOption} from '@/types'
