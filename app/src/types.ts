@@ -101,7 +101,7 @@ export interface PaymentURL {
     url:string
     amount:string  // Empty if payment service will allow setting own amount
     // NOTE Not adding other frequencies as these links need manual creation, would be over the top
-    frequency:'single'|'monthly'|null  // Null if payment service will allow setting frequency
+    recurring:'single'|'month'|null  // Null if payment service will allow setting frequency
 }
 
 export type PaymentOption = PaymentOptionTransfer|PaymentOptionCard|PaymentOptionCustom
