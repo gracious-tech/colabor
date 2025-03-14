@@ -81,11 +81,11 @@ export const get_stripe_url = onCall(async (request):Promise<{stripe_url:string|
     // Helper for creating a session with optional inclusion of email address
     const create_session = (with_email:boolean) => {
         return stripe_instance.checkout.sessions.create({
-            client_reference_id: pledge_id,
+            metadata: {colabor_id: pledge_id},
             mode: recurring === 'single' ? 'payment' : 'subscription',
             success_url: `${domain_origin}/${fundraiser}#stripe={CHECKOUT_SESSION_ID}`,
-            customer_email: with_email ? email : undefined,
-            submit_type: recurring === 'single' ? 'donate' : undefined,  // Can't change for subscr.
+            customer_email: with_email ? email : '',
+            submit_type: recurring === 'single' ? 'donate' : 'subscribe',  // Can't change subscr.
             line_items: [{
                 'quantity': 1,
                 'price_data': {
@@ -94,9 +94,7 @@ export const get_stripe_url = onCall(async (request):Promise<{stripe_url:string|
                     'product_data': {
                         'name': product_name,
                     },
-                    'recurring': recurring === 'single' ? undefined : {
-                        'interval': 'month',
-                    },
+                    ...recurring === 'single' ? {} : {recurring:{interval: 'month'}},
                 },
             }],
         })
