@@ -109,7 +109,7 @@ export interface PaymentOptionCustom {
     icon:string
     title:string
     desc:string
-    instructions:string
+    instructions:string  // Suggested text: "Please use service ... to send payment."
     // NOTE Rather than mess around with multiple URLs and determining recurrance etc.
     //      Just skip recurr/amount steps
     url:string
