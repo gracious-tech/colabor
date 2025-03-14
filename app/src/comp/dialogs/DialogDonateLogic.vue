@@ -207,6 +207,14 @@ const move = (increment:1|-1) => {
         return move(increment)
     }
 
+    // Skip contact details if have custom URL as can assume they'll be collected there
+    // NOTE Stripe is different as can pass the email address on so they don't have to repeat
+    if (step.value === 'contact' && selected_option.value.data.type === 'custom'
+            && selected_option.value.data.url){
+        // NOTE Chance name/email already filled but no real validation for them anyway
+        return move(increment)
+    }
+
     // Submit if moved to last step
     if (step.value === 'pay'){
         void submit()
@@ -415,7 +423,7 @@ const pledge = computed(() => {
         fundraiser: fund.id,
         amount: entered_amount.value,
         currency: entered_amount_currency.value,
-        recurring: selected_recurring.value!,
+        recurring: selected_recurring.value,
         email: entered_email.value,
         name: entered_name.value,
         means: selected_option.value.title ?? "Unknown",
