@@ -52,12 +52,7 @@ blockquote
 
 p God does provide for his people and supply those who do his work, but there are multiple factors at play. We cannot conclude that God is pleased with a ministry simply because it is well funded, nor can we conclude that God is displeased with a ministry because it is poorly funded.
 
-p Something we #[em can] be sure of is that God #[em will] eventually reward his servants based on what they have done. Rather than concern ourselves with how to get the level of funding we desire, we should concern ourselves with being faithful with what God is providing.
-
-p So let's change the question:
-
-h3 How can I honour God in the way I go about fundraising?
-
+p Something we #[em can] be sure of is that God #[em will] eventually reward his servants based on what they have done. Rather than concern ourselves with how to get the level of funding we desire, we should concern ourselves with being faithful with what God #[em is] providing.
 
 
 //- h3 Is it safe to share my bank account number?
