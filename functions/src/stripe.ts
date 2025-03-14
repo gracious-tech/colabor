@@ -87,12 +87,12 @@ export const get_stripe_url = onCall(async (request):Promise<{stripe_url:string|
             customer_email: with_email ? email : '',
             submit_type: recurring === 'single' ? 'donate' : 'subscribe',  // Can't change subscr.
             line_items: [{
-                'quantity': 1,
-                'price_data': {
-                    'currency': currency,
-                    'unit_amount': amount,
-                    'product_data': {
-                        'name': product_name,
+                quantity: 1,
+                price_data: {
+                    currency: currency,
+                    unit_amount: amount,
+                    product_data: {
+                        name: product_name,
                     },
                     ...recurring === 'single' ? {} : {recurring:{interval: 'month'}},
                 },
