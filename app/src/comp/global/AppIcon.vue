@@ -34,6 +34,7 @@ import more_vert from '@material-symbols/svg-400/outlined/more_vert.svg?componen
 import menu from '@material-symbols/svg-400/outlined/menu.svg?component'
 import mail from '@material-symbols/svg-400/outlined/mail.svg?component'
 import send_money from '@material-symbols/svg-400/outlined/send_money.svg?component'
+import thumb_up from '@material-symbols/svg-400/outlined/thumb_up.svg?component'
 
 import facebook from '@/assets/icons/facebook.svg?component'
 
@@ -51,7 +52,7 @@ const icons = {
     drag_indicator, close, arrow_back, planner_banner, copyright, auto_stories, check,
     subject, download, error, help, currency_bitcoin, credit_card, account_balance, mail,
     expand_circle_up, step_out, paid, stacks, emoji_people, equalizer, world, more_vert, menu,
-    facebook, send_money, arrow_forward,
+    facebook, send_money, arrow_forward, thumb_up,
 } as Record<string, FunctionalComponent>
 
 
