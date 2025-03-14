@@ -25,7 +25,7 @@ div.fund
 div.extra
 
     template(v-if='fund.resources.length')
-        h3 Resources Produced
+        h3 Resources produced
         div.resources
             FundResource(v-for='resource of fund.resources' :key='resource.id' :resource='resource')
 
