@@ -5,7 +5,7 @@ node_modules/
 # Specific
 /firestore-debug.log
 /firebase-debug.log
-
+/.firebase_test_data
 /functions/lib/
 
 /app/dist/

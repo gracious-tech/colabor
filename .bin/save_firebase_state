@@ -1,0 +1,6 @@
+#!/bin/bash
+# Export data from current emulator's state
+set -e
+cd "$(realpath -m "$0/../..")"
+
+node_modules/.bin/firebase emulators:export .firebase_test_data
