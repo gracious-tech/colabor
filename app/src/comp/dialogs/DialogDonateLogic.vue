@@ -94,7 +94,11 @@ VCardText.content
             div(v-else-if='selected_type === "contact" && !need_email_fallback')
                 | The fundraiser will contact you about alternate payment options.
             div(v-else-if='selected_option.data.type === "custom"')
-                //- TODO
+                div(v-if='selected_option.data.instructions' class='mb-8')
+                    | {{ selected_option.data.instructions }}
+                VBtn(v-if='selected_option.data.url' :href='selected_option.data.url'
+                        target='_blank' color='secondary')
+                    | Send payment
             div(v-if='need_email_fallback')
                 p.
                     Sorry, the message couldn't be sent for some reason.
