@@ -36,7 +36,7 @@ VCardText.content
                                 | Recommended
 
         VWindowItem(value='recurring')
-            VRadioGroup(v-model='selected_recurring' inline)
+            VRadioGroup(v-model='selected_recurring' inline class='mb-4')
                 VRadio(value='single' label="One-off")
                 VRadio(value='month' label="Monthly")
             div.amount(v-if='selected_option.data.type === "stripe"'
