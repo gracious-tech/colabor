@@ -192,7 +192,7 @@ const options = computed(() => {
     // Helper to map icon code in db to icon code used in UI
     const conform_icon = (icon:string) => {
         return {
-            bank: 'bank',
+            bank: 'account_balance',
             card: 'credit_card',
             email: 'mail',
         }[icon] ?? 'send_money'
@@ -208,12 +208,18 @@ const options = computed(() => {
                 international: !!option.swift,
                 recommended: selected_currency.value === option.currency,
             })
-        } else if (option.type === 'card'){
+        } else if (option.type === 'stripe'){
             items.push(({
                 data: option,
                 icon: 'credit_card',
-                title: "Credit/Debit Card",
-                desc: "",
+                title: "Credit/Debit card",
+                desc: selected_currency.value && selected_currency.value !== 'other'
+                    // Comparing to a domestic option, so mention fee difference
+                    // NOTE Stripe domestic lowest fee: AU single 1.7% + 30c
+                    // NOTE Stripe domestic highest fee: US recurring 2.9% + 0.7% + 30c
+                    ? "2%-4% of donation lost to fees but convenient for international payments."
+                    // Not comparing to a domestic alternative, so don't cause worry about fees
+                    : "A convenient payment option, both domestically and internationally.",
                 international: true,
                 recommended: false,
             }))
@@ -245,6 +251,10 @@ const options = computed(() => {
         })
     }
 
+    // Ensure recommended option comes first
+    // @ts-ignore Boolean math does work
+    items.sort((a, b) => b.recommended - a.recommended)
+
     return items
 })
 
@@ -275,31 +285,25 @@ const pledge = computed(() => {
         fundraiser: fund.id,
         amount: entered_amount.value,
         currency: entered_amount_currency.value,
-        frequency: selected_frequency.value!,
+        recurring: selected_recurring.value!,
         email: entered_email.value,
         name: entered_name.value,
-        means: selected_option_data.value.title ?? "Unknown",
+        means: selected_option.value.title ?? "Unknown",
+        appreciate: fund.activities.find(a => a.id === props.activity)?.title ?? null,
     } as Pledge
-})
-
-
-// Whether a Stripe URL needs to be fetched when form is completed
-const requires_stripe = computed(() => {
-    return selected_option_data.value.data.type === 'card'
-        && selected_option_data.value.data.service === 'stripe'
 })
 
 
 // Whether contact details are required or not
 // NOTE Even if Stripe will require email address, don't let that interrupt donor just yet
 const contact_required = computed(() => {
-    return !fund.payment.allow_anonymous || selected_option_data.value.data.type === 'contact'
+    return !fund.payment.allow_anonymous || selected_option.value.data.type === 'contact'
 })
 
 
 // What message should be displayed under the name/email fields
 const contact_explanation = computed(() => {
-    if (selected_option_data.value.data.type === 'contact'){
+    if (selected_option.value.data.type === 'contact'){
         return ''  // Won't be arranging payment yet so don't talk about receipts
     } else if (fund.payment.allow_anonymous){
         return `Please provide if you'd like to receive a receipt.
@@ -310,7 +314,7 @@ const contact_explanation = computed(() => {
 
 
 const select_option = (id:string) => {
-    selected_option.value = selected_option.value === id ? null : id
+    selected_option_id.value = selected_option_id.value === id ? null : id
 }
 
 
@@ -338,7 +342,6 @@ const contact_details_valid = computed(() => {
 // Save the pledge and get details ready for payment page
 // WARN Always reset statuses as user may go back and forth and modify options
 const submit = async () => {
-    step.value++
 
     // Try to save the pledge to db
     // WARN This may be blocked by browsers like Brave. Don't let that stop user from progressing
@@ -351,7 +354,7 @@ const submit = async () => {
     })
 
     // Get Stripe URL if needed
-    if (requires_stripe.value){
+    if (selected_type.value === 'stripe'){
         stripe_url.value = null
         get_stripe_url(pledge.value).then(url => {
             stripe_url.value = url === null ? false : url
@@ -362,14 +365,38 @@ const submit = async () => {
 }
 
 
+// If something failed that user needed to continue, show email address to manually contact instead
+const need_email_fallback = computed(() => {
+    if (selected_type.value === 'stripe' && stripe_url.value === false){
+        return true  // Couldn't get Stripe URL
+    } else if (selected_type.value === 'contact' && save_status.value === false){
+        return true  // Couldn't save contact details and they asked to be contacted
+    }
+    return false
+})
+
+
 </script>
 
 
 <style lang='sass' scoped>
 
+.content
+    // Tall enough to stop buttons jumping around but not too far away from content
+    // NOTE Expands when space but doesn't mess up if short viewport
+    height: 400px
+
+.options
+    display: grid
+    grid-template-columns: 1fr 1fr
+    gap: 12px
+    @media (max-width: 600px)
+        grid-template-columns: 1fr
+
 .option
     border: 2px dashed transparent
     cursor: pointer
+    text-align: left
 
     &.selected
         border-color: rgb(var(--v-theme-secondary))
@@ -378,8 +405,37 @@ const submit = async () => {
     &:hover
         border-color: rgb(var(--v-theme-secondary))
 
+    :deep(.v-card-title)
+        display: flex
+        align-items: center
+        justify-content: center
+        white-space: wrap
+        line-height: 1.2
+        font-size: 18px
+        margin-top: 12px
+        margin-bottom: 8px
+
+        svg
+            min-width: 24px
+            margin-right: 8px
+
+    .recommend
+        position: relative
+        top: 10px
+        left: 4px
+        display: flex
+        align-items: center
+        justify-content: flex-end
+        color: rgb(var(--v-theme-secondary))
+        font-size: 13px
+        font-family: Roboto Condensed, Roboto, sans-serif
+        line-height: 1
+        svg
+            margin-right: 8px
+            width: 18px
+            height: 18px
+
 h2
-    margin-top: 12px
     margin-bottom: 36px
 
 :deep(.v-selection-control-group)
@@ -390,5 +446,60 @@ h2
     margin-bottom: 6px
     display: flex
     justify-content: space-between
+
+.payid
+
+    .addr
+        display: flex
+        justify-content: center
+        align-items: center
+        gap: 24px
+        @media (max-width: 600px)
+            flex-direction: column
+
+        img
+            width: 80px  // Original width 127px
+
+        :deep(.v-text-field)
+            width: 100%
+            max-width: 320px
+
+            input
+                text-align: center
+                font-size: 18px
+                font-family: Roboto Condensed, Roboto, sans-serif
+
+    .or
+        font-weight: bold
+        font-size: 20px
+        margin: 16px 0
+
+.transfer
+    display: grid
+    grid-template-columns: auto auto
+    gap: 12px
+    margin-top: 24px
+    font-family: Roboto Condensed, Roboto, sans-serif
+
+    > *
+        border-radius: 8px
+        padding: 6px 12px
+        text-align: left
+
+        &:nth-child(odd)
+            text-align: right
+
+        &:nth-child(even)
+            background-color: #eee
+
+
+// Animate display of new options
+.options-move, .options-enter-active
+    transition: all 0.5s ease  // Animate repositioning and entering opacity
+.options-leave-active
+    display: none  // Make old disappear immediately as mess up positioning of others
+.options-enter-from
+    opacity: 0  // Fade new ones in
+
 
 </style>
