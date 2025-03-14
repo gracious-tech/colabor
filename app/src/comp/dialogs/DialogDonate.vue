@@ -99,38 +99,109 @@ VDialog(v-model='show' persistent max-width='600' class='text-center')
 
 import {inject, computed, ref, watch} from 'vue'
 
-import DialogDonatePrev from './parts/DialogDonatePrev.vue'
-import DialogDonateNext from './parts/DialogDonateNext.vue'
-import {generate_token} from '@/services/utils'
+import {bank_code_label, generate_token} from '@/services/utils'
 import {get_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 
 import type {Fundraiser, PaymentOption} from '@/types'
 
 
+const steps = ['intro', 'option', 'recurring', 'contact', 'pay'] as const
+/* UX philosophy
+
+Don't let anything interrupt the user from donating the way they want to
+    Fundraisers can bypass whole system by providing own third-party URL if desired
+    currency - only needed if affects what options are
+    option - only needed if multiple (but tell user means before continuing)
+    recurring - ask to help donor realise recurring is most helpful
+        Only support monthly as standard for commercial subscriptions and too frequent = more admin
+        (but don't ask for custom as too complex to know what options will be presented)
+    amount - only need to ask for Stripe, otherwise let donor decide when paying
+    contact - good to grab in case payment doesn't work or donor doesn't realise need for receipt
+*/
+
+
+// List top currencies to choose from (UI also allows entering custom if missing)
 const top_currencies = [
-    'usd', 'eur', 'gbp', 'jpy', 'cny', 'chf', 'cad', 'aud', 'sgd', 'hkd',
-    'krw', 'inr', 'brl', 'mxn', 'zar', 'rub', 'try', 'nzd', 'thb', 'myr',
-    'idr', 'php', 'vnd', 'sar', 'aed', 'sek', 'nok', 'dkk', 'pln', 'huf',
-    'czk', 'ils', 'twd', 'ars', 'clp', 'cop', 'pen', 'egp', 'qar', 'kwd',
-    'omr', 'bdt', 'pkr', 'lkr', 'ron', 'bgn', 'hrk', 'uyu', 'kzt', 'uah',
-].map(c => ({title: c.toUpperCase(), value: c})).sort()
+    'USD', 'EUR', 'GBP', 'JPY', 'CNY', 'CHF', 'CAD', 'AUD', 'SGD', 'HKD',
+    'KRW', 'INR', 'BRL', 'MXN', 'ZAR', 'RUB', 'TRY', 'NZD', 'THB', 'MYR',
+    'IDR', 'PHP', 'VND', 'SAR', 'AED', 'SEK', 'NOK', 'DKK', 'PLN', 'HUF',
+    'CZK', 'ILS', 'TWD', 'ARS', 'CLP', 'COP', 'PEN', 'EGP', 'QAR', 'KWD',
+    'OMR', 'BDT', 'PKR', 'LKR', 'RON', 'BGN', 'HRK', 'UYU', 'KZT', 'UAH',
+].sort()
 
 
 const show = defineModel<boolean>({required: true})
+const props = defineProps<{activity:string|null}>()
 
 const fund = inject('fund') as Fundraiser
 
-const step = ref(1)
+const step = ref<typeof steps[number]>('intro')
 const pledge_id = generate_token()
 const selected_currency = ref<string|null>(null)
-const selected_option = ref<string|null>(null)
-const selected_frequency = ref<'single'|'monthly'|null>(null)
-const entered_amount = ref(0)
+const selected_option_id = ref<string|null>(null)
+const selected_recurring = ref<'single'|'month'|null>(null)
+const entered_amount = ref<null|number>(null)
 const entered_amount_currency = ref(fund.payment.preferred_currency.toUpperCase())
 const entered_name = ref('')
 const entered_email = ref('')
 const save_status = ref<boolean|null>(null)
 const stripe_url = ref<string|null|false>(null)
+
+
+
+// STEPS
+
+
+// The title for the current step
+const title = computed(() => {
+    return {
+        option: "Which option is best?",
+        recurring: "Donation frequency",
+        contact: "Contact details",
+        pay: "Thanks for your support!",
+    }[step.value as string]
+})
+
+
+// Move back or forward a step (skipping some as needed)
+const move = (increment:1|-1) => {
+
+    // Go back or forward
+    step.value = steps[steps.indexOf(step.value) + increment]!
+
+    // Skip options if only one to choose from
+    if (step.value === 'option' && options.value.length === 1){
+        selected_option_id.value = options.value[0]!.data.id
+        return move(increment)
+    }
+
+    // Skip recurring step if (1) not allowed (2) just contacting, or (3) custom option
+    if (step.value === 'recurring' &&
+            (!fund.payment.allow_recurring || ['contact', 'custom'].includes(selected_type.value))){
+        selected_recurring.value = fund.payment.allow_recurring ? null : 'single'
+        entered_amount.value = null
+        return move(increment)
+    }
+
+    // Submit if moved to last step
+    if (step.value === 'pay'){
+        void submit()
+    }
+}
+
+
+// Whether cannot progress from current step
+const next_disabled = computed(() => {
+    if (step.value === 'option'){
+        return !displayed_options.value.find(o => o.data.id === selected_option_id.value)
+    } else if (step.value === 'recurring'){
+        return !selected_recurring.value
+            || (selected_type.value === 'stripe' && !entered_amount.value)
+    } else if (step.value === 'contact'){
+        return !contact_details_valid.value
+    }
+    return false
+})
 
 
 // SELECT CURRENCY
@@ -144,13 +215,25 @@ watch(selected_currency, () => {
 })
 
 
-const entered_amount_cleaned = computed({
+// Only allow a positive integer or otherwise set to null
+const cleaned_amount = computed({
     get(){
         return entered_amount.value ? entered_amount.value.toString() : ''
     },
     set(value:string){
         const parsed = parseInt(value, 10) || 0
-        entered_amount.value = Math.max(0, parsed)
+        entered_amount.value = Math.max(0, parsed) || null
+    },
+})
+
+
+// Store currency in lowercase but present it in uppercase
+const cleaned_amount_currency = computed({
+    get(){
+        return entered_amount_currency.value.toUpperCase()
+    },
+    set(value:string){
+        entered_amount_currency.value = value.toLowerCase()
     },
 })
 
@@ -160,7 +243,7 @@ const currencies = computed(() => {
 
     const detected = new Set<string>()
     for (const option of options.value){
-        if (!option.international && 'currency' in option.data && option.data.currency){
+        if ('currency' in option.data && option.data.currency){
             detected.add(option.data.currency)
         }
     }
@@ -200,13 +283,16 @@ const options = computed(() => {
 
     for (const option of fund.payment.options){
         if (option.type === 'transfer'){
+            const recommended = selected_currency.value === option.currency
             items.push({
                 data: option,
-                icon: 'bank',
+                icon: 'account_balance',
                 title: `Bank transfer (${option.currency.toUpperCase()})`,
-                desc: "",
+                desc: recommended
+                    ? "No fees and you stay in control of donation amount and frequency."
+                    : "Suitable for one-off large donations when transferring internationally.",
                 international: !!option.swift,
-                recommended: selected_currency.value === option.currency,
+                recommended,
             })
         } else if (option.type === 'stripe'){
             items.push(({
@@ -260,22 +346,42 @@ const options = computed(() => {
 
 
 const displayed_options = computed(() => {
+    let included_same_currency_transfer = false
     return options.value.filter(option => {
-        if (option.data.type === 'transfer' && selected_currency.value !== option.data.currency
-                && !option.international){
-            return false  // Not same currency and not international option
+
+        // Track if included same currency transfer option, as will ignore others if so
+        // NOTE This assumes it would have been sorted to front as recommended option already
+        if (option.data.type === 'transfer' && selected_currency.value === option.data.currency){
+            included_same_currency_transfer = true
+            return true
         }
+
+        // Exclude other currency transfers if non-international or already have same currency one
+        if (option.data.type === 'transfer' && selected_currency.value !== option.data.currency
+                && (included_same_currency_transfer || !option.international)){
+            return false
+        }
+
+        // Exclude custom options if not same currency and not international
+        // NOTE Unlike transfers, still show even if another custom one with same currency
         if (option.data.type === 'custom' && selected_currency.value !== option.data.currency
                 && !option.international){
-            return false  // Not same currency and not international option
+            return false
         }
         return true
     })
 })
 
 
-const selected_option_data = computed(() => {
-    return options.value.find(opt => opt.data.id === selected_option.value)!
+// The data for the selected option
+const selected_option = computed(() => {
+    return options.value.find(opt => opt.data.id === selected_option_id.value)!
+})
+
+
+// Shortcut for getting the selected option's type
+const selected_type = computed(() => {
+    return selected_option.value.data.type
 })
 
 
