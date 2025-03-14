@@ -100,8 +100,8 @@ VCardText.content
                 div(v-if='selected_option.data.instructions' class='mb-8')
                     | {{ selected_option.data.instructions }}
                 VBtn(v-if='selected_option.data.url' :href='selected_option.data.url'
-                        target='_blank' color='secondary')
-                    | Send payment
+                        target='_blank' color='secondary' class='mb-2')
+                    | Continue
             div(v-if='need_email_fallback')
                 p.
                     Sorry, the message couldn't be sent for some reason.
