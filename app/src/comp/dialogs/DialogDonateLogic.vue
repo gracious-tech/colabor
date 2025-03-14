@@ -81,6 +81,8 @@ VCardText.content
                     template(v-if='selected_option.data.swift')
                         div SWIFT
                         input(:value='selected_option.data.swift' readonly)
+                    template(v-if='selected_option.data.other')
+                        textarea(:value='selected_option.data.other' readonly rows='3')
             div(v-else-if='selected_type === "stripe"')
                 template(v-if='stripe_url === null')
                     div(class='mb-4 font-italic') Connecting to payment platform...
@@ -618,6 +620,11 @@ h2
             text-align: right
 
         &:nth-child(even)
+            background-color: #eee
+
+    > textarea
+            grid-column: span 2
+            text-align: left !important
             background-color: #eee
 
 
