@@ -3,7 +3,7 @@
 
 VDialog(v-model='show' persistent max-width='600' class='text-center'
         :fullscreen='$vuetify.display.smAndDown' scrollable)
-    VCard
+    VCard.dialog-card
         DialogDonateLogic(@close='show = false' :activity='activity')
 
 </template>
@@ -23,5 +23,12 @@ defineProps<{activity:string|null}>()
 
 <style lang='sass' scoped>
 
+// Move buttons and title in when not fullscreen
+// WARN Careful to not affect other cards within dialog
+.v-dialog:not(.v-dialog--fullscreen) .dialog-card
+    & > :deep(.v-card-actions)
+        padding: 18px 40px 40px 40px !important
+    & > :deep(.v-card-title > div)
+        margin-top: 60px !important
 
 </style>

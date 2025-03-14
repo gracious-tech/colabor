@@ -95,7 +95,7 @@ VCardText.content
                     a(:href='`mailto:${fund.contact.email}`' class='text-h6')
                         | {{ fund.contact.email }}
 
-VCardActions(class='pa-4')
+VCardActions.actions(class='pa-4')
     VBtn(v-if='step !== "intro"' @click='move(-1)' color='' variant='tonal' class='pr-4')
         template(#prepend)
             AppIcon(name='arrow_back')
@@ -173,9 +173,9 @@ const title = computed(() => {
     return {
         option: "Which option is best?",
         recurring: "Donation frequency",
-        contact: "Contact details",
+        contact: "Your contact details",
         pay: "Thanks for your support!",
-    }[step.value as string]
+    }[step.value as string] || '\u00A0'  // nbsp to prevent height jump
 })
 
 
@@ -622,6 +622,10 @@ h2
     display: none  // Make old disappear immediately as mess up positioning of others
 .options-enter-from
     opacity: 0  // Fade new ones in
+
+
+.actions
+    border-top: 1px solid #ddd
 
 
 </style>
