@@ -16,12 +16,14 @@ VCardText.content
             p The following steps help to avoid transaction fees from banks as well.
 
         VWindowItem(value='option')
-            VRadioGroup(v-model='selected_currency' inline class='mb-4')
-                VRadio(v-for='currency of currencies' :key='currency' :value='currency'
-                    :label='currency.toUpperCase()')
-                VRadio(value='other' label="Other")
+            template(v-if='currencies.length')
+                div(class='text-body-2') What currency are you sending?
+                VRadioGroup(v-model='selected_currency' inline class='mb-4')
+                    VRadio(v-for='currency of currencies' :key='currency' :value='currency'
+                        :label='currency.toUpperCase()')
+                    VRadio(value='other' label="Other")
             div.options(v-if='currencies.length && selected_currency')
-                TransitionGroup(name='options' )
+                TransitionGroup(name='options' appear)
                     VCard.option(v-for='option of displayed_options' :key='option.data.id'
                             @click='select_option(option.data.id)'
                             color='surface-variant' variant='tonal'
@@ -44,16 +46,16 @@ VCardText.content
                 VTextField(v-model='cleaned_amount' max-width='200' label="Amount" class='mr-3')
                 VCombobox(v-model='cleaned_amount_currency' :items='top_currencies'
                     max-width='125' label="Currency" minlength='3' maxlength='3')
-            p.
-                Regular support makes it easier for ministries to plan ahead and have
-                a stable base of funding, though one-off gifts are also appreciated.
+            p(class='mt-8').
+                Donating monthly helps fundraisers to plan ahead and have
+                a regular supply of income, though one-off gifts are also appreciated.
 
         VWindowItem(value='contact')
             VTextField(v-model='entered_name' :rules='[check_name]'
                 :label='"Name" + (contact_required ? "" : " (optional)")')
             VTextField(v-model.trim='entered_email' :rules='[check_email]'
                 :label='"Email address" + (contact_required ? "" : " (optional)")')
-            div(class='mt-4') {{ contact_explanation }}
+            div(class='mt-8') {{ contact_explanation }}
 
         VWindowItem(value='pay')
             template(v-if='selected_option.data.type === "transfer"')
@@ -171,7 +173,7 @@ const stripe_url = ref<string|null|false>(null)
 // The title for the current step
 const title = computed(() => {
     return {
-        option: "Which option is best?",
+        option: "Payment method",
         recurring: "Donation frequency",
         contact: "Your contact details",
         pay: "Thanks for your support!",
@@ -248,8 +250,8 @@ const cleaned_amount_currency = computed({
     get(){
         return entered_amount_currency.value.toUpperCase()
     },
-    set(value:string){
-        entered_amount_currency.value = value.toLowerCase()
+    set(value:string|null){  // WARN Vuetify gives null for empty string
+        entered_amount_currency.value = value?.toLowerCase() || ''
     },
 })
 
