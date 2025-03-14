@@ -9,9 +9,7 @@ div
     GO(href='https://gracious.tech')
         img.gt(src='@/assets/gracious_tech.jpg')
 
-h2 Support
-
-div
+div(class='mt-4')
     VBtn(href='https://gracious.tech/contact' target='_blank' color='secondary') Contact Us
 
 //- h2 Backstory
