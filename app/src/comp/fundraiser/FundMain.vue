@@ -11,15 +11,15 @@ div.fund
         div(v-html='fund.intro')
 
     div.activities
-        VTooltip(v-for='activity of fund.activities' :key='activity.id'
-                :text='selected_activity === activity.id ? "✕" : "Give in appreciation of this"' location='bottom right')
+        VTooltip(v-for='activity of fund.activities' :key='activity.id' location='bottom right'
+                :text='selected_activity === activity.id ? "✕" : "Give in appreciation of this"')
             template(#activator='{props}')
                 FundActivity(v-bind='props'
                     :activity='activity' :class='{selected: selected_activity === activity.id}'
                     @click='support_activity(activity.id)')
 
     FundPray
-    FundDonate(:activity='selected_activity' @show='show_donation_dialog = true'
+    FundDonate(:activity='selected_activity' @show='donate'
         @noactivity='selected_activity = null')
 
 div.extra
@@ -27,12 +27,12 @@ div.extra
     template(v-if='fund.resources.length')
         h3 Resources Produced
         div.resources
-            FundResource(v-for='resource of fund.resources' :resource='resource')
+            FundResource(v-for='resource of fund.resources' :key='resource.id' :resource='resource')
 
     template(v-if='fund.quotes.length')
         h3 Feedback received
         div.quotes
-            FundQuote(v-for='quote of fund.quotes' :quote='quote')
+            FundQuote(v-for='quote of fund.quotes' :key='quote.id' :quote='quote')
 
     template(v-if='fund.milestones.length')
         h3 Milestones
@@ -41,9 +41,9 @@ div.extra
     h3 Stewarding
     FundSteward
 
-DialogDonate(v-model='show_donation_dialog')
+DialogDonate(v-model='show_donation_dialog' :activity='selected_activity')
 
-VBtn.donate(@click='show_donation_dialog = true' :size='donate_btn_size' color='secondary') Donate
+VBtn.donate(@click='donate' :size='donate_btn_size' color='secondary') Donate
 
 </template>
 
@@ -79,6 +79,14 @@ const support_activity = (id:string) => {
 const donate_btn_size = computed(() => {
     return display.mdAndUp.value ? "large" : "small"
 })
+
+const donate = () => {
+    if (props.fund.payment.third_party){
+        self.open(props.fund.payment.third_party, '_blank')
+    } else {
+        show_donation_dialog.value = true
+    }
+}
 
 </script>
 
@@ -136,15 +144,15 @@ h3
 
 .resources
     display: grid
-    grid-gap: 24px
+    gap: 24px
     grid-template-columns: 1fr 1fr 1fr
     @media (max-width: 860px)
-        grid-gap: 12px
+        gap: 12px
         grid-template-columns: 1fr 1fr
 
 .quotes
     display: grid
-    grid-gap: 36px
+    gap: 36px
     grid-template-columns: 1fr 1fr
     @media (max-width: 800px)
         grid-template-columns: 1fr
