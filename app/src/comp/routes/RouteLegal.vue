@@ -106,9 +106,9 @@ p In most cases registration will be complicated and require you to setup struct
 
 h2 United States
 
-VBtn(href='https://www.irs.gov/newsroom/money-received-through-crowdfunding-may-be-taxable-taxpayers-should-understand-their-obligations-and-the-benefits-of-good-recordkeeping' target='_blank') Tax Obligations
+VBtn(href='https://www.irs.gov/newsroom/money-received-through-crowdfunding-may-be-taxable-taxpayers-should-understand-their-obligations-and-the-benefits-of-good-recordkeeping' target='_blank' color='secondary' class='mr-4') Tax Obligations
 
-VBtn(href='https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/charitable-solicitation-registration' target='_blank') Fundraising Regulations
+VBtn(href='https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/charitable-solicitation-registration' target='_blank' color='secondary') Fundraising Regulations
 
 
 
