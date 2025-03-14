@@ -4,7 +4,8 @@ import {readFileSync} from 'node:fs'
 
 import pug from 'pug'
 import * as sass from 'sass'
-import {Plugin, ResolvedConfig} from 'vite'
+
+import type {Plugin, ResolvedConfig} from 'vite'
 
 
 export default function(template_path:string):Plugin{
@@ -44,15 +45,9 @@ export default function(template_path:string):Plugin{
                         sass: (text:string, options:Record<string, unknown>) => {
                             // Render sass blocks
                             delete options['filename']  // Don't include pug-specific config
-                            return sass.renderSync({
-                                data: text,
-                                indentedSyntax: true,
-                                outputStyle: config.isProduction ? 'compressed' : 'expanded',
-                                indentWidth: 4,
-                                // NOTE Below can't be `true` so give a filename
-                                sourceMap: config.isProduction ? false : 'index_sass.map',
-                                sourceMapEmbed: true,
-                                sourceMapContents: true,
+                            return sass.compileString(text, {
+                                syntax: 'indented',
+                                style: config.isProduction ? 'compressed' : 'expanded',
                                 ...options,
                             }).css.toString()
                         },
