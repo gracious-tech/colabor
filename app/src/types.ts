@@ -91,7 +91,7 @@ export interface PaymentOptionTransfer {
     bank_code:string
     swift:string
     payid:null|{type:'email'|'phone'|'abn', value:string}
-    other:string
+    other:string  // Suggested text: "Please put your name as the reference"
 }
 
 export interface PaymentOptionStripe {
