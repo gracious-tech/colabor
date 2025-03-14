@@ -17,8 +17,15 @@ div.steward
         FundStewardPolicy(title="Beliefs faithful to Scripture" explain="Those fundraising affirm the Apostles' Creed, the Trinity, and the authority of Scripture.")
 
 div(class='text-center')
-    div.explain {{ fund.steward.goal_explain }}
-    p Donations go directly to fundraisers. You should only donate if you trust the organisers of this fundraiser.
+    div(class='explain') {{ fund.steward.goal_explain }}
+    div(class='explain')
+        template(v-if='fund.payment.tax_deductible')
+            | Donations are tax-deductible in {{ fund.payment.tax_deductible }}.
+        template(v-else)
+            | Donations are #[strong not] tax-deductible.
+    p(class='mt-12').
+        Donations go directly to fundraisers.
+        You should only donate if you trust the organisers of this fundraiser.
     VBtn(variant='outlined' color='' href='/official' target='_blank') Learn more
 
 </template>
@@ -57,7 +64,8 @@ const explain_towards = computed(() => {
 })
 
 const explain_goal = computed(() => {
-    return "When this goal is reached the fundraiser will either cease seeking new donors or will clarify the next goal's amount and purpose."
+    return `When this goal is reached the fundraiser will either cease seeking new donors
+        or will clarify the next goal's amount and purpose.`
 })
 
 const value_goal = computed(() => {
@@ -109,7 +117,6 @@ const value_goal = computed(() => {
     font-weight: 300
     font-size: 0.9em
     margin-top: 12px
-    margin-bottom: 36px
 
 
 </style>
