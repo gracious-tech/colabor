@@ -3,7 +3,7 @@
 
 VCardTitle(class='d-flex align-center pa-2')
     div(class='text-center flex-grow-1 pl-12') {{ title }}
-    VBtn(@click='$emit("close")' icon variant='text' color='')
+    VBtn(@click='$emit("close")' icon variant='text' color='' class='align-self-start')
         AppIcon(name='close')
 
 VCardText.content
@@ -16,7 +16,7 @@ VCardText.content
             p The following steps help to avoid transaction fees from banks as well.
 
         VWindowItem(value='option')
-            VRadioGroup(v-model='selected_currency' inline)
+            VRadioGroup(v-model='selected_currency' inline class='mb-4')
                 VRadio(v-for='currency of currencies' :key='currency' :value='currency'
                     :label='currency.toUpperCase()')
                 VRadio(value='other' label="Other")
