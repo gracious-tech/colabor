@@ -13,7 +13,11 @@ VCardText.content
             p(class='text-h6').
                 This is a free platform,
                 so 100% of your donation will go to the fundraiser 🎉
-            p The following steps help to avoid transaction fees from banks as well.
+            p(v-if='options.length > 1')
+                | The following steps help to avoid transaction fees from banks as well.
+            template(v-else)
+                h6(class='text-subtitle-1 font-weight-bold mt-8') Supported payment method
+                p(class='text-subtitle-1 mt-1') {{ options[0]?.title }}
 
         VWindowItem(value='option')
             template(v-if='currencies.length')
