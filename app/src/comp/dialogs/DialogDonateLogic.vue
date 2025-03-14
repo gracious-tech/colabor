@@ -1,115 +1,113 @@
 
 <template lang='pug'>
 
-VDialog(v-model='show' persistent max-width='600' class='text-center'
-        :fullscreen='$vuetify.display.smAndDown' scrollable)
-    VCard
-        VCardTitle(class='d-flex align-center pa-2')
-            div(class='text-center flex-grow-1 pl-12') {{ title }}
-            VBtn(@click='show = false' icon variant='text' color='')
-                AppIcon(name='close')
-        VCardText.content
-            VWindow(v-model='step')
+VCardTitle(class='d-flex align-center pa-2')
+    div(class='text-center flex-grow-1 pl-12') {{ title }}
+    VBtn(@click='show = false' icon variant='text' color='')
+        AppIcon(name='close')
 
-                VWindowItem(value='intro')
-                    p(class='text-h6').
-                        This is a free platform,
-                        so 100% of your donation will go to the fundraiser 🎉
-                    p The following steps help to avoid transaction fees from banks as well.
+VCardText.content
+    VWindow(v-model='step')
 
-                VWindowItem(value='option')
-                    VRadioGroup(v-model='selected_currency' inline)
-                        VRadio(v-for='currency of currencies' :key='currency' :value='currency'
-                            :label='currency.toUpperCase()')
-                        VRadio(value='other' label="Other")
-                    div.options(v-if='currencies.length && selected_currency')
-                        TransitionGroup(name='options' )
-                            VCard.option(v-for='option of displayed_options' :key='option.data.id'
-                                    @click='select_option(option.data.id)'
-                                    color='surface-variant' variant='tonal'
-                                    :class='{selected: selected_option_id === option.data.id}')
-                                VCardTitle
-                                    AppIcon(:name='option.icon')
-                                    | {{ option.title }}
-                                VCardText
-                                    | {{ option.desc }}
-                                    div.recommend(v-if='option.recommended')
-                                        AppIcon(name='thumb_up')
-                                        | Recommended
+        VWindowItem(value='intro')
+            p(class='text-h6').
+                This is a free platform,
+                so 100% of your donation will go to the fundraiser 🎉
+            p The following steps help to avoid transaction fees from banks as well.
 
-                VWindowItem(value='recurring')
-                    VRadioGroup(v-model='selected_recurring' inline)
-                        VRadio(value='single' label="One-off")
-                        VRadio(value='month' label="Monthly")
-                    div.amount(v-if='selected_option.data.type === "stripe"'
-                            class='d-flex align-center justify-center')
-                        VTextField(v-model='cleaned_amount' max-width='200' label="Amount"
-                            class='mr-3')
-                        VCombobox(v-model='cleaned_amount_currency' :items='top_currencies'
-                            max-width='125' label="Currency" minlength='3' maxlength='3')
-                    p.
-                        Regular support makes it easier for ministries to plan ahead and have
-                        a stable base of funding, though one-off gifts are also appreciated.
+        VWindowItem(value='option')
+            VRadioGroup(v-model='selected_currency' inline)
+                VRadio(v-for='currency of currencies' :key='currency' :value='currency'
+                    :label='currency.toUpperCase()')
+                VRadio(value='other' label="Other")
+            div.options(v-if='currencies.length && selected_currency')
+                TransitionGroup(name='options' )
+                    VCard.option(v-for='option of displayed_options' :key='option.data.id'
+                            @click='select_option(option.data.id)'
+                            color='surface-variant' variant='tonal'
+                            :class='{selected: selected_option_id === option.data.id}')
+                        VCardTitle
+                            AppIcon(:name='option.icon')
+                            | {{ option.title }}
+                        VCardText
+                            | {{ option.desc }}
+                            div.recommend(v-if='option.recommended')
+                                AppIcon(name='thumb_up')
+                                | Recommended
 
-                VWindowItem(value='contact')
-                    VTextField(v-model='entered_name' :rules='[check_name]'
-                        :label='"Name" + (contact_required ? "" : " (optional)")')
-                    VTextField(v-model.trim='entered_email' :rules='[check_email]'
-                        :label='"Email address" + (contact_required ? "" : " (optional)")')
-                    div(class='mt-4') {{ contact_explanation }}
+        VWindowItem(value='recurring')
+            VRadioGroup(v-model='selected_recurring' inline)
+                VRadio(value='single' label="One-off")
+                VRadio(value='month' label="Monthly")
+            div.amount(v-if='selected_option.data.type === "stripe"'
+                    class='d-flex align-center justify-center')
+                VTextField(v-model='cleaned_amount' max-width='200' label="Amount"
+                    class='mr-3')
+                VCombobox(v-model='cleaned_amount_currency' :items='top_currencies'
+                    max-width='125' label="Currency" minlength='3' maxlength='3')
+            p.
+                Regular support makes it easier for ministries to plan ahead and have
+                a stable base of funding, though one-off gifts are also appreciated.
 
-                VWindowItem(value='pay')
-                    template(v-if='selected_option.data.type === "transfer"')
-                        p Please send your donation to:
-                        div.payid(v-if='selected_option.data.payid')
-                            div.addr
-                                img(src='@/assets/payid.svg')
-                                VTextField(:value='selected_option.data.payid.value'
-                                    :label='selected_option.data.payid.type' readonly
-                                    variant='outlined' active bg-color='#dff0ff')
-                            div.or &mdash; OR &mdash;
-                        div.transfer
-                            div Account name
-                            input(:value='selected_option.data.name' readonly)
-                            div Account number
-                            input(:value='selected_option.data.account' readonly)
-                            div {{ bank_code_label(selected_option.data.currency) }}
-                            input(:value='selected_option.data.bank_code' readonly)
-                            template(v-if='selected_option.data.swift')
-                                div SWIFT
-                                input(:value='selected_option.data.swift' readonly)
-                    div(v-else-if='selected_type === "stripe"')
-                        template(v-if='stripe_url === null')
-                            div(class='mb-4 font-italic') Connecting to payment platform...
-                            VProgressCircular(indeterminate color='secondary')
-                        VBtn(v-else-if='stripe_url' color='secondary' :href='stripe_url'
-                                target='_blank')
-                            template(#prepend)
-                                AppIcon(name='credit_card')
-                            | Give by card
-                    div(v-else-if='selected_type === "contact" && !need_email_fallback')
-                        | The fundraiser will contact you about alternate payment options.
-                    div(v-else-if='selected_option.data.type === "custom"')
-                        //- TODO
-                    div(v-if='need_email_fallback')
-                        p.
-                            Sorry, the message couldn't be sent for some reason.
-                            Please email the fundraiser directly instead:
-                        div
-                            a(:href='`mailto:${fund.contact.email}`' class='text-h6')
-                                | {{ fund.contact.email }}
+        VWindowItem(value='contact')
+            VTextField(v-model='entered_name' :rules='[check_name]'
+                :label='"Name" + (contact_required ? "" : " (optional)")')
+            VTextField(v-model.trim='entered_email' :rules='[check_email]'
+                :label='"Email address" + (contact_required ? "" : " (optional)")')
+            div(class='mt-4') {{ contact_explanation }}
 
-        VCardActions(class='pa-4')
-            VBtn(v-if='step !== "intro"' @click='move(-1)' color='' variant='tonal' class='pr-4')
-                template(#prepend)
-                    AppIcon(name='arrow_back')
-                | {{ step === 'pay' ? "Modify" : "Prev" }}
-            VSpacer
-            VBtn(v-if='step !== "pay"' @click='move(1)' :disabled='next_disabled' color='secondary'
-                    variant='elevated' class='pl-4')
-                | {{ step === 'contact' ? "Confirm" : "Next" }}
-                template(#append)
-                    AppIcon(name='arrow_forward')
+        VWindowItem(value='pay')
+            template(v-if='selected_option.data.type === "transfer"')
+                p Please send your donation to:
+                div.payid(v-if='selected_option.data.payid')
+                    div.addr
+                        img(src='@/assets/payid.svg')
+                        VTextField(:value='selected_option.data.payid.value'
+                            :label='selected_option.data.payid.type' readonly
+                            variant='outlined' active bg-color='#dff0ff')
+                    div.or &mdash; OR &mdash;
+                div.transfer
+                    div Account name
+                    input(:value='selected_option.data.name' readonly)
+                    div Account number
+                    input(:value='selected_option.data.account' readonly)
+                    div {{ bank_code_label(selected_option.data.currency) }}
+                    input(:value='selected_option.data.bank_code' readonly)
+                    template(v-if='selected_option.data.swift')
+                        div SWIFT
+                        input(:value='selected_option.data.swift' readonly)
+            div(v-else-if='selected_type === "stripe"')
+                template(v-if='stripe_url === null')
+                    div(class='mb-4 font-italic') Connecting to payment platform...
+                    VProgressCircular(indeterminate color='secondary')
+                VBtn(v-else-if='stripe_url' color='secondary' :href='stripe_url'
+                        target='_blank')
+                    template(#prepend)
+                        AppIcon(name='credit_card')
+                    | Give by card
+            div(v-else-if='selected_type === "contact" && !need_email_fallback')
+                | The fundraiser will contact you about alternate payment options.
+            div(v-else-if='selected_option.data.type === "custom"')
+                //- TODO
+            div(v-if='need_email_fallback')
+                p.
+                    Sorry, the message couldn't be sent for some reason.
+                    Please email the fundraiser directly instead:
+                div
+                    a(:href='`mailto:${fund.contact.email}`' class='text-h6')
+                        | {{ fund.contact.email }}
+
+VCardActions(class='pa-4')
+    VBtn(v-if='step !== "intro"' @click='move(-1)' color='' variant='tonal' class='pr-4')
+        template(#prepend)
+            AppIcon(name='arrow_back')
+        | {{ step === 'pay' ? "Modify" : "Prev" }}
+    VSpacer
+    VBtn(v-if='step !== "pay"' @click='move(1)' :disabled='next_disabled' color='secondary'
+            variant='elevated' class='pl-4')
+        | {{ step === 'contact' ? "Confirm" : "Next" }}
+        template(#append)
+            AppIcon(name='arrow_forward')
 
 
 </template>
