@@ -3,7 +3,7 @@
 
 VCardTitle(class='d-flex align-center pa-2')
     div(class='text-center flex-grow-1 pl-12') {{ title }}
-    VBtn(@click='show = false' icon variant='text' color='')
+    VBtn(@click='$emit("close")' icon variant='text' color='')
         AppIcon(name='close')
 
 VCardText.content
@@ -148,8 +148,8 @@ const top_currencies = [
 ].sort()
 
 
-const show = defineModel<boolean>({required: true})
 const props = defineProps<{activity:string|null}>()
+defineEmits(['close'])
 
 const fund = inject('fund') as Fundraiser
 
