@@ -18,7 +18,7 @@ div.steward
 
 div(class='text-center')
     div(class='explain') {{ fund.steward.goal_explain }}
-    div(class='explain') {{ get_tax_notice(fund.payment.tax_deductible) }}
+    div(class='explain') {{ get_tax_notice(fund.steward.tax_deductible) }}
     p(class='mt-12') {{ disclaimer }}
     VBtn(variant='outlined' color='' href='/official' target='_blank') Learn more
 
