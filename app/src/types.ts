@@ -57,6 +57,7 @@ export interface FundraiserActivity {
 }
 
 export interface SubscribeButton {
+    id:string
     label:string
     icon:string|null
     url:string

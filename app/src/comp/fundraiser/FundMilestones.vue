@@ -27,7 +27,7 @@ const fund = inject('fund') as Fundraiser
 
 const milestones = computed(() => {
     let upcoming = true
-    return fund.milestones.map(ms => {
+    return fund.content.milestones.map(ms => {
         if (ms.date){
             upcoming = false  // Can't be upcoming once first item with date reached
         }

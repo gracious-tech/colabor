@@ -5,8 +5,8 @@
 div.pray
     h3 Pray
     div
-        v-btn(v-for='button of fund.subscribe' variant='tonal' color='' :href='button.url'
-                target='_blank' size='large')
+        v-btn(v-for='button of fund.content.subscribe' :key='button.id' variant='tonal' color=''
+                :href='button.url' target='_blank' size='large')
             template(v-if='button.icon' #prepend)
                 AppIcon(:name='get_icon_name(button.icon)')
             | {{ button.label }}
