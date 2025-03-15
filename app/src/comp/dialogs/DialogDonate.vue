@@ -11,12 +11,30 @@ VDialog(v-model='show' persistent max-width='600' class='text-center'
 
 <script lang='ts' setup>
 
+import {watch} from 'vue'
+
 import DialogDonateLogic from './DialogDonateLogic.vue'
 
 
 const show = defineModel<boolean>({required: true})
 defineProps<{activity:string|null}>()
 
+
+watch(show, () => {
+    if (show.value){
+        // Showing dialog so push state
+        self.history.pushState({DialogDonate: true}, '')
+    } else if ((self.history.state as Record<string, unknown>)['DialogDonate']){
+        // Closing dialog so remove state, but not if already removed by back button
+        // WARN Otherwise this would result in a double back
+        self.history.back()
+    }
+})
+
+self.addEventListener('popstate', () => {
+    // Close dialog whenever going back, regardless of route
+    show.value = false
+})
 
 </script>
 
