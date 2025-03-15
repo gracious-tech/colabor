@@ -79,7 +79,7 @@ const support_activity = (id:string) => {
 }
 
 const donate_btn_size = computed(() => {
-    return display.mdAndUp.value ? "large" : "small"
+    return display.mdAndUp.value ? "large" : "default"
 })
 
 const donate = () => {

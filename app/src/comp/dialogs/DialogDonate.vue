@@ -31,4 +31,14 @@ defineProps<{activity:string|null}>()
     & > :deep(.v-card-title > div)
         margin-top: 60px !important
 
+// Move buttons up to end of content when fullscreen so user can navigate with fingers near top
+// But still pushes buttons down when content fills page
+.v-dialog--fullscreen .dialog-card
+    & > :deep(.v-card-text)
+        height: auto
+        flex-grow: 0
+    & > :deep(.v-card-actions)
+        flex-grow: 1
+        align-items: flex-start
+
 </style>

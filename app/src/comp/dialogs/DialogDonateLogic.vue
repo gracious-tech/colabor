@@ -664,7 +664,7 @@ h2
 
 
 .actions
-    border-top: 1px solid #ddd
+    border-top: 1px solid #eee
 
 
 </style>
