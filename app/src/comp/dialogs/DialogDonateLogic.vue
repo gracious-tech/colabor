@@ -111,7 +111,7 @@ VCardText.content
                         | {{ fund.contact.email }}
             div(class='mt-16 text-left text-body-2')
                 div(class='mb-4') #[strong Please note:] {{ disclaimer }}
-                div {{ get_tax_notice(fund.payment.tax_deductible) }}
+                div {{ get_tax_notice(fund.steward.tax_deductible) }}
 
 VCardActions.actions(class='pa-4')
     VBtn(v-if='step !== "intro"' @click='move(-1)' color='' variant='tonal' class='pr-4')
@@ -445,7 +445,7 @@ const pledge = computed(() => {
         email: entered_email.value,
         name: entered_name.value,
         means: selected_option.value.title ?? "Unknown",
-        appreciate: fund.activities.find(a => a.id === props.activity)?.title ?? null,
+        appreciate: fund.content.activities.find(a => a.id === props.activity)?.title ?? null,
     } as Pledge
 })
 

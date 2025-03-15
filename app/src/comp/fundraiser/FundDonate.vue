@@ -39,7 +39,8 @@ const fund = inject('fund') as Fundraiser
 
 const subheading = computed(() => {
     if (props.activity){
-        return "In appreciation of: " + fund.activities.filter(a => a.id === props.activity)[0]!.title
+        return "In appreciation of: "
+            + fund.content.activities.filter(a => a.id === props.activity)[0]!.title
     }
     return fund.name
 })
