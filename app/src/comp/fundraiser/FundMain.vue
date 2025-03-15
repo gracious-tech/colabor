@@ -7,11 +7,12 @@ div.fund
         img(:src='`${fund.url}/profile.jpg`')
     div.text
         h1 {{ fund.name }}
-        h2 {{ fund.subheading }}
-        div(v-html='fund.intro')
+        h2 {{ fund.content.subheading }}
+        div(v-html='fund.content.intro')
 
     div.activities
-        VTooltip(v-for='activity of fund.activities' :key='activity.id' location='bottom right'
+        VTooltip(v-for='activity of fund.content.activities' :key='activity.id'
+                location='bottom right'
                 :text='selected_activity === activity.id ? "✕" : "Give in appreciation of this"')
             template(#activator='{props}')
                 FundActivity(v-bind='props'
@@ -24,17 +25,18 @@ div.fund
 
 div.extra
 
-    template(v-if='fund.resources.length')
+    template(v-if='fund.content.resources.length')
         h3 Resources produced
         div.resources
-            FundResource(v-for='resource of fund.resources' :key='resource.id' :resource='resource')
+            FundResource(v-for='resource of fund.content.resources' :key='resource.id'
+                :resource='resource')
 
-    template(v-if='fund.quotes.length')
+    template(v-if='fund.content.quotes.length')
         h3 Feedback received
         div.quotes
-            FundQuote(v-for='quote of fund.quotes' :key='quote.id' :quote='quote')
+            FundQuote(v-for='quote of fund.content.quotes' :key='quote.id' :quote='quote')
 
-    template(v-if='fund.milestones.length')
+    template(v-if='fund.content.milestones.length')
         h3 Milestones
         FundMilestones
 
