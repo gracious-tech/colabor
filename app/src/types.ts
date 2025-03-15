@@ -3,13 +3,15 @@ export interface Fundraiser {
     id:string  // Set at runtime
     url:string  // Set at runtime
     name:string
-    subheading:string
-    intro:string
-    activities:FundraiserActivity[]
-    subscribe:SubscribeButton[]
-    resources:Resource[]
-    quotes:Quote[]
-    milestones:FundraiserMilestone[]
+    content:{
+        subheading:string
+        intro:string
+        activities:FundraiserActivity[]
+        subscribe:SubscribeButton[]
+        resources:Resource[]
+        quotes:Quote[]
+        milestones:FundraiserMilestone[]
+    }
     style:{
         show_profile:boolean
     }
@@ -20,8 +22,6 @@ export interface Fundraiser {
         allow_recurring:boolean  // May want to only raise money for short time, so no recurring
         allow_anonymous:boolean  // Some countries may forbid
         allow_other:boolean  // Whether to show other/"contact us" option
-        manage_recurring:string  // E.g. Stripe URL
-        tax_deductible:string  // Should be a country code/name
     }
     steward:{
         organiser_type:'individual'|'organisation'
@@ -36,6 +36,8 @@ export interface Fundraiser {
         progress_total:number
         progress_type:'%'|'days'|'money'
         ends:string|boolean  // Date to auto-end, true if ends when goal reached, false for ongoing
+        tax_deductible:string  // Should be a country code/name
+        manage_recurring:string  // E.g. Stripe URL
     }
     contact:{
         email:string  // Required
@@ -56,7 +58,7 @@ export interface FundraiserActivity {
 
 export interface SubscribeButton {
     label:string
-    icon:'email'|'facebook'|null
+    icon:string|null
     url:string
 }
 
