@@ -113,13 +113,13 @@ const donate = () => {
 
 .header
     width: 100%
-    height: 30vh
-    max-height: 300px
+    aspect-ratio: 800 / 300
     object-fit: cover
     clip-path: polygon(0 0, 100% 0, 100% 80%, 75% 90%, 25% 90%, 0 100%)
 
 .profile
-    margin-top: -100px
+    position: relative
+    margin-top: -140px
     text-align: center
 
     img
@@ -128,6 +128,13 @@ const donate = () => {
         border-radius: 50%
         object-fit: cover
         border: 4px solid white
+
+    @media (max-width: 600px)
+        margin-top: -90px
+        img
+            width: 140px
+            height: 140px
+
 
 .text
     margin: 0 var(--gutter)
