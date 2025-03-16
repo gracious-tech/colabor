@@ -30,8 +30,7 @@ VCardText.content
                 TransitionGroup(name='options' appear)
                     VCard.option(v-for='option of displayed_options' :key='option.data.id'
                             @click='select_option(option.data.id)'
-                            color='surface-variant' variant='tonal'
-                            :class='{selected: selected_option_id === option.data.id}')
+                            color='surface-variant' variant='tonal' :class='option.classes')
                         VCardTitle
                             AppIcon(:name='option.icon')
                             | {{ option.title }}
@@ -308,6 +307,7 @@ interface PaymentOptionUI {
     desc:string
     international:boolean
     recommended:boolean
+    classes:string[]
 }
 
 
@@ -336,6 +336,7 @@ const options = computed(() => {
                     : "Suitable for one-off large donations when transferring internationally.",
                 international: !!option.swift,
                 recommended,
+                classes: [],
             })
         } else if (option.type === 'stripe'){
             items.push(({
@@ -351,6 +352,7 @@ const options = computed(() => {
                     : "A convenient payment option, both domestically and internationally.",
                 international: true,
                 recommended: false,
+                classes: [],
             }))
         } else if (option.type === 'custom'){
             items.push(({
@@ -360,6 +362,7 @@ const options = computed(() => {
                 desc: option.desc,
                 international: option.international,
                 recommended: false,
+                classes: [],
             }))
         }
     }
@@ -377,12 +380,20 @@ const options = computed(() => {
                 the fundraiser will get in touch about other possibilities.`,
             international: true,
             recommended: false,
+            classes: ['type-contact'],
         })
     }
 
     // Ensure recommended option comes first
     // @ts-ignore Boolean math does work
     items.sort((a, b) => b.recommended - a.recommended)
+
+    // Add selected class
+    for (const item of items){
+        if (item.data.id === selected_option_id.value){
+            item.classes.push('selected')
+        }
+    }
 
     return items
 })
@@ -555,8 +566,13 @@ const need_email_fallback = computed(() => {
     text-align: left
 
     &.selected
-        border-color: rgb(var(--v-theme-secondary))
+        border-color: rgb(var(--v-theme-secondary)) !important
         border-style: solid
+
+    &.type-contact
+        border-color: #ccc
+        :deep(.v-card__underlay)
+            background-color: #fff
 
     &:hover
         border-color: rgb(var(--v-theme-secondary))
