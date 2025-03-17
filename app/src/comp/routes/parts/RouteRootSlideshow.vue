@@ -34,6 +34,11 @@ people = people.map(value => ({value, sort: Math.random()}))
 // Add ministry last so always ends animation on it
 people.push('ministry')
 
+
+/* Size images so that (if container width still 800px):
+    normal  16/9    400x225     800x450 (real)
+    last    32/9    800x225     1600x450 (real)
+*/
 const display_line_end = () => {
     if (!line_div.value){
         return  // Unmounted already
