@@ -16,7 +16,7 @@ div(class='mt-4')
 
 h2 Backstory
 
-p Raising support for a ministry can be challenging. Many feel like they shouldn't raise support themselves and must instead do it under an organization, even though assumptions regarding the appropriateness of that are #[GO(href='/official/compliance') often misguided]. If you choose not to join an organization, you must find ways to raise awareness of your ministry yourself. Those creating ministry resources usually make deals with commercial publishers who lock them down with #[GO(href='https://copy.church') restrictive copyright clauses] and exploit them for money.
+p Raising support for a ministry can be challenging. Many feel like they shouldn't raise support themselves and must instead do it under an organization, even though assumptions regarding the appropriateness of that are #[RouterLink(to='/official/compliance') often misguided]. If you choose not to join an organization, you must find ways to raise awareness of your ministry yourself. Those creating ministry resources usually make deals with commercial publishers who lock them down with #[GO(href='https://copy.church') restrictive copyright clauses] and exploit them for money.
 
 p Those not wanting to #[GO(href='https://sellingjesus.org') commercialize their ministry] still face the dilemma of how to fundraise independently. Many fundraising platforms exist, but most of them try to take a large cut of the donations (as much as 8%) and/or take control away from donors. They force people to donate using credit cards even though bank transfers are low in fees and allow donors full control of their own donations.
 
