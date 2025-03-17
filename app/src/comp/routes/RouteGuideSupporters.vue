@@ -12,6 +12,18 @@ p Not only were people in ministry supported, but their families were provided f
 
 p It is of course also biblical to support causes (Rom 15:25-27) rather than just people. The point is that Christians should not shy away from directly supporting those engaged in ministry and should not limit them to a single cause. Someone may be involved in a variety of different ministries, but only funding them for a particular cause can restrict the good they are able to do in other areas.
 
+VBtn(to='/official/compliance' color='secondary') Learn more about this
+
+
+h2 Is it safe to give?
+
+p Colabor is the fundraising equivalent of a website creator. We'll take down any fundraisers that don't meet our standards, but it is ultimately up to donors to decide if they trust a fundraiser or not. Since no money actually passes through Colabor, we don't have any guarantees and have no control over it. Like with any ministry that has a website, you'll want to use your own judgement:
+
+ul
+    li #[strong I personally know the fundraiser:] Then you'll be the best judge of their character and activities.
+    li #[strong I don't personally know the fundraiser:] Then you'll want to consider if you know others who do trust them, whether the fruit of their labor is publicly evident, and whether there are otherwise any red flags.
+
+p If you know of any issues with a fundraiser, please #[GO(href='https://gracious.tech/contact') contact us]. Otherwise, please do wholeheartedly support ministries you believe in.
 
 h2 Can I give towards a particular activity of a fundraiser?
 
