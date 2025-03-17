@@ -46,7 +46,10 @@ export async function get_stripe_url({id, currency, amount, recurring, email, fu
 
 
 // Save pledge data to db
-export async function save_pledge({id, ...other_props}:Pledge){
+export async function save_pledge({fundraiser, id, ...other_props}:Pledge){
     // WARN This won't throw when network issues, will submit when come online
-    await setDoc(doc(fire_db, 'pledges', id), other_props)
+    await setDoc(doc(fire_db, 'fundraisers', fundraiser, 'pledges', id), {
+        date: new Date(),
+        ...other_props,
+    })
 }

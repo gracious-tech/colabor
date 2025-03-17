@@ -22,6 +22,7 @@ const ignore_errors = [
     '@safari-extension://',
     // Waiting on https://github.com/jakearchibald/idb/issues/245
     'IDBFactory.open() called in an invalid security context',
+    'ResizeObserver',  // Often caused by third-party code and can usually be ignored
 ]
 
 
