@@ -31,8 +31,8 @@ people = people.map(value => ({value, sort: Math.random()}))
     .sort((a, b) => a.sort - b.sort)
     .map(({value}) => value)
 
-// Add ministry last so always ends animation on it
-people.push('ministry')
+// Add ministry last so always ends animation on it (different size to others)
+people.push('last')
 
 
 /* Size images so that (if container width still 800px):
