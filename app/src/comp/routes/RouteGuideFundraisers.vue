@@ -3,6 +3,29 @@
 
 h1 Guide For Fundraisers
 
+
+h2 How does Colabor compare to other fundraising platforms?
+
+p Many existing fundraising platforms take a large cut of all donations and/or take control away from donors.
+
+
+p.
+    #[strong Fee-based platforms:] The popular Patreon platform takes a minimum of 8%!
+    This doesn't include payment processing fees and currency conversion fees which can take
+    the total cost up to even 15%. So if an oversees supporter were to donate to you $1000, you could lose around $150 of that.
+
+p.
+    #[strong Donation-based platforms:] Platforms like GoFundMe charge no platform fees and prompt donors for an optional contribution to their platform instead, which defaults at a high 17.5%. So donating to the platform in addition to donating to the cause. But if you want to donate regularly (which most ministries rely on) the platform charges donors a 5% fee (not optional). The fundraiser also has to pay 2.9% in transaction fees.
+
+p.
+    #[strong No-cost platforms:] Platforms like Zeffy go even further by not charging transaction fees or recurring donation fees either (though currency conversion will still be charged by banks). Zeffy doesn't allow donors to simply do a bank transfer themselves and instead forces them to give over their account details so Zeffy can debit it. This takes control away from donors and benefits the platform and fundraiser by making it less convenient to change or cancel a recurring donation. Zeffy also doesn't allow individuals to raise money unless they form a non-profit organization.
+
+p.
+    #[strong Colabor] has zero fees, in fact no money passes through it at all. Instead, donors stay 100% in control of their own donations and fundraisers receive 100% of the donations. Any transaction or currency conversion fees are entirely in the hands of the fundraiser and/or donor, and when giving domestically via bank transfer, they'll often simply be $0!
+
+small (figures are from March 2025)
+
+
 h2 What legal obligations do I have?
 
 p We do not handle any legal or financial matters for you. You must comply with the laws of where you and your donors reside.
