@@ -7,6 +7,20 @@ h1 Guide For Fundraisers
 VAlert(color='secondary') #[strong Colabor is currently in private beta.] Once we've got it polished we'll release it for free use for any ministry that is non-profit and non-commercial. Subscribe to news from #[GO(href='https://gracious.tech/contact') Gracious Tech] to know when it'll open up. ETA is currently second-half of 2025.
 
 
+
+h2 What features does Colabor offer?
+
+p Colabor provides for fundraisers:
+
+ul
+    li A page to promote your ministry
+    li A donation form that supports bank transfers, card payments, and linking to third-party platforms
+    li A database of pledges people have made to support your ministry
+    li A means of sending people receipts for donations
+
+p More features may be added in future as well.
+
+
 h2 How does Colabor compare to other fundraising platforms?
 
 p Many existing fundraising platforms take a large cut of all donations and/or take control away from donors.
