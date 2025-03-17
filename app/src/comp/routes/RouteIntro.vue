@@ -6,14 +6,12 @@ h1 Introduction
 div.cs-neutral
     div How we stand out
     ul
+        li This platform is 100% free with no catches
         li We have no access to any money, we just help you set things up
         li Fundraisers must be non-commercial, non-profit, and authentically Christian
-        li We have a $200,000 USD/year fundraising limit
         li We encourage directly giving to individuals in ministry (see below)
 
 p Scripture says we ought to support those who minister in God’s name “so that we may be fellow workers for the truth” (3 John 1:8). This is called “colabor”, where those who fund the ministry and those who do the ministry are co-laboring together for the Lord.
-
-p In that spirit, we offer this platform free of charge to <em>support</em> the support of those furthering the Kingdom of God.
 
 h2
     em We're not your average crowdfunding platform…
@@ -43,7 +41,7 @@ div.cs-positive
 
 h2 2. Non-profit #[span.np (whether an individual or organization)]
 
-p We only allow fundraisers where there is a real need for funding; where money does not excessively accumulate or go towards things that are not ministry. Our definition is different to that of "non-profit" organizations in that we also consider high salaries and large savings as a form of profit. We do not allow anyone to raise more than $200,000 USD/year and they cannot fundraise if they have personal assets (aside from a single home of residence or savings for one) that exceed $500,000 USD.
+p We only allow fundraisers where there is a real need for funding; where money does not excessively accumulate or go towards things that are not ministry. Our definition is different to that of "non-profit" organizations in that we also consider high salaries and large savings as a form of profit. We do not allow anyone to fundraise if their personal income is more than $200,000 USD/year or if they have personal assets (aside from a single home of residence or savings for one) that exceed $500,000 USD.
 
 div.cs-negative
     div
