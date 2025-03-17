@@ -28,12 +28,11 @@ div.features
 
 div.cont(class='text-center')
 
-    h2(class='my-10') Example Fundraisers
+    h2(class='my-10') What does a fundraiser look like?
+    p You can check out our own:
     div.examples
-        FundButton(id='example-people' name="Jordan & Sarah"
-            subheading="Writing and illustrating Bible stories for kids" newtab)
-        FundButton(id='example-cause' name="Reaching Refugees"
-            subheading="Showing God's love to the neediest in Green Hills" newtab)
+        FundButton(id='gracious.tech' name="Gracious Tech"
+            subheading="Creating missional apps like this one!" newtab)
 
     div(class='my-16')
         VBtn(color='secondary' to='/official' size='large') Learn More
