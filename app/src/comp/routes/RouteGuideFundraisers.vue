@@ -8,6 +8,13 @@ VAlert(color='secondary') #[strong Colabor is currently in private beta.] Once w
 
 
 
+h2 What does a fundraiser look like?
+p You can check out our own:
+FundButton(id='gracious.tech' name="Gracious Tech"
+    subheading="Creating missional apps like this one!" newtab)
+
+
+
 h2 What features does Colabor offer?
 
 p Colabor provides for fundraisers:
