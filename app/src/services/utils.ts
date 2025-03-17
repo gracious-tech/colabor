@@ -94,8 +94,13 @@ export function bank_code_label(currency:string){
 }
 
 
-export const disclaimer = `Donations go directly to fundraisers and are not managed by
-    this platform. You should only donate if you trust the organizer of this fundraiser.`
+export function disclaimer(id:string){
+    if (id === 'gracious.tech'){
+        return ""
+    }
+    return `Donations go directly to fundraisers and are not managed by
+        this platform. You should only donate if you trust the organizer of this fundraiser.`
+}
 
 
 export function get_tax_notice(country:string){

@@ -109,7 +109,7 @@ VCardText.content
                     a(:href='`mailto:${fund.contact.email}`' class='text-h6')
                         | {{ fund.contact.email }}
             div(class='mt-16 text-left text-body-2')
-                div(class='mb-4') #[strong Please note:] {{ disclaimer }}
+                div(class='mb-4') #[strong Please note:] {{ disclaimer(fund.id) }}
                 div {{ get_tax_notice(fund.steward.tax_deductible) }}
 
 VCardActions.actions(class='pa-4')
