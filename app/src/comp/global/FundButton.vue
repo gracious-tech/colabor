@@ -59,6 +59,7 @@ const click = () => {
     .text
         padding: 12px
         background-color: rgb(var(--v-theme-primary))
+        width: 100%
 
         h3
             font-size: 16px
