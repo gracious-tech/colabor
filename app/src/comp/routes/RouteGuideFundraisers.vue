@@ -4,6 +4,9 @@
 h1 Guide For Fundraisers
 
 
+VAlert(color='secondary') #[strong Colabor is currently in private beta.] Once we've got it polished we'll release it for free use for any ministry that is non-profit and non-commercial. Subscribe to news from #[GO(href='https://gracious.tech/contact') Gracious Tech] to know when it'll open up. ETA is currently second-half of 2025.
+
+
 h2 How does Colabor compare to other fundraising platforms?
 
 p Many existing fundraising platforms take a large cut of all donations and/or take control away from donors.
