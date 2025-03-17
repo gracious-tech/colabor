@@ -80,7 +80,7 @@ h2 What's the best way to get funding?
 
 p There is a lot of different advice on fundraising for ministry, and not a lot of it is biblical.
 
-p A reality check: If you are a poor believer in an impoverished country, what do you think your chances are in raising funds? And if you don't raise enough funds, is it because Western believers are more godly than you?
+p A reality check: If you are a poor believer in an impoverished country, what do you think your chances are in raising funds? And if you don't raise enough funds, is it because Western believers are more faithful than you?
 
 p The reality is:
 
@@ -92,7 +92,7 @@ ul
     li Some ministries don't ask for money and are well funded
     li Some ministries don't ask for money and are poorly funded
 
-p This reality is articulated well in proverbs:
+p This reality is articulated well in Ecclesiastes:
 
 blockquote
     p There is a futility that is done on the earth: There are righteous men who get what the actions of the wicked deserve, and there are wicked men who get what the actions of the righteous deserve. I say that this too is futile. (Ecc 8:14)
