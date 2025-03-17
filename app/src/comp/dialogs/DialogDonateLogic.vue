@@ -85,7 +85,7 @@ VCardText.content
                     template(v-if='selected_option.data.other')
                         textarea(:value='selected_option.data.other' readonly rows='3')
             div(v-else-if='selected_type === "stripe"')
-                div(class='mb-8 text-body-2')
+                div(v-if='!need_email_fallback' class='mb-8 text-body-2')
                     | Please finish by continuing to the secure card payment platform, Stripe.
                 template(v-if='stripe_url === null')
                     div(class='mb-4 font-italic') Connecting to payment platform...
