@@ -1,5 +1,5 @@
 
-# Fund Freely Giving
+# Colabor
 
 Source code for [colabor.ing](https://colabor.ing)
 
