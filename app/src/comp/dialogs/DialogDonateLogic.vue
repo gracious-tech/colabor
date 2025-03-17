@@ -294,7 +294,7 @@ const currencies = computed(() => {
 
     // If the preferred currency exists, ensure it comes first
     const preferred = fund.payment.preferred_currency
-    let as_list = [...detected]
+    let as_list = [...detected].sort()  // Sort to ensure list doesn't jump around in UI
     if (as_list.includes(preferred)){
         as_list = [preferred, ...as_list.filter(i => i !== preferred)]
     }
