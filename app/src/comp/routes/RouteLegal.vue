@@ -3,7 +3,9 @@
 
 h1 Legal Guide
 
-p This platform makes setting up a fundraiser easy but it doesn't handle any legal or financial matters for you. You must comply with the laws of where you and your donors reside. This differs by country and can also differ by state/region. It's your responsibility to abide by all relevant laws. To make this easier we offer some non-professional guidance.
+p This platform makes setting up a fundraiser easy but it doesn't handle any legal or financial matters for you. You must comply with the laws of where you and your donors reside. This differs by country and can also differ by state/region. It's your responsibility to abide by all relevant laws.
+
+p To make this easier we offer some non-professional guidance. This guidance is aimed towards individuals rather than organizations.
 
 div.cs-negative
     div Disclaimer
