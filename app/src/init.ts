@@ -1,4 +1,8 @@
 
+// MUST come first
+import '@/services/errors.sass'
+import '@/services/errors'
+
 // Embed global styles
 import './styles.sass'
 import 'vuetify/styles'
@@ -27,10 +31,12 @@ import AppOfficial from './comp/AppOfficial.vue'
 import RouteCompliance from './comp/routes/RouteCompliance.vue'
 import RouteBitcoin from '@/comp/routes/RouteBitcoin.vue'
 import GO from './comp/global/GO.vue'
+import {vue_error_handler} from '@/services/errors'
 
 
 // Create app
 const app = createApp(AppMain)
+app.config.errorHandler = vue_error_handler
 app.component('GO', GO)
 app.component('AppIcon', AppIcon)
 app.component('FundButton', FundButton)

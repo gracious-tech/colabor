@@ -11,7 +11,7 @@ node_modules/
 
 /app/dist/
 /app/.firebase/
-/app/.env.development.local
+/app/.env.*.local
 
 # Ignore all in dev except for examples
 /app/src/public/dev/*
