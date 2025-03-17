@@ -51,6 +51,9 @@ const click = () => {
     width: 300px
     height: 100px
 
+    &:hover
+        filter: brightness(1.1)
+
     img
         width: 100px
         height: 100px
@@ -59,6 +62,7 @@ const click = () => {
     .text
         padding: 12px
         background-color: rgb(var(--v-theme-primary))
+        color: rgb(var(--v-theme-on-primary))
         width: 100%
 
         h3
