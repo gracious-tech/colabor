@@ -12,8 +12,8 @@ div.steward
             :explain='explain_goal')
 
     div.common
-        FundStewardPolicy(title="Non-commercial ministry" explain="This ministry serves people free of charge. Resources created are free of copyright and there is always a means of free access to them. Physical distribution costs may be charged but there is always a free alternative, such as digital access.")
-        FundStewardPolicy(title="Non-profit ministry" explain="They agree to redirect donations to other ministries if they exceed the income/assets caps they have stated. They also agree to carefully keep track of donations received for this purpose.")
+        FundStewardPolicy(title="Non-commercial ministry" explain="This fundraiser serves people free of charge. Any ministry resources created are free of copyright and there is always a means of free access to them. Physical distribution costs may be charged but there is always a free alternative, such as digital access.")
+        FundStewardPolicy(title="Non-profit ministry" explain="The fundraiser affirms that there is a real need for funding, that money will not excessively accumulate or go towards things that are not ministry, and any personal income will not be excessive.")
         FundStewardPolicy(title="Beliefs faithful to Scripture" explain="Those fundraising affirm the Apostles' Creed, the Trinity, and the authority of Scripture.")
 
 div(class='text-center')
