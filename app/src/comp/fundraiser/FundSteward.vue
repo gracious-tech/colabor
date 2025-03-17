@@ -48,6 +48,9 @@ const value_towards = computed(() => {
 })
 
 const explain_received = computed(() => {
+    if (fund.steward.towards === 'income'){
+        return "This is who you will be donating to."
+    }
     return "This is who stewards the donations and ensures they go towards the stated cause."
 })
 
