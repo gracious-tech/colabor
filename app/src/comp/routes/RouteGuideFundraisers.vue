@@ -54,6 +54,7 @@ h2 Why is it wrong to earn more than this platform's limits?
 p It may not be wrong. We set reasonable limits so that donors can be assured that any fundraiser on this platform is reasonably likely to be funding ministry rather than a life of leisure. There may be situations that are still reasonable but outside of our limits. We don't claim they are all wrong, we just don't permit them on our platform.
 
 
+
 h2 What's the best way to get funding?
 
 p There is a lot of different advice on fundraising for ministry, and not a lot of it is biblical.
@@ -85,9 +86,12 @@ p God does provide for his people and supply those who do his work, but there ar
 p Something we #[em can] be sure of is that God #[em will] eventually reward his servants based on what they have done. Rather than concern ourselves with how to get the level of funding we desire, we should concern ourselves with being faithful with what God #[em is] providing.
 
 
+
 //- h3 Is it safe to share my bank account number?
 
 //- p This is generally safe though might vary by country. However, it is recommended to open a new savings account to receive donations into so that transactions are easier to keep track of. This would also in turn increase your privacy by not exposing your main personal bank account number.
+
+
 
 //- h3 What type of support is there for Bitcoin donations?
 
