@@ -55,9 +55,9 @@ VCardText.content
 
         VWindowItem(value='contact')
             VTextField(v-model='entered_name' :rules='[check_name]'
-                :label='"Name" + (contact_required ? "" : " (optional)")')
+                :label='"Name" + (name_required ? "" : " (optional)")')
             VTextField(v-model.trim='entered_email' :rules='[check_email]'
-                :label='"Email address" + (contact_required ? "" : " (optional)")')
+                :label='"Email address" + (email_required ? "" : " (optional)")')
             div(class='mt-8') {{ contact_explanation }}
 
         VWindowItem(value='pay')
@@ -461,18 +461,24 @@ const pledge = computed(() => {
 })
 
 
-// Whether contact details are required or not
-// NOTE Even if Stripe will require email address, don't let that interrupt donor just yet
-const contact_required = computed(() => {
-    return !fund.payment.allow_anonymous || selected_option.value.data.type === 'contact'
+// Whether name is required or not
+const name_required = computed(() => {
+    return !fund.payment.allow_anonymous || selected_type.value === 'contact'
+})
+
+
+// Whether email is required or not
+const email_required = computed(() => {
+    // Stripe requires email anyway so may as well collect now so record even if Stripe fails
+    return name_required.value || selected_type.value === 'stripe'
 })
 
 
 // What message should be displayed under the name/email fields
 const contact_explanation = computed(() => {
-    if (selected_option.value.data.type === 'contact'){
+    if (selected_type.value === 'contact'){
         return ''  // Won't be arranging payment yet so don't talk about receipts
-    } else if (fund.payment.allow_anonymous){
+    } else if (!email_required.value){
         return `Please provide if you'd like to receive a receipt.
             However, you can remain anonymous if you prefer.`
     }
@@ -487,13 +493,13 @@ const select_option = (id:string) => {
 
 // Verify if name input is valid (doesn't need to take value to work)
 const check_name = () => {
-    return !contact_required.value || !!entered_name.value
+    return !name_required.value || !!entered_name.value
 }
 
 
 // Verify if email input is valid (doesn't need to take value to work)
 const check_email = () => {
-    if (!contact_required.value && !entered_email.value){
+    if (!email_required.value && !entered_email.value){
         return true
     }
     return /^[^\s@]+@[^\s@]+$/.test(entered_email.value)
