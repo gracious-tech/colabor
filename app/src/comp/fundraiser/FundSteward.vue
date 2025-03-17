@@ -38,10 +38,12 @@ import type {Fundraiser} from '@/types'
 const fund = inject('fund') as Fundraiser
 
 const value_towards = computed(() => {
+    const to_organiser =
+        fund.steward.organiser_type === 'individual' ? "Livelihood" : "Organization"
     return {
-        income: "Livelihood",
+        income: to_organiser,
         cause: "Cause",
-        mixed: "Livelihood & Cause",
+        mixed: to_organiser + " & Cause",
     }[fund.steward.towards]
 })
 
