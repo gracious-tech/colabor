@@ -26,7 +26,7 @@ export interface Fundraiser {
     steward:{
         organiser_type:'individual'|'organisation'
         organiser_name:string
-        towards:'income'|'cause'|'mixed'
+        towards:'income'|'cause'|'mixed'  // In case of orgs, 'income' is general giving to org
         goal:number
         goal_period:'year'|'month'|null
         goal_currency:string
