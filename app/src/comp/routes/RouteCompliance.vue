@@ -49,7 +49,7 @@ h3 Organizations ensure funds are kept track of
 
 p The most basic form of accountability is actually keeping track of how much money is coming in. Organizations usually have someone dedicated to this task, carefully keeping account of all income and expenditure.
 
-p However, there is no reason why an individual cannot do this themselves. Small ministries often have so few transactions that they can fit on a single page, so extensive accounting is not necessary. Anyone can set up a new online bank account for receiving donations within minutes, and auditing the account can be as simple as forwarding an annual bank statement to a church pastor or lay leader for a degree of accountability.
+p However, there is no reason why an individual cannot do this themselves. Small ministries often have so few transactions that they can fit them on a single page, so extensive accounting is not necessary. Anyone can set up a new online bank account for receiving donations within minutes, and auditing the account can be as simple as forwarding an annual bank statement to a church pastor or lay leader for a degree of accountability.
 
 div.cs-negative
     div Excessive accounting wastes money
@@ -64,7 +64,7 @@ p While some organizations claim that card payments are the best way to donate, 
 
 div.cs-negative
     div Inefficient means of payment
-    p Jess has been told that getting people to give regularly is the most stable way to fund a ministry and she should join an organization as they support paying by credit card. One of her supporters asks if they can just do a bank transfer. But her organization tells her the supporter might drop off if they can't secure their card details. The organization regularly loses 1-2% for each donation due to card surcharges and these costs get passed on to Jess through the membership fee she pays each year.
+    p Jess has been told that getting people to give regularly is the most stable way to fund a ministry and she should join an organization as they support paying by credit card. One of her supporters asks if they can just do a bank transfer. But her organization tells her the supporter might drop off if they can't secure their card details. The organization regularly loses 2-3% for each donation due to card surcharges and these costs get passed on to Jess through the membership fee she pays each year.
 
 h3 Organizations ensure funds are used appropriately
 
