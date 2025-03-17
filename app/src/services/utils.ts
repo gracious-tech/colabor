@@ -89,6 +89,8 @@ export function bank_code_label(currency:string){
         return "BSB"
     } else if (currency === 'usd'){
         return "Routing number"
+    } else if (currency === 'gbp'){
+        return "Sort code"
     }
     return "Bank/branch code"
 }
