@@ -66,9 +66,11 @@ VCardText.content
                 div.payid(v-if='selected_option.data.payid')
                     div.addr
                         img(src='@/assets/payid.svg')
-                        VTextField(:value='selected_option.data.payid.value'
-                            :label='selected_option.data.payid.type' readonly
-                            variant='outlined' active bg-color='#dff0ff')
+                        VTextField(:value='selected_option.data.payid.value' readonly
+                                variant='outlined' active bg-color='#dff0ff')
+                            template(v-if='selected_option.data.payid.type === "abn"'
+                                    #prepend-inner)
+                                strong ABN
                     div.or &mdash; OR &mdash;
                 div.transfer
                     div Account name
