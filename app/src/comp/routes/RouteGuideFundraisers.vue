@@ -29,12 +29,6 @@ p.
 small (figures are from March 2025)
 
 
-h2 What legal obligations do I have?
-
-p We do not handle any legal or financial matters for you. You must comply with the laws of where you and your donors reside.
-
-div
-    VBtn(to='/official/legal' color='secondary') See Legal Guide
 
 h2 Fundraiser Agreement
 
@@ -43,6 +37,16 @@ p We make all fundraisers agree to the following before they can use our platfor
 VAlert(color='#dfd' class='my-4') Please do actually read it... we've tried to keep it as simple as possible.
 
 FundraiserAgreement
+
+
+
+h2 What legal obligations do I have?
+
+p We do not handle any legal or financial matters for you. You must comply with the laws of where you and your donors reside.
+
+div
+    VBtn(to='/official/legal' color='secondary') See Legal Guide
+
 
 
 h2 Why is it wrong to earn more than this platform's limits?
