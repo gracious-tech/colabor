@@ -50,7 +50,9 @@ const open = (url:string) => {
     display: flex
     justify-content: flex-end
     align-items: center
+    gap: 24px
     @media (max-width: 860px)
+        gap: 12px
         margin: 24px 0
 
     &:nth-child(odd)
@@ -65,6 +67,7 @@ const open = (url:string) => {
         .date
             font-style: italic
             font-weight: normal
+            word-break: break-all
         .box
             border: 2px dashed #fff4
             color: #fff9
@@ -76,8 +79,8 @@ const open = (url:string) => {
         align-items: center
         text-align: center
         color: white
-        margin: 0 24px
         font-weight: bold
+        min-width: 50px
 
         .icon
             opacity: 0.2
@@ -99,9 +102,15 @@ const open = (url:string) => {
             aspect-ratio: 1 / 1
 
         .text
-            padding: 12px
+            padding: 0 12px  // Line clamp results in vertical padding
             align-self: center
             font-size: 14px
+            // Limit to 3 lines
+            overflow: hidden
+            display: -webkit-box
+            -webkit-box-orient: vertical
+            -webkit-line-clamp: 3
+            text-overflow: ellipsis
 
 
 </style>
