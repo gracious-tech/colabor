@@ -23,6 +23,7 @@ import {debounce} from '@/services/utils'
 const line_div = ref<HTMLDivElement>()
 const slideshow_div = ref<HTMLDivElement>()
 
+// WARN File names are used for text labels too
 let people = ['artists', 'designers', 'disciplers', 'filmmakers', 'missionaries', 'musicians',
     'programmers', 'teachers', 'trainers', 'writers']
 
@@ -32,7 +33,7 @@ people = people.map(value => ({value, sort: Math.random()}))
     .map(({value}) => value)
 
 // Add ministry last so always ends animation on it (different size to others)
-people.push('last')
+people.push('ministry')
 
 
 /* Size images so that (if container width still 800px):
