@@ -3,7 +3,7 @@
 
 
 div.pray
-    h3 Pray
+    h3 Learn &amp; Pray
     div
         v-btn(v-for='button of fund.content.subscribe' :key='button.id' variant='tonal' color=''
                 :href='button.url' target='_blank' size='large')
@@ -26,6 +26,7 @@ const fund = inject('fund') as Fundraiser
 
 const get_icon_name = (icon_id:string) => {
     return {
+        website: 'link',
         email: 'mail',
         facebook: 'facebook',
     }[icon_id]

@@ -27,5 +27,6 @@ export * as menu from '@material-symbols/svg-400/outlined/menu.svg?component'
 export * as mail from '@material-symbols/svg-400/outlined/mail.svg?component'
 export * as send_money from '@material-symbols/svg-400/outlined/send_money.svg?component'
 export * as thumb_up from '@material-symbols/svg-400/outlined/thumb_up.svg?component'
+export * as link from '@material-symbols/svg-400/outlined/link.svg?component'
 
 export * as facebook from '@/assets/icons/facebook.svg?component'
