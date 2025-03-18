@@ -5,6 +5,7 @@ import '@/services/errors'
 
 // Old webkit doesn't have
 import 'core-js/actual/object/has-own'
+import 'core-js/actual/array/at'
 
 // Embed global styles
 import './styles.sass'
