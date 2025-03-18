@@ -30,11 +30,13 @@ const show_explain = ref(false)
 
 .policy
     cursor: pointer
+    margin: 12px 0
 
     .state
         display: flex
         align-items: center
-        height: 45px
+        min-height: 35px
+        gap: 12px
 
         .check
             margin-right: 18px
