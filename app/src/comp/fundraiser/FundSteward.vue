@@ -31,7 +31,7 @@ div(class='text-center')
 import {inject, computed} from 'vue'
 
 import FundStewardPolicy from './FundStewardPolicy.vue'
-import {disclaimer, get_tax_notice} from '@/services/utils'
+import {currency_str, disclaimer, get_tax_notice} from '@/services/utils'
 
 import type {Fundraiser} from '@/types'
 
@@ -70,13 +70,7 @@ const explain_goal = computed(() => {
 })
 
 const value_goal = computed(() => {
-    let str = fund.steward.goal.toLocaleString(undefined, {
-        style: 'currency',
-        currencyDisplay: 'narrowSymbol',
-        currency: fund.steward.goal_currency,
-        minimumFractionDigits: 0,
-    })
-    str += ' ' + fund.steward.goal_currency.toUpperCase()
+    let str = currency_str(fund.steward.goal, fund.steward.goal_currency)
     if (fund.steward.plus_super){
         str += ' + super'
     }
