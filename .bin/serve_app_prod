@@ -1,0 +1,7 @@
+#!/bin/bash
+# Serve app from production build
+set -e
+cd "$(realpath -m "$0/../..")/app"
+
+../.bin/build_app
+node_modules/.bin/vite preview "$@"
