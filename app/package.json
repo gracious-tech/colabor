@@ -23,6 +23,7 @@
     "dependencies": {
         "@gracious.tech/fetch-enhancer": "^1.0.0",
         "@tinymce/tinymce-vue": "^6.1.0",
+        "core-js": "^3.41.0",
         "firebase": "^11.4.0",
         "lodash-es": "^4.17.21",
         "vue-router": "^4.5.0",
