@@ -3,6 +3,9 @@
 import '@/services/errors.sass'
 import '@/services/errors'
 
+// Old webkit doesn't have
+import 'core-js/actual/object/has-own'
+
 // Embed global styles
 import './styles.sass'
 import 'vuetify/styles'
