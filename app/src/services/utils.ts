@@ -73,13 +73,19 @@ export function debounce<T>(fn:T, ms=500){
     return lodash_debounce(fn, ms) as unknown as T
 }
 
+
 export function currency_str(number:number, currency:string){
-    return number.toLocaleString(undefined, {
-        style: 'currency',
-        currencyDisplay: 'narrowSymbol',
-        currency: currency,
-        minimumFractionDigits: 0,
-    }) + ' ' + currency.toUpperCase()
+    // WARN Old webkit will throw when given 'narrowSymbol' arg
+    try {
+        return number.toLocaleString(undefined, {
+            style: 'currency',
+            currencyDisplay: 'narrowSymbol',
+            currency: currency,
+            minimumFractionDigits: 0,
+        }) + ' ' + currency.toUpperCase()
+    } catch {
+        return `${number} ${currency.toUpperCase()}`
+    }
 }
 
 
