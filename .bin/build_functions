@@ -4,3 +4,6 @@ set -e
 cd "$(realpath -m "$0/../..")/functions"
 
 node_modules/.bin/tsc "$@"
+
+# Copy app's index.html since will have been wiped when rebuilding lib dir
+cp ../app/dist/index.html lib/index.html

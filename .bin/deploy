@@ -1,0 +1,17 @@
+#!/bin/bash
+# Deploy app
+set -e
+cd "$(realpath -m "$0/../..")"
+
+
+# Ensure have logged in
+node_modules/.bin/firebase login
+
+
+# Ensure deploying a fresh build
+.bin/build_app
+.bin/build_functions
+
+
+# Deploy all components
+node_modules/.bin/firebase deploy
