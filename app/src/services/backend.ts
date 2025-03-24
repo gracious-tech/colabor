@@ -28,7 +28,7 @@ if (import.meta.env.DEV){
 
 
 // Access to cloud functions
-const fire_get_stripe_url = httpsCallable(fire_functions, 'get_stripe_url')
+const fire_gen_stripe_url = httpsCallable(fire_functions, 'gen_stripe_url')
 
 
 // Get url for fundraiser data
@@ -39,8 +39,8 @@ export function data_url(fundraiser:string){
 
 
 // Get a URL for a Stripe checkout session with given settings
-export async function get_stripe_url({id, currency, amount, recurring, email, fundraiser}:Pledge){
-    const resp = await fire_get_stripe_url({id, currency, amount, recurring, email, fundraiser})
+export async function gen_stripe_url({id, currency, amount, recurring, email, fundraiser}:Pledge){
+    const resp = await fire_gen_stripe_url({id, currency, amount, recurring, email, fundraiser})
     return (resp.data as {stripe_url:string|null}).stripe_url
 }
 

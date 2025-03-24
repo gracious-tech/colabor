@@ -31,7 +31,7 @@ async function notify_fundraiser(fundraiser:string,
 
 
 // Main function
-export const get_stripe_url = onCall(async (request):Promise<{stripe_url:string|null}> => {
+export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|null}> => {
 
     // Determine origin and ensure either localhost or production site
     const domain_origin = request.rawRequest.headers.origin!

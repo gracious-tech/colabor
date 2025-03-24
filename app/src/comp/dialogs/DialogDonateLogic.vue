@@ -136,7 +136,7 @@ import {inject, computed, ref, watch} from 'vue'
 
 import {bank_code_label, currency_str, generate_token, disclaimer, get_tax_notice}
     from '@/services/utils'
-import {get_stripe_url, save_pledge, type Pledge} from '@/services/backend'
+import {gen_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 
 import type {Fundraiser, PaymentOption} from '@/types'
 
@@ -531,7 +531,7 @@ const submit = async () => {
     // Get Stripe URL if needed
     if (selected_type.value === 'stripe'){
         stripe_url.value = null
-        get_stripe_url(pledge.value).then(url => {
+        gen_stripe_url(pledge.value).then(url => {
             stripe_url.value = url === null ? false : url
         }, () => {
             stripe_url.value = false
