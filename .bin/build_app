@@ -3,4 +3,10 @@
 set -e
 cd "$(realpath -m "$0/../..")/app"
 
+# Build app
 node_modules/.bin/vite build "$@"
+
+# Copy index.html into functions dist (lib) since ogimage function requires it
+# WARN This means functions must always be deployed whenever hosting is
+#      and this is the case thanks to 'pinTag' in firebase.json
+cp dist/index.html ../functions/lib/index.html

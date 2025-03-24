@@ -19,7 +19,7 @@ export interface Pledge {
 
 // Init firebase
 const fire_app = initializeApp({projectId: 'colabor-ing'})
-const fire_functions = getFunctions(fire_app)
+const fire_functions = getFunctions(fire_app, 'us-west1')
 const fire_db = getFirestore(fire_app)
 if (import.meta.env.DEV){
     connectFirestoreEmulator(fire_db, '127.0.0.1', 8080)

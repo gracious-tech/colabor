@@ -8,6 +8,25 @@
             "**/node_modules/**"
         ],
         "rewrites": [
+            // Prevent root level pages from being passed to ogimage function
+            {
+                "source": "/",
+                "destination": "/index.html"
+            },
+            {
+                "source": "/official",
+                "destination": "/index.html"
+            },
+            // Fundraisers are only at root level; give them dynamic og:image
+            {
+                "source": "/*",
+                "function": {
+                    "functionId": "replace_ogimage",
+                    "pinTag": true,
+                    "region": "us-west1"
+                }
+            },
+            // Any nested pages are not fundraisers and don't need dynamic og:image
             {
                 "source": "**",
                 "destination": "/index.html"
