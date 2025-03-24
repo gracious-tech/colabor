@@ -14,7 +14,7 @@ const index_html = readFileSync(index_path, {encoding: 'utf8'})
 export const replace_ogimage = onRequest((request, response) => {
 
     // Identify fund id and fund's header image url
-    const fund_id = request.url.split('/').at(-1)
+    const fund_id = request.url.split('/').at(-1)!
     const img_url = `/dev/${fund_id}/header.jpg`
 
     // Replace default og:image with fund's header image
@@ -27,10 +27,17 @@ export const replace_ogimage = onRequest((request, response) => {
     // Replace meta with generic text that includes fund id
     // This is good enough for a link preview and still doesn't require a slower db request
     if (old_title){
-        resp_html = resp_html.replaceAll(old_title, `Support ${fund_id}`)
+        const fund_name = fund_id.replace(/^\./, '')  // Remove private leading period if present
+        resp_html = resp_html.replaceAll(old_title, `Support ${fund_name}`)
     }
     if (old_desc){
         resp_html = resp_html.replaceAll(old_desc, "Learn more")
+    }
+
+    // If id starts with '.' it is a private fundraiser and shouldn't be indexed
+    // NOTE This shouldn't affect og:image previews, hopefully
+    if (fund_id.startsWith('.')){
+        response.setHeader('X-Robots-Tag', 'noindex, nofollow')
     }
 
     // Send response
