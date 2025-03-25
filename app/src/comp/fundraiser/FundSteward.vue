@@ -58,9 +58,9 @@ const explain_received = computed(() => {
 const explain_towards = computed(() => {
     const personal = fund.steward.organiser_type === 'individual' ? 'personal' : ''
     return {
-        income: `Funds go directly towards the organiser's own ${personal} income rather than to a specific cause.`,
+        income: `Funds go directly towards the organizer's own ${personal} income rather than to a specific cause.`,
         cause: `Funds go solely towards the stated cause and no one draws any personal benefit from it.`,
-        mixed: `Funds go both towards the cause and also towards the organiser's own ${personal} income`,
+        mixed: `Funds go both towards the cause and also towards the organizer's own ${personal} income`,
     }[fund.steward.towards]
 })
 

@@ -72,18 +72,18 @@ div.cs-positive
 
 h2 4. Character Before Compliance
 
-p We do <span class='ul'>not</span> require fundraisers to be part of an organization. It is biblical to support individuals directly (3 John 1:8) and they may receive funds directly into their personal bank account. However, we do require basic record keeping. We encourage givers to judge the <em>character</em> of those organising fundraisers rather than accountability measures alone, so more time and funds go directly to the ministry rather than to admin.
+p We do <span class='ul'>not</span> require fundraisers to be part of an organization. It is biblical to support individuals directly (3 John 1:8) and they may receive funds directly into their personal bank account. However, we do require basic record keeping. We encourage givers to judge the <em>character</em> of those organizing fundraisers rather than accountability measures alone, so more time and funds go directly to the ministry rather than to admin.
 
 div.cs-negative
     div
     ul
         li Donations go into a personal bank account and get lost amongst the other transactions
-        li A fundraiser says donations are for helping the poor but actually personally benefit the organiser
+        li A fundraiser says donations are for helping the poor but actually personally benefit the organizer
 div.cs-positive
     div
     ul
         li Donations go into a personal bank account and are kept track of
-        li A fundraiser makes clear that donations both help the poor and supply the organiser with an income
+        li A fundraiser makes clear that donations both help the poor and supply the organizer with an income
 
 p This is not a common approach so we highly encourage you to read our explainer on the topic:
 
