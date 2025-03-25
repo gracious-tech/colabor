@@ -12,6 +12,8 @@ p Not only were people in ministry supported, but their families were provided f
 
 p It is of course also biblical to support causes (Rom 15:25-27) rather than just people. The point is that Christians should not shy away from directly supporting those engaged in ministry and should not limit them to a single cause. Someone may be involved in a variety of different ministries, but only funding them for a particular cause can restrict the good they are able to do in other areas.
 
+p Raising donations for a personal income should not warrant additional scrutiny either. Many well respected pastors sell their teaching in books with no limit on the royalties collected, and no accountability for them. So receiving donations for a reasonable income, that it capped at a certain level, and not commercial in nature, is far more appropriate than what is already accepted for most Christian leaders.
+
 VBtn(to='/official/compliance' color='secondary') Learn more about this
 
 
