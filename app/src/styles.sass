@@ -29,6 +29,9 @@ a:not(.v-theme--custom)  // Hack to exclude Vuetify components
     &:hover
         text-decoration: underline
 
+.extra a:not(.v-theme--custom)  // Text on dark bg
+    color: rgb(var(--v-theme-secondary-lighten-1))
+
 
 hr
     margin: 24px 0

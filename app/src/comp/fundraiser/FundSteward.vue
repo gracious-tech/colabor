@@ -17,7 +17,7 @@ div.steward
         FundStewardPolicy(title="Beliefs faithful to Scripture" explain="Those fundraising affirm the Apostles' Creed, the Trinity, and the authority of Scripture.")
 
 div(class='text-center')
-    div(class='explain') {{ fund.steward.goal_explain }}
+    div(class='explain' v-html='fund.steward.goal_explain')
     div(class='explain') {{ get_tax_notice(fund.steward.tax_deductible) }}
     template(v-if='disclaimer(fund.id)')
         p(class='mt-12') {{ disclaimer(fund.id) }}
@@ -110,7 +110,6 @@ const value_goal = computed(() => {
 .explain
     opacity: 0.7
     font-weight: 300
-    font-size: 0.9em
     margin-top: 12px
 
 
