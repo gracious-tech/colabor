@@ -26,6 +26,7 @@ export const replace_ogimage = onRequest((request, response) => {
 
     // Replace meta with generic text that includes fund id
     // This is good enough for a link preview and still doesn't require a slower db request
+    // It also ensures the response is completely static and can be cached until next deploy
     if (old_title){
         const fund_name = fund_id.replace(/^\./, '')  // Remove private leading period if present
         resp_html = resp_html.replaceAll(old_title, `Support ${fund_name}`)
@@ -39,6 +40,12 @@ export const replace_ogimage = onRequest((request, response) => {
     if (fund_id.startsWith('.')){
         response.setHeader('X-Robots-Tag', 'noindex, nofollow')
     }
+
+    // Enable CDN caching so this function is only called once per fund id
+    // WARN This assumes nothing above is dependent on user data
+    // Cache in browser for 5 minutes (300) so quickly refreshed if site deployed
+    // Cache in CDN for 1 year (31536000) as firebase clears cache for every deploy
+    response.set('Cache-Control', 'public, max-age=300, s-maxage=31536000')
 
     // Send response
     response.status(200).send(resp_html)
