@@ -47,6 +47,14 @@ export function generate_token(bytes=15):string{
 }
 
 
+// Get a random uppercase English letter
+export function random_letter(){
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    const i = crypto.getRandomValues(new Uint8Array(1))[0]! % letters.length
+    return letters[i]!
+}
+
+
 export function random_number(min:number, max:number):number{
     // Return a random number between min and max (inclusive)
     return (crypto.getRandomValues(new Uint32Array(1))[0]! % (max - min + 1)) + min

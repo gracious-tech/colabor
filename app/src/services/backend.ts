@@ -6,6 +6,7 @@ import {getFunctions, httpsCallable, connectFunctionsEmulator} from 'firebase/fu
 
 export interface Pledge {
     id:string
+    human_id:string
     fundraiser:string
     currency:string
     amount:number

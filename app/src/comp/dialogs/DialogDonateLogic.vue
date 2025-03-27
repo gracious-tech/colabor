@@ -71,7 +71,7 @@ VCardText.content
                             template(v-if='selected_option.data.payid.type === "abn"'
                                     #prepend-inner)
                                 strong ABN
-                    div(class='mt-4') with reference "{{ transfer_reference }}"
+                    div(class='mt-4') with reference "{{ human_id }}"
                     div.or &mdash; OR &mdash;
                 div.transfer
                     div Account name
@@ -84,7 +84,7 @@ VCardText.content
                         div SWIFT
                         input(:value='selected_option.data.swift' readonly)
                     div Reference
-                    input(:value='transfer_reference' readonly)
+                    input(:value='human_id' readonly)
                     template(v-if='selected_option.data.other')
                         textarea(:value='selected_option.data.other' readonly rows='3')
             div(v-else-if='selected_type === "stripe"')
@@ -137,8 +137,8 @@ VCardActions.actions(class='pa-4')
 
 import {inject, computed, ref, watch} from 'vue'
 
-import {bank_code_label, currency_str, generate_token, random_number, disclaimer, get_tax_notice}
-    from '@/services/utils'
+import {bank_code_label, currency_str, generate_token, random_letter, random_number, disclaimer,
+    get_tax_notice} from '@/services/utils'
 import {gen_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 
 import type {Fundraiser, PaymentOption} from '@/types'
@@ -176,7 +176,7 @@ const fund = inject('fund') as Fundraiser
 
 const step = ref<typeof steps[number]>('intro')
 const pledge_id = generate_token()
-const anon_id = 'S' + random_number(1000, 9999)  // Ensure always 4 digits
+const human_id = random_letter() + random_number(100, 999)  // Ensure always together 4 chars
 const selected_currency = ref<string|null>(null)
 const selected_option_id = ref<string|null>(null)
 const selected_recurring = ref<'single'|'month'|null>(null)
@@ -455,12 +455,13 @@ const selected_type = computed(() => {
 const pledge = computed(() => {
     return {
         id: pledge_id,
+        human_id,
         fundraiser: fund.id,
         amount: entered_amount.value,
         currency: entered_amount_currency.value,
         recurring: selected_recurring.value,
         email: entered_email.value,
-        name: entered_name.value.trim() || anon_id,
+        name: entered_name.value.trim(),
         means: selected_option.value.title ?? "Unknown",
         appreciate: fund.content.activities.find(a => a.id === props.activity)?.title ?? null,
     } as Pledge
@@ -542,18 +543,6 @@ const submit = async () => {
         })
     }
 }
-
-
-// Recommended payment reference for bank transfers
-const transfer_reference = computed(() => {
-    if (selected_type.value !== 'transfer'){
-        return ''
-    }
-    if (entered_name.value.trim()){
-        return entered_name.value.trim()
-    }
-    return anon_id
-})
 
 
 // If something failed that user needed to continue, show email address to manually contact instead
