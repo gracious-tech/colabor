@@ -47,6 +47,12 @@ export function generate_token(bytes=15):string{
 }
 
 
+export function random_number(min:number, max:number):number{
+    // Return a random number between min and max (inclusive)
+    return (crypto.getRandomValues(new Uint32Array(1))[0]! % (max - min + 1)) + min
+}
+
+
 export async function compress(buffer:ArrayBuffer):Promise<ArrayBuffer>{
     // Compress binary data using gzip
     let stream = new Blob([buffer]).stream().pipeThrough(new CompressionStream('gzip'))

@@ -71,6 +71,7 @@ VCardText.content
                             template(v-if='selected_option.data.payid.type === "abn"'
                                     #prepend-inner)
                                 strong ABN
+                    div(class='mt-4') with reference "{{ transfer_reference }}"
                     div.or &mdash; OR &mdash;
                 div.transfer
                     div Account name
@@ -82,6 +83,8 @@ VCardText.content
                     template(v-if='selected_option.data.swift')
                         div SWIFT
                         input(:value='selected_option.data.swift' readonly)
+                    div Reference
+                    input(:value='transfer_reference' readonly)
                     template(v-if='selected_option.data.other')
                         textarea(:value='selected_option.data.other' readonly rows='3')
             div(v-else-if='selected_type === "stripe"')
@@ -134,7 +137,7 @@ VCardActions.actions(class='pa-4')
 
 import {inject, computed, ref, watch} from 'vue'
 
-import {bank_code_label, currency_str, generate_token, disclaimer, get_tax_notice}
+import {bank_code_label, currency_str, generate_token, random_number, disclaimer, get_tax_notice}
     from '@/services/utils'
 import {gen_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 
@@ -173,6 +176,7 @@ const fund = inject('fund') as Fundraiser
 
 const step = ref<typeof steps[number]>('intro')
 const pledge_id = generate_token()
+const anon_id = 'S' + random_number(1000, 9999)  // Ensure always 4 digits
 const selected_currency = ref<string|null>(null)
 const selected_option_id = ref<string|null>(null)
 const selected_recurring = ref<'single'|'month'|null>(null)
@@ -277,7 +281,7 @@ const cleaned_amount_currency = computed({
         return entered_amount_currency.value.toUpperCase()
     },
     set(value:string|null){  // WARN Vuetify gives null for empty string
-        entered_amount_currency.value = value?.toLowerCase() || ''
+        entered_amount_currency.value = value?.trim().toLowerCase() || ''
     },
 })
 
@@ -456,7 +460,7 @@ const pledge = computed(() => {
         currency: entered_amount_currency.value,
         recurring: selected_recurring.value,
         email: entered_email.value,
-        name: entered_name.value,
+        name: entered_name.value.trim() || anon_id,
         means: selected_option.value.title ?? "Unknown",
         appreciate: fund.content.activities.find(a => a.id === props.activity)?.title ?? null,
     } as Pledge
@@ -538,6 +542,18 @@ const submit = async () => {
         })
     }
 }
+
+
+// Recommended payment reference for bank transfers
+const transfer_reference = computed(() => {
+    if (selected_type.value !== 'transfer'){
+        return ''
+    }
+    if (entered_name.value.trim()){
+        return entered_name.value.trim()
+    }
+    return anon_id
+})
 
 
 // If something failed that user needed to continue, show email address to manually contact instead
