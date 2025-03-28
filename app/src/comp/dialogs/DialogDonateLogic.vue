@@ -159,6 +159,12 @@ But for Stripe and bank transfer:
         Only support monthly as standard for commercial subscriptions and too frequent = more admin
     amount - Stripe requires, but also ask for transfers as helps user's decision making
     contact - grab in case issue with Stripe, as most people know they're committing before redirect
+
+Moment of commitment
+    The donor should feel 100% in control of their own commitment
+        So don't submit anything until they confirm all their details
+    Once committed, the fundraiser should be comfortable following them up
+        Since missing payment is likely to be a mistake rather than confusion regarding the pledge
 */
 
 
