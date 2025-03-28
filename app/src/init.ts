@@ -94,6 +94,9 @@ app.use(createVuetify({
         global: {
             hideDetails: true,
         },
+        VTextField: {
+            color: 'secondary',
+        },
     },
     icons: {
         aliases: {
