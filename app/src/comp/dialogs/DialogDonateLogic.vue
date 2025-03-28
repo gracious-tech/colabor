@@ -98,7 +98,8 @@ VCardText.content
                         class='mb-4')
                     VRadio(value='payid' label="PayID" class='mr-2')
                     VRadio(value='account' label="BSB/Account" class='mr-4')
-                div.payid(v-if='selected_option.data.payid && selected_payid === "payid"')
+                div.payid(v-if='selected_option.data.payid && selected_payid === "payid"'
+                        class='d-flex justify-center')
                     VTextField(:value='selected_option.data.payid.value' readonly variant='outlined'
                             active bg-color='#dff0ff' :label='selected_option.data.name')
                         template(v-if='selected_option.data.payid.type === "abn"' #prepend-inner)
@@ -123,6 +124,7 @@ VCardText.content
                     template(v-else)
                         VBtn(@click='confirm_transfer' color='secondary' variant='elevated')
                             | Get reference code
+                        div(class='mt-2 text-body-2 font-italic') for the transfer
 
             div(class='mt-16 text-left text-body-2')
                 div(class='mb-4') #[strong Please note:] {{ disclaimer(fund.id) }}
