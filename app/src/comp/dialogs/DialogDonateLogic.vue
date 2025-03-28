@@ -97,8 +97,7 @@ VCardText.content
                 VBtn(v-else-if='stripe_url' color='secondary' :href='stripe_url' target='_blank')
                     template(#prepend)
                         AppIcon(name='credit_card')
-                    | Donate {{ currency_str(entered_amount ?? 0, entered_amount_currency) }}
-                    template(v-if='selected_recurring === "month"') /month
+                    | Donate {{ commitment }}
             div(v-else-if='selected_type === "contact" && !need_email_fallback')
                 | The fundraiser will contact you about alternate payment options.
             div(v-else-if='selected_option.data.type === "custom"')
@@ -291,6 +290,16 @@ const cleaned_amount_currency = computed({
     set(value:string|null){  // WARN Vuetify gives null for empty string
         entered_amount_currency.value = value?.trim().toLowerCase() || ''
     },
+})
+
+
+// Human str version of entered amount/currency/frequency
+const commitment = computed(() => {
+    let str = currency_str(entered_amount.value ?? 0, entered_amount_currency.value)
+    if (selected_recurring.value === "month"){
+        str += '/month'
+    }
+    return str
 })
 
 
