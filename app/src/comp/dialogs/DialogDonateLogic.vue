@@ -99,14 +99,10 @@ VCardText.content
                     VRadio(value='payid' label="PayID" class='mr-2')
                     VRadio(value='account' label="BSB/Account" class='mr-4')
                 div.payid(v-if='selected_option.data.payid && selected_payid === "payid"')
-                    div.addr
-                        img(src='@/assets/payid.svg')
-                        VTextField(:value='selected_option.data.payid.value' readonly
-                                variant='outlined' active bg-color='#dff0ff'
-                                :label='selected_option.data.name')
-                            template(v-if='selected_option.data.payid.type === "abn"'
-                                    #prepend-inner)
-                                strong ABN
+                    VTextField(:value='selected_option.data.payid.value' readonly variant='outlined'
+                            active bg-color='#dff0ff' :label='selected_option.data.name')
+                        template(v-if='selected_option.data.payid.type === "abn"' #prepend-inner)
+                            strong ABN
                 div.transfer(v-else)
                     div Account name
                     input(:value='selected_option.data.name' readonly)
@@ -677,26 +673,14 @@ h2
     justify-content: space-between
 
 .payid
+    :deep(.v-text-field)
+        width: 100%
+        max-width: 320px
 
-    .addr
-        display: flex
-        justify-content: center
-        align-items: center
-        gap: 24px
-        @media (max-width: 600px)
-            flex-direction: column
-
-        img
-            width: 80px  // Original width 127px
-
-        :deep(.v-text-field)
-            width: 100%
-            max-width: 320px
-
-            input
-                text-align: center
-                font-size: 18px
-                font-family: Roboto Condensed, Roboto, sans-serif
+        input
+            text-align: center
+            font-size: 18px
+            font-family: Roboto Condensed, Roboto, sans-serif
 
 .transfer
     display: grid
