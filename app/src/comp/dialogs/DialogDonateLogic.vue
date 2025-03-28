@@ -40,18 +40,19 @@ VCardText.content
                                 AppIcon(name='thumb_up')
                                 | Recommended
 
-        VWindowItem(value='recurring')
-            VRadioGroup(v-model='selected_recurring' inline class='mb-4')
-                VRadio(value='single' label="One-off")
-                VRadio(value='month' label="Monthly")
-            div.amount(v-if='selected_option.data.type === "stripe"'
-                    class='d-flex align-center justify-center')
+        VWindowItem(value='amount')
+            VRadioGroup(v-if='fund.payment.allow_recurring' v-model='selected_recurring' inline
+                    class='mb-4')
+                VRadio(value='single' label="One-off" class='mr-2')
+                VRadio(value='month' label="Monthly" class='mr-4')
+            div.amount(class='d-flex align-center justify-center')
                 VTextField(v-model='cleaned_amount' max-width='200' label="Amount" class='mr-3')
                 VCombobox(v-model='cleaned_amount_currency' :items='top_currencies'
+                    :readonly='!selected_option.international'
                     max-width='125' label="Currency" minlength='3' maxlength='3')
             p(class='mt-8').
-                Donating monthly helps fundraisers to plan ahead and have
-                a regular supply of income, though one-off gifts are also appreciated.
+                Donating monthly helps fundraisers to plan ahead,
+                though one-off gifts are also appreciated.
 
         VWindowItem(value='contact')
             VTextField(v-model='entered_name' :rules='[check_name]'
@@ -125,7 +126,7 @@ VCardActions.actions(class='pa-4')
     VSpacer
     VBtn(v-if='step !== "pay"' @click='move(1)' :disabled='next_disabled' color='secondary'
             variant='elevated' class='pl-4')
-        | {{ step === 'contact' ? "Confirm" : "Next" }}
+        | Next
         template(#append)
             AppIcon(name='arrow_forward')
 
@@ -144,18 +145,20 @@ import {gen_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 import type {Fundraiser, PaymentOption} from '@/types'
 
 
-const steps = ['intro', 'option', 'recurring', 'contact', 'pay'] as const
-/* UX philosophy
+const steps = ['intro', 'option', 'amount', 'contact', 'pay'] as const
+/* UX philosophy: avoid unncessary steps unless they help the donor in their decision making
 
-Don't let anything interrupt the user from donating the way they want to
-    Fundraisers can bypass whole system by providing own third-party URL if desired
-    currency - only needed if affects what options are
+Custom/third-party options will probably ask all these questions again so skip all
+    and also won't know what options (like recurring frequency) will be available to them
+And 'contact' just needs contact details
+
+But for Stripe and bank transfer:
+    currency - only needed if affects what options are available
     option - only needed if multiple (but tell user means before continuing)
     recurring - ask to help donor realise recurring is most helpful
         Only support monthly as standard for commercial subscriptions and too frequent = more admin
-        (but don't ask for custom as too complex to know what options will be presented)
-    amount - only need to ask for Stripe, otherwise let donor decide when paying
-    contact - good to grab in case payment doesn't work or donor doesn't realise need for receipt
+    amount - Stripe requires, but also ask for transfers as helps user's decision making
+    contact - grab in case issue with Stripe, as most people know they're committing before redirect
 */
 
 
@@ -196,7 +199,7 @@ const stripe_url = ref<string|null|false>(null)
 const title = computed(() => {
     return {
         option: "Payment method",
-        recurring: "Donation frequency",
+        amount: "Amount",
         contact: "Your contact details",
         pay: "Thanks for your support!",
     }[step.value as string] || '\u00A0'  // nbsp to prevent height jump
@@ -215,10 +218,9 @@ const move = (increment:1|-1) => {
         return move(increment)
     }
 
-    // Skip recurring step if (1) not allowed (2) just contacting, or (3) custom option
-    if (step.value === 'recurring' &&
-            (!fund.payment.allow_recurring || ['contact', 'custom'].includes(selected_type.value))){
-        selected_recurring.value = fund.payment.allow_recurring ? null : 'single'
+    // Skip amount step if not stripe or bank transfer, as third-party will arrange
+    if (step.value === 'amount' && ['contact', 'custom'].includes(selected_type.value)){
+        selected_recurring.value = null
         entered_amount.value = null
         return move(increment)
     }
@@ -242,9 +244,8 @@ const move = (increment:1|-1) => {
 const next_disabled = computed(() => {
     if (step.value === 'option'){
         return !displayed_options.value.find(o => o.data.id === selected_option_id.value)
-    } else if (step.value === 'recurring'){
-        return !selected_recurring.value
-            || (selected_type.value === 'stripe' && !entered_amount.value)
+    } else if (step.value === 'amount'){
+        return !entered_amount.value || (fund.payment.allow_recurring && !selected_recurring.value)
     } else if (step.value === 'contact'){
         return !contact_details_valid.value
     }
@@ -255,8 +256,9 @@ const next_disabled = computed(() => {
 // SELECT CURRENCY
 
 
-// When selected currency changes, ensure the amount currency defaults to it
-watch(selected_currency, () => {
+// When selected currency/option changes, ensure the amount currency defaults to it
+// WARN Need to reset for option change too in case previous option allowed international
+watch([selected_currency, selected_option_id], () => {
     if (selected_currency.value && selected_currency.value !== 'other'){
         entered_amount_currency.value = selected_currency.value
     }
