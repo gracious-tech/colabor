@@ -563,11 +563,6 @@ const need_email_fallback = computed(() => {
 
 <style lang='sass' scoped>
 
-.content
-    // Tall enough to stop buttons jumping around but not too far away from content
-    // NOTE Expands when space but doesn't mess up if short viewport
-    height: 400px
-
 .options
     display: grid
     grid-template-columns: 1fr 1fr
