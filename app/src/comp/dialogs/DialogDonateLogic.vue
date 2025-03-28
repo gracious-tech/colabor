@@ -76,7 +76,7 @@ VCardText.content
                         | Continue
 
             template(v-else-if='selected_option.data.type === "stripe"')
-                div(class='mb-8 text-body-2')
+                div(v-if='stripe_url !== false' class='mb-8 text-body-2')
                     | Please continue to the secure card payment platform, Stripe.
                 template(v-if='stripe_url === null')
                     div(class='mb-4 font-italic') Connecting to payment platform...
@@ -84,7 +84,7 @@ VCardText.content
                 VBtn(v-else-if='stripe_url' @click='open_stripe' color='secondary')
                     template(#prepend)
                         AppIcon(name='credit_card')
-                    | Donate by card
+                    | Donate {{ commitment }}
                 template(v-else)
                     p.
                         Sorry, there was a problem connecting to the payment platform.
@@ -220,7 +220,7 @@ const confirmed_transfer = ref(false)
 const title = computed(() => {
     if (step.value === 'pay'){
         return {
-            stripe: `You'll send ${commitment.value}`,
+            stripe: "Send donation",
             transfer: `You'll send ${commitment.value} to`,
             contact: `Please contact ${fund.steward.organiser_name}`,
             custom: '\u00A0',
@@ -606,6 +606,9 @@ const email_href = computed(() => {
 
 
 <style lang='sass' scoped>
+
+.v-card-title
+    white-space: normal
 
 .options
     display: grid
