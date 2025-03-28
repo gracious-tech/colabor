@@ -62,19 +62,52 @@ VCardText.content
             div(class='mt-8') {{ contact_explanation }}
 
         VWindowItem(value='pay')
-            template(v-if='selected_option.data.type === "transfer"')
-                p Please send your donation to:
-                div.payid(v-if='selected_option.data.payid')
+
+            template(v-if='selected_option.data.type === "contact"')
+                div
+                    a(:href='email_href' target='_blank' class='text-h6')
+                        | {{ fund.contact.email }}
+
+            template(v-else-if='selected_option.data.type === "custom"')
+                div(class='mb-8') {{ selected_option.data.instructions }}
+                div
+                    VBtn(v-if='selected_option.data.url' :href='selected_option.data.url'
+                            target='_blank' color='secondary' class='mb-2')
+                        | Continue
+
+            template(v-else-if='selected_option.data.type === "stripe"')
+                div(class='mb-8 text-body-2')
+                    | Please continue to the secure card payment platform, Stripe.
+                template(v-if='stripe_url === null')
+                    div(class='mb-4 font-italic') Connecting to payment platform...
+                    VProgressCircular(indeterminate color='secondary')
+                VBtn(v-else-if='stripe_url' @click='open_stripe' color='secondary')
+                    template(#prepend)
+                        AppIcon(name='credit_card')
+                    | Donate by card
+                template(v-else)
+                    p.
+                        Sorry, there was a problem connecting to the payment platform.
+                        Please contact the fundraiser for a payment link instead.
+                    div
+                        a(:href='email_href' target='_blank' class='text-h6')
+                            | {{ fund.contact.email }}
+
+            template(v-else-if='selected_option.data.type === "transfer"')
+                VRadioGroup(v-if='selected_option.data.payid' v-model='selected_payid' inline
+                        class='mb-4')
+                    VRadio(value='payid' label="PayID" class='mr-2')
+                    VRadio(value='account' label="BSB/Account" class='mr-4')
+                div.payid(v-if='selected_option.data.payid && selected_payid === "payid"')
                     div.addr
                         img(src='@/assets/payid.svg')
                         VTextField(:value='selected_option.data.payid.value' readonly
-                                variant='outlined' active bg-color='#dff0ff')
+                                variant='outlined' active bg-color='#dff0ff'
+                                :label='selected_option.data.name')
                             template(v-if='selected_option.data.payid.type === "abn"'
                                     #prepend-inner)
                                 strong ABN
-                    div(class='mt-4') with reference "{{ human_id }}"
-                    div.or &mdash; OR &mdash;
-                div.transfer
+                div.transfer(v-else)
                     div Account name
                     input(:value='selected_option.data.name' readonly)
                     div Account number
@@ -84,35 +117,17 @@ VCardText.content
                     template(v-if='selected_option.data.swift')
                         div SWIFT
                         input(:value='selected_option.data.swift' readonly)
-                    div Reference
-                    input(:value='human_id' readonly)
                     template(v-if='selected_option.data.other')
                         textarea(:value='selected_option.data.other' readonly rows='3')
-            div(v-else-if='selected_type === "stripe"')
-                div(v-if='!need_email_fallback' class='mb-8 text-body-2')
-                    | Please finish by continuing to the secure card payment platform, Stripe.
-                template(v-if='stripe_url === null')
-                    div(class='mb-4 font-italic') Connecting to payment platform...
-                    VProgressCircular(indeterminate color='secondary')
-                VBtn(v-else-if='stripe_url' color='secondary' :href='stripe_url' target='_blank')
-                    template(#prepend)
-                        AppIcon(name='credit_card')
-                    | Donate {{ commitment }}
-            div(v-else-if='selected_type === "contact" && !need_email_fallback')
-                | The fundraiser will contact you about alternate payment options.
-            div(v-else-if='selected_option.data.type === "custom"')
-                div(v-if='selected_option.data.instructions' class='mb-8')
-                    | {{ selected_option.data.instructions }}
-                VBtn(v-if='selected_option.data.url' :href='selected_option.data.url'
-                        target='_blank' color='secondary' class='mb-2')
-                    | Continue
-            div(v-if='need_email_fallback')
-                p.
-                    Sorry, the message couldn't be sent for some reason.
-                    Please email the fundraiser directly instead:
-                div
-                    a(:href='`mailto:${fund.contact.email}`' class='text-h6')
-                        | {{ fund.contact.email }}
+                div(class='mt-6')
+                    template(v-if='confirmed_transfer')
+                        div(class='text-secondary')
+                            | Please use reference "{{ human_id }}" for your transfer.
+                        div(class='font-italic opacity-60 mt-2') Thanks for your support!
+                    template(v-else)
+                        VBtn(@click='confirm_transfer' color='secondary' variant='elevated')
+                            | Get reference code
+
             div(class='mt-16 text-left text-body-2')
                 div(class='mb-4') #[strong Please note:] {{ disclaimer(fund.id) }}
                 div {{ get_tax_notice(fund.steward.tax_deductible) }}
@@ -188,12 +203,13 @@ const human_id = random_letter() + random_number(100, 999)  // Ensure always tog
 const selected_currency = ref<string|null>(null)
 const selected_option_id = ref<string|null>(null)
 const selected_recurring = ref<'single'|'month'|null>(null)
+const selected_payid = ref<'payid'|'account'>('payid')
 const entered_amount = ref<null|number>(null)
 const entered_amount_currency = ref(fund.payment.preferred_currency.toUpperCase())
 const entered_name = ref('')
 const entered_email = ref('')
-const save_status = ref<boolean|null>(null)
 const stripe_url = ref<string|null|false>(null)
+const confirmed_transfer = ref(false)
 
 
 
@@ -202,11 +218,18 @@ const stripe_url = ref<string|null|false>(null)
 
 // The title for the current step
 const title = computed(() => {
+    if (step.value === 'pay'){
+        return {
+            stripe: `You'll send ${commitment.value}`,
+            transfer: `You'll send ${commitment.value} to`,
+            contact: `Please contact ${fund.steward.organiser_name}`,
+            custom: '\u00A0',
+        }[selected_type.value]
+    }
     return {
         option: "Payment method",
         amount: "Amount",
         contact: "Your contact details",
-        pay: "Thanks for your support!",
     }[step.value as string] || '\u00A0'  // nbsp to prevent height jump
 })
 
@@ -230,17 +253,19 @@ const move = (increment:1|-1) => {
         return move(increment)
     }
 
-    // Skip contact details if have custom URL as can assume they'll be collected there
+    // Skip contact details if going to email fundraiser, or have custom URL
+    // As it can be assumed that a custom URL would collect name/email anyway
     // NOTE Stripe is different as can pass the email address on so they don't have to repeat
-    if (step.value === 'contact' && selected_option.value.data.type === 'custom'
-            && selected_option.value.data.url){
+    if (step.value === 'contact'
+        && (selected_type.value === 'contact'
+            || (selected_option.value.data.type === 'custom' && selected_option.value.data.url))){
         // NOTE Chance name/email already filled but no real validation for them anyway
         return move(increment)
     }
 
-    // Submit if moved to last step
+    // Trigger some tasks as soon as enter pay step
     if (step.value === 'pay'){
-        void submit()
+        do_pay_step_tasks()
     }
 }
 
@@ -399,8 +424,7 @@ const options = computed(() => {
             },
             icon: 'mail',
             title: "Something else",
-            desc: `If no other options are suitable,
-                the fundraiser will get in touch about other possibilities.`,
+            desc: `Ask the fundraiser if another option may be possible.`,
             international: true,
             recommended: false,
             classes: ['type-contact'],
@@ -536,19 +560,8 @@ const contact_details_valid = computed(() => {
 })
 
 
-// Save the pledge and get details ready for payment page
-// WARN Always reset statuses as user may go back and forth and modify options
-const submit = async () => {
-
-    // Try to save the pledge to db
-    // WARN This may be blocked by browsers like Brave. Don't let that stop user from progressing
-    //      to payment, but need to warn them if they chose option to be contacted.
-    save_status.value = null
-    save_pledge(pledge.value).then(() => {
-        save_status.value = true
-    }, () => {
-        save_status.value = false
-    })
+// Actions to perform when arriving at the pay stage
+const do_pay_step_tasks = () => {
 
     // Get Stripe URL if needed
     if (selected_type.value === 'stripe'){
@@ -559,17 +572,33 @@ const submit = async () => {
             stripe_url.value = false
         })
     }
+
+    // If previously confirmed transfer and have gone back to modify things, auto-save changes
+    if (selected_type.value === 'transfer' && confirmed_transfer.value){
+        void save_pledge(pledge.value)
+    }
 }
 
 
-// If something failed that user needed to continue, show email address to manually contact instead
-const need_email_fallback = computed(() => {
-    if (selected_type.value === 'stripe' && stripe_url.value === false){
-        return true  // Couldn't get Stripe URL
-    } else if (selected_type.value === 'contact' && save_status.value === false){
-        return true  // Couldn't save contact details and they asked to be contacted
-    }
-    return false
+// Open link to Stripe
+const open_stripe = () => {
+    // Save pledge in case something goes wrong with Stripe
+    // Can consider donor as committed at this stage since they have confirmed all the details
+    void save_pledge(pledge.value)
+    self.open(stripe_url.value as string, '_blank')
+}
+
+
+// Confirm the pledge to transfer and reveal ref code
+const confirm_transfer = () => {
+    confirmed_transfer.value = true
+    void save_pledge(pledge.value)
+}
+
+
+// Email href with prefilled subject
+const email_href = computed(() => {
+    return `mailto:${fund.contact.email}?subject=${encodeURIComponent("Donate to " + fund.name)}`
 })
 
 
@@ -665,11 +694,6 @@ h2
                 text-align: center
                 font-size: 18px
                 font-family: Roboto Condensed, Roboto, sans-serif
-
-    .or
-        font-weight: bold
-        font-size: 20px
-        margin: 16px 0
 
 .transfer
     display: grid
