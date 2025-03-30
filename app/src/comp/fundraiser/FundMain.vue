@@ -43,6 +43,9 @@ div.extra
     h3 Stewarding
     FundSteward
 
+    h3 Manage payments
+    FundManage
+
 VBtn.donate(@click='donate' :size='donate_btn_size' color='secondary') Donate
 
 DialogDonate(v-model='show_donation_dialog' :activity='selected_activity')
@@ -63,6 +66,7 @@ import FundMilestones from './FundMilestones.vue'
 import FundPray from './FundPray.vue'
 import FundResource from './FundResource.vue'
 import FundQuote from './FundQuote.vue'
+import FundManage from './FundManage.vue'
 import DialogDonate from '../dialogs/DialogDonate.vue'
 import DialogStripeConfirm from '../dialogs/DialogStripeConfirm.vue'
 

@@ -22,6 +22,8 @@ export interface Fundraiser {
         allow_recurring:boolean  // May want to only raise money for short time, so no recurring
         allow_anonymous:boolean  // Some countries may forbid
         allow_other:boolean  // Whether to show other/"contact us" option
+        // NOTE Below not tied to options in case an option removed but still needs managing
+        manage_recurring:{url:string, label:string}[]  // List of links to manage recurring payments
     }
     steward:{
         organiser_type:'individual'|'organisation'
@@ -37,7 +39,6 @@ export interface Fundraiser {
         progress_type:'%'|'days'|'money'
         ends:string|boolean  // Date to auto-end, true if ends when goal reached, false for ongoing
         tax_deductible:string  // Should be a country code/name
-        manage_recurring:string  // E.g. Stripe URL
     }
     contact:{
         email:string  // Required
