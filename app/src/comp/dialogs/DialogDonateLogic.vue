@@ -94,15 +94,15 @@ VCardText.content
                             | {{ fund.contact.email }}
 
             template(v-else-if='selected_option.data.type === "transfer"')
-                VRadioGroup(v-if='selected_option.data.payid' v-model='selected_payid' inline
+                VRadioGroup(v-if='payid_possible' v-model='selected_payid' inline
                         class='mb-4')
                     VRadio(value='payid' label="PayID" class='mr-2')
                     VRadio(value='account' label="BSB/Account" class='mr-4')
-                div.payid(v-if='selected_option.data.payid && selected_payid === "payid"'
+                div.payid(v-if='payid_possible && selected_payid === "payid"'
                         class='d-flex justify-center')
-                    VTextField(:value='selected_option.data.payid.value' readonly variant='outlined'
-                            active bg-color='#dff0ff' :label='selected_option.data.name')
-                        template(v-if='selected_option.data.payid.type === "abn"' #prepend-inner)
+                    VTextField(:value='selected_option.data.payid?.value' readonly active
+                        variant='outlined' bg-color='#dff0ff' :label='selected_option.data.name')
+                        template(v-if='selected_option.data.payid?.type === "abn"' #prepend-inner)
                             strong ABN
                 div.transfer(v-else)
                     div Account name
@@ -597,6 +597,15 @@ const confirm_transfer = () => {
 // Email href with prefilled subject
 const email_href = computed(() => {
     return `mailto:${fund.contact.email}?subject=${encodeURIComponent("Donate to " + fund.name)}`
+})
+
+
+// Whether it's possible to pay using payid
+// NOTE Currently most banks don't support recurring payID payments (only Up apparently)
+//      So don't even offer to avoid confusion, until at least one major bank does
+const payid_possible = computed(() => {
+    return selected_option.value.data.type === 'transfer' && selected_option.value.data.payid
+        && selected_recurring.value === 'single'
 })
 
 
