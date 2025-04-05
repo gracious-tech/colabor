@@ -372,10 +372,11 @@ const options = computed(() => {
     for (const option of fund.payment.options){
         if (option.type === 'transfer'){
             const recommended = selected_currency.value === option.currency
+            const opt_title = option.currency === 'usd' ? "Direct deposit" : "Bank transfer"
             items.push({
                 data: option,
                 icon: 'account_balance',
-                title: `Bank transfer (${option.currency.toUpperCase()})`,
+                title: `${opt_title} (${option.currency.toUpperCase()})`,
                 desc: recommended
                     ? "No fees and you stay in control of donation amount and frequency."
                     : "Suitable for one-off large donations when transferring internationally.",
