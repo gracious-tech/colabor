@@ -83,7 +83,7 @@ p You will not usually need to pay any tax on money received since we already re
 
 h4 Fundraising
 
-p Fundraising is regulated in Australia at a state level. It may be illegal to request donations for a charitable purpose if you do not have a license to do so. It is currently (July 2024) very complicated and the federal government is trying to get all the states to #[GO(href='https://www.communitydirectors.com.au/articles/states-slow-to-act-on-fundraising-reform') agree on a common standard].
+p Fundraising is regulated in Australia at a state level. It may be illegal to request donations for a charitable purpose if you do not have a license to do so. It is currently (Aug 2025) very complicated and the federal government is trying to get all the states to #[GO(href='https://www.communitydirectors.com.au/articles/fundraising-reform-a-win-worth-building-on') agree on a common standard].
 
 p In general, you must register to fundraise if you raise:
 
