@@ -11,6 +11,16 @@ div.cs-negative
     div Disclaimer
     p The following guidance is offered in good faith but completely without warranty. We are not lawyers or accountants, and providing this guidance does not create a lawyer-client relationship. Follow any of this advice entirely at your own risk.
 
+h4 Are you fundraising for a livelihood or a cause?
+
+p Both options are biblical and valid on this platform. But for many countries, this distinction will have a significant impact on whether your income is taxable and whether you need a license to fundraise.
+
+p As Christians, we should never be in ministry for the money, which is why many people will prefer to say they are raising money for a cause rather than their livelihood. However, it is #[router-link(to='/official/compliance') biblical and appropriate] to raise money for yourself so you can devote your time to ministry, which is what missionaries and pastors do. It may also turn out to be a lot simpler legally.
+
+div.cs-negative
+    div Always keep accurate records
+    p Regardless of what type of fundraiser you set up, you will usually be legally required to retain accurate records of donations. This is also a requirement of our platform. We recommend creating a separate bank account exclusively for collecting donations.
+
 h2 Australia
 
 p #[strong Summary:]
@@ -30,10 +40,6 @@ p This is written explicitly regarding law in WA but it is likely other states w
 
 p So it matters a great deal whether you declare your fundraiser as going towards "Livelihood", "Cause", or "Livelihood &amp; Cause" when creating it on our platform.
 
-div.cs-negative
-    div Always keep accurate records
-    p Regardless of what type of fundraiser you set up, you will usually be legally required to retain accurate records of donations. This is also a requirement of our platform. We recommend creating a separate bank account exclusively for collecting donations.
-
 
 h3 Funds go towards "Livelihood &amp; Cause"
 
@@ -47,19 +53,19 @@ ul
 
 h3 Funds go towards "Livelihood"
 
-p As Christians, we should never be in ministry for the money, which is why many people will prefer to raise money for a cause/ministry rather than themselves. However, it is #[router-link(to='/official/compliance') biblical and appropriate] to raise money for yourself so you can devote your time to ministry, which is what most missionaries and pastors do already. It also turns out to be simpler legally in Australia than raising for a cause.
-
 h4 Tax
 
 p Any income that goes to you personally (less expenses) is taxable. The ATO has #[GO(href='https://www.ato.gov.au/law/view/document?DocID=ITR/IT2674/NAT/ATO/00001&PiT=99991231235958') made a ruling] specifically for those in ministry. For taxation purposes, ministry is considered to be "carrying on a business", and they even refer to evangelism as being "a business of evangelism". Even if donations to you are entirely voluntary.
 
-p Individuals should declare donations as #[GO(href='https://www.ato.gov.au/businesses-and-organisations/starting-registering-or-closing-a-business/starting-your-own-business/business-structures-key-tax-obligations#ato-Soletrader') sole trader/business income]. You do not need to actually set anything else up as a "business". However, if you earn $75,000/year or more you will need to get an ABN and register for GST (even if you don't actually charge anyone anything).
+p Individuals should declare donations as #[GO(href='https://www.ato.gov.au/businesses-and-organisations/starting-registering-or-closing-a-business/starting-your-own-business/business-structures-key-tax-obligations#ato-Soletrader') sole trader/business income] (usually personal services income). You do not need to actually set anything else up as a "business". However, if you earn $75,000/year or more you will need to get an ABN and register for GST (even if you don't actually charge anyone anything).
 
 p If ministry ends up being your main occupation you should consider joining or starting a non-profit organisation, as there are #[GO(href='https://www.ato.gov.au/law/view/document?LocID=%22TXR%2FTR20193%2FNAT%2FATO%22&PiT=99991231235958') some tax benefits] for religious practitioners. However, starting your own non-profit is a lot of work and will take time away from your ministry, so it is not advised to attempt it for small initiatives. A better option could be to work under an existing church or non-profit.
 
+p If you are raising money as a family, it matters who is engaged in the ministry. Even if your fundraiser says donations go to the family, the ATO may consider it income only for the person actively engaged in the ministry. For example, if almost all the ministry is done by yourself, then all income should be reported on your tax return only. Otherwise, the ATO may see it as income-splitting (assigning income to a spouse to benefit from their lower tax rate). If you both are significantly involved in the ministry, then you could either have separate fundraisers for each of you, or form a business partnership or other business structure.
+
 h4 Fundraising
 
-p Raising money for yourself is likely to not be subject to regulation in most states. The government rightly regulates charitable fundraising so that money donated towards causes doesn't just end up in someone's personal bank account. But as Christians it is appropriate to give towards someone's personal income so they can devote their time to ministry.
+p Raising money for yourself is likely to not be subject to regulation in most states. The government rightly regulates charitable fundraising so that money donated towards causes doesn't just end up in someone's personal bank account. But, as Christians, it is appropriate to give towards someone's personal income so they can devote their time to ministry.
 
 p The important part is making sure donors understand they are giving to your personal income rather than to a particular cause. We make this clear when you select the "Livelihood" option when creating a fundraiser. You can still fund ministry expenses out of your own personal income, but this must not be suggested to be what donors are giving towards.
 
