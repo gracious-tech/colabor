@@ -36,7 +36,7 @@ p Almost all fundraisers on this platform will be "advancing religion and/or soc
 blockquote
     p "If a person is collecting on behalf of themselves, the current internal legal position is that this cannot be considered a collection for a charitable purpose, even if the reason for the collection is charitable. The concept of charity is, by definition, at odds with the collection of money for one’s own benefit. In other words, it is impossible for a person to be benevolent or philanthropic towards themselves."
 
-p This is written explicitly regarding law in WA but it is likely other states would be the same, though many of them have not made this clear in writing.
+p Likewise, #[GO(href='https://www.nsw.gov.au/money-and-taxes/charitable-fundraising/apply-for-an-authority-to-fundraise') the NSW Government states]: "You do not need an authority if you [...] are crowdfunding for personal benefit or for the benefit of close relatives or friends and not for a charitable purpose". And it is likely other states would be the same.
 
 p So it matters a great deal whether you declare your fundraiser as going towards "Livelihood", "Cause", or "Livelihood &amp; Cause" when creating it on our platform.
 
@@ -57,7 +57,7 @@ h4 Tax
 
 p Any income that goes to you personally (less expenses) is taxable. The ATO has #[GO(href='https://www.ato.gov.au/law/view/document?DocID=ITR/IT2674/NAT/ATO/00001&PiT=99991231235958') made a ruling] specifically for those in ministry. For taxation purposes, ministry is considered to be "carrying on a business", and they even refer to evangelism as being "a business of evangelism". Even if donations to you are entirely voluntary.
 
-p Individuals should declare donations as #[GO(href='https://www.ato.gov.au/businesses-and-organisations/starting-registering-or-closing-a-business/starting-your-own-business/business-structures-key-tax-obligations#ato-Soletrader') sole trader/business income] (usually personal services income). You do not need to actually set anything else up as a "business". However, if you earn $75,000/year or more you will need to get an ABN and register for GST (even if you don't actually charge anyone anything).
+p Individuals should declare donations as #[GO(href='https://www.ato.gov.au/businesses-and-organisations/starting-registering-or-closing-a-business/starting-your-own-business/business-structures-key-tax-obligations#ato-Soletrader') sole trader/business income]. You do not need to actually set anything else up as a "business". However, if you earn $75,000/year or more you will need to get an ABN and register for GST (even if you don't actually charge anyone anything).
 
 p If ministry ends up being your main occupation you should consider joining or starting a non-profit organisation, as there are #[GO(href='https://www.ato.gov.au/law/view/document?LocID=%22TXR%2FTR20193%2FNAT%2FATO%22&PiT=99991231235958') some tax benefits] for religious practitioners. However, starting your own non-profit is a lot of work and will take time away from your ministry, so it is not advised to attempt it for small initiatives. A better option could be to work under an existing church or non-profit.
 
