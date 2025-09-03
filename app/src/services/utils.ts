@@ -48,8 +48,8 @@ export function generate_token(bytes=15):string{
 
 
 // Get a random uppercase English letter
-export function random_letter(){
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+export function random_letter(no_o=false){
+    const letters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ' + (no_o ? '' : 'O')
     const i = crypto.getRandomValues(new Uint8Array(1))[0]! % letters.length
     return letters[i]!
 }
@@ -58,6 +58,21 @@ export function random_letter(){
 export function random_number(min:number, max:number):number{
     // Return a random number between min and max (inclusive)
     return (crypto.getRandomValues(new Uint32Array(1))[0]! % (max - min + 1)) + min
+}
+
+
+// Get random easily memorable id for transactions
+export function random_human_id(){
+
+    // Get a three char num without leading zeroes
+    let three_char_num = random_number(100, 999)
+
+    // Avoid for offensiveness, not superstition...
+    if (three_char_num === 666){
+        three_char_num = 100
+    }
+
+    return random_letter(true) + three_char_num
 }
 
 

@@ -151,7 +151,7 @@ VCardActions.actions(class='pa-4')
 
 import {inject, computed, ref, watch} from 'vue'
 
-import {bank_code_label, currency_str, generate_token, random_letter, random_number, disclaimer,
+import {bank_code_label, currency_str, generate_token, random_human_id, disclaimer,
     get_tax_notice} from '@/services/utils'
 import {gen_stripe_url, save_pledge, type Pledge} from '@/services/backend'
 
@@ -198,7 +198,7 @@ const fund = inject('fund') as Fundraiser
 
 const step = ref<typeof steps[number]>('intro')
 const pledge_id = generate_token()
-const human_id = random_letter() + random_number(100, 999)  // Ensure always together 4 chars
+const human_id = random_human_id()
 const selected_currency = ref<string|null>(null)
 const selected_option_id = ref<string|null>(null)
 const selected_recurring = ref<'single'|'month'|null>(null)
