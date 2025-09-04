@@ -48,8 +48,9 @@ export function generate_token(bytes=15):string{
 
 
 // Get a random uppercase English letter
-export function random_letter(no_o=false){
-    const letters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ' + (no_o ? '' : 'O')
+// Optionally exclude IO since similar to 10
+export function random_letter(no_io=false){
+    const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ' + (no_io ? '' : 'IO')
     const i = crypto.getRandomValues(new Uint8Array(1))[0]! % letters.length
     return letters[i]!
 }
