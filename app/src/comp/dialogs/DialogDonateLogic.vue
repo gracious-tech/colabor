@@ -119,8 +119,8 @@ VCardText.content
                     template(v-if='selected_option.data.other')
                         textarea(:value='selected_option.data.other' readonly rows='3')
                 div(class='mt-6')
-                    template(v-if='confirmed_transfer')
-                        div Please use reference #[strong(class='text-secondary text-h5') {{ human_id }}] for your transfer.
+                    template(v-if='submitted')
+                        div Please include #[strong(class='text-secondary text-h5') {{ human_id }}] in the reference for your transfer.
                         div(class='font-italic opacity-60 mt-2') Thanks for your support!
                     template(v-else)
                         VBtn(@click='confirm_transfer' color='secondary' variant='elevated')
@@ -132,7 +132,7 @@ VCardText.content
                 div {{ get_tax_notice(fund.steward.tax_deductible) }}
 
 VCardActions.actions(class='pa-4')
-    VBtn(v-if='step !== "intro"' @click='move(-1)' color='' variant='tonal' class='pr-4')
+    VBtn(v-if='step !== "intro" && !submitted' @click='move(-1)' color='' variant='tonal' class='pr-4')
         template(#prepend)
             AppIcon(name='arrow_back')
         | {{ step === 'pay' ? "Modify" : "Prev" }}
@@ -142,6 +142,7 @@ VCardActions.actions(class='pa-4')
         | Next
         template(#append)
             AppIcon(name='arrow_forward')
+    VBtn(v-if='submitted' @click='$emit("close")') Close
 
 
 </template>
@@ -208,7 +209,7 @@ const entered_amount_currency = ref(fund.payment.preferred_currency.toUpperCase(
 const entered_name = ref('')
 const entered_email = ref('')
 const stripe_url = ref<string|null|false>(null)
-const confirmed_transfer = ref(false)
+const submitted = ref(false)
 
 
 
@@ -572,11 +573,6 @@ const do_pay_step_tasks = () => {
             stripe_url.value = false
         })
     }
-
-    // If previously confirmed transfer and have gone back to modify things, auto-save changes
-    if (selected_type.value === 'transfer' && confirmed_transfer.value){
-        void save_pledge(pledge.value)
-    }
 }
 
 
@@ -584,6 +580,7 @@ const do_pay_step_tasks = () => {
 const open_stripe = () => {
     // Save pledge in case something goes wrong with Stripe
     // Can consider donor as committed at this stage since they have confirmed all the details
+    submitted.value = true
     void save_pledge(pledge.value)
     self.open(stripe_url.value as string, '_blank')
 }
@@ -591,7 +588,7 @@ const open_stripe = () => {
 
 // Confirm the pledge to transfer and reveal ref code
 const confirm_transfer = () => {
-    confirmed_transfer.value = true
+    submitted.value = true
     void save_pledge(pledge.value)
 }
 
