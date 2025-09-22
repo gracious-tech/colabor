@@ -1,4 +1,3 @@
-
 // MUST come first
 import '@/services/errors.sass'
 import '@/services/errors'
@@ -13,12 +12,15 @@ import 'vuetify/styles'
 
 import {createApp} from 'vue'
 import {createRouter, createWebHistory} from 'vue-router'
+import {VueFire, VueFireAuth} from 'vuefire'
 import {createVuetify} from 'vuetify'
 import {md3} from 'vuetify/blueprints'
+import {StringDateAdapter} from 'vuetify/date/adapters/string'
 import CheckboxBlank from '@material-symbols/svg-400/rounded/check_box_outline_blank.svg?component'
 import Checkbox from '@material-symbols/svg-400/rounded/check_box.svg?component'
 import RadioChecked from '@material-symbols/svg-400/rounded/radio_button_checked.svg?component'
 import RadioUnchecked from '@material-symbols/svg-400/rounded/radio_button_unchecked.svg?component'
+import CalendarMonth from '@material-symbols/svg-400/outlined/calendar_month.svg?component'
 
 import AppMain from './comp/AppMain.vue'
 import AppIcon from './comp/global/AppIcon.vue'
@@ -35,6 +37,7 @@ import AppOfficial from './comp/AppOfficial.vue'
 import RouteCompliance from './comp/routes/RouteCompliance.vue'
 import RouteBitcoin from '@/comp/routes/RouteBitcoin.vue'
 import GO from './comp/global/GO.vue'
+import {fire_app} from './services/backend'
 import {vue_error_handler} from '@/services/errors'
 
 
@@ -61,6 +64,16 @@ const router = createRouter({
             {path: 'about', component: RouteAbout},
             {path: 'create', component: RouteCreate},
         ]},
+        {path: '/admin', component: () => import('./comp/routes/admin/AdminContainer.vue'), children: [
+            {path: '', component: () => import('./comp/routes/admin/AdminDashboard.vue')},
+            {path: 'fundraisers', redirect: '/admin'},
+            {path: 'fundraisers/:fundraiser', component: () => import('./comp/routes/admin/AdminFundraiser.vue'), children: [
+                {path: '', redirect: {name: 'pledges'}},
+                {path: 'pledges', name: 'pledges', component: () => import('./comp/routes/admin/AdminPledges.vue')},
+                {path: 'contacts', component: () => import('./comp/routes/admin/AdminContacts.vue')},
+                {path: 'payments', component: () => import('./comp/routes/admin/AdminPayments.vue')},
+            ]},
+        ]},
         {path: '/:fundraiser', component: RouteFundraiser, name: 'fundraiser', props: true},
     ],
     scrollBehavior(to, from, saved){
@@ -68,6 +81,13 @@ const router = createRouter({
     },
 })
 app.use(router)
+
+
+// Add VueFire
+app.use(VueFire, {
+    firebaseApp: fire_app,
+    modules: [VueFireAuth()],
+})
 
 
 // Add Vuetify
@@ -104,7 +124,12 @@ app.use(createVuetify({
             checkboxOff: CheckboxBlank,
             radioOn: RadioChecked,
             radioOff: RadioUnchecked,
+            calendar: CalendarMonth,
         },
+    },
+    date: {
+        // Make date widgets in/out dates as string rather than date object (to avoid TZ issues)
+        adapter: StringDateAdapter,
     },
 }))
 

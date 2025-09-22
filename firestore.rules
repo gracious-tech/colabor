@@ -3,10 +3,38 @@ rules_version = '2';
 
 service cloud.firestore {
     match /databases/{database}/documents {
-        match /fundraisers/{fund_id} {
-            match /pledges/{pledge_id} {
-                allow create;
-                allow update;
+
+        match /fundraisers/{fundraiser} {
+
+            // Allow create if user will be one of the owners
+            allow create: if request.auth.uid in request.resource.data.owners;
+
+            // Allow read if user is one of the owners
+            allow read: if request.auth.uid in resource.data.owners;
+
+            // Util for subcollections to check if user is an owner of parent fundraiser
+            function is_owner(){
+                return request.auth.uid in get(/databases/$(database)/documents/fundraisers/$(fundraiser)).data.owners;
+            }
+
+            match /pledges/{pledge} {
+                allow read: if is_owner();
+                allow write: if is_owner();
+            }
+
+            match /contacts/{contact} {
+                allow read: if is_owner();
+                allow write: if is_owner();
+            }
+
+            match /payments/{payment} {
+                allow read: if is_owner();
+                allow write: if is_owner();
+            }
+
+            match /statements/{statement} {
+                allow read: if is_owner();
+                allow write: if is_owner();
             }
         }
     }

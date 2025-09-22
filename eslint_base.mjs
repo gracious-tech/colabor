@@ -22,6 +22,7 @@ export const custom_config = {
         'comma-dangle': ['warn', 'always-multiline'],
         'semi': ['warn', 'never', {beforeStatementContinuationChars: 'always'}],
         'no-console': ['warn', {allow: ['warn', 'error', 'info', 'debug']}],  // Non-log allowed
+        'space-before-blocks': ['warn', 'never'],
 
         // Disable as are not problems at all
         '@typescript-eslint/no-extra-semi': 'off',  // Conflicts with 'semi' rule

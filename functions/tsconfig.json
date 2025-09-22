@@ -7,9 +7,9 @@
         "noUnusedLocals": true,
         "outDir": "lib",
         "sourceMap": true,
-        "target": "es2017"
+        "target": "es2017",
     },
     "include": [
         "src"
-    ]
+    ],
 }
