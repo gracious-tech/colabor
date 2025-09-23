@@ -120,7 +120,7 @@ VCardText.content
                         textarea(:value='selected_option.data.other' readonly rows='3')
                 div(class='mt-6')
                     template(v-if='submitted')
-                        div Please include #[strong(class='text-secondary text-h5') {{ human_id }}] in the reference for your transfer.
+                        div Please include #[strong(class='text-secondary text-h5') {{ ref_code }}] in the reference for your transfer.
                         div(class='font-italic opacity-60 mt-2') Thanks for your support!
                     template(v-else)
                         VBtn(@click='confirm_transfer' color='secondary' variant='elevated')
@@ -142,7 +142,7 @@ VCardActions.actions(class='pa-4')
         | Next
         template(#append)
             AppIcon(name='arrow_forward')
-    VBtn(v-if='submitted' @click='$emit("close")') Close
+    VBtn(v-if='submitted' @click='$emit("close")' variant='tonal' color='') Close
 
 
 </template>
@@ -152,11 +152,12 @@ VCardActions.actions(class='pa-4')
 
 import {inject, computed, ref, watch} from 'vue'
 
-import {bank_code_label, currency_str, generate_token, random_human_id, disclaimer,
-    get_tax_notice} from '@/services/utils'
-import {gen_stripe_url, save_pledge, type Pledge} from '@/services/backend'
+import {bank_code_label, currency_str, random_human_id, disclaimer, get_tax_notice}
+    from '@/services/utils'
+import {gen_stripe_url, create_pledge} from '@/services/backend'
 
 import type {Fundraiser, PaymentOption} from '@/types'
+import type {Pledge} from '@/schemas'
 
 
 const steps = ['intro', 'option', 'amount', 'contact', 'pay'] as const
@@ -198,8 +199,7 @@ defineEmits(['close'])
 const fund = inject('fund') as Fundraiser
 
 const step = ref<typeof steps[number]>('intro')
-const pledge_id = generate_token()
-const human_id = random_human_id()
+const ref_code = random_human_id()
 const selected_currency = ref<string|null>(null)
 const selected_option_id = ref<string|null>(null)
 const selected_recurring = ref<'single'|'month'|null>(null)
@@ -494,19 +494,19 @@ const selected_type = computed(() => {
 })
 
 
-const pledge = computed(() => {
+const pledge = computed<Pledge>(() => {
     return {
-        id: pledge_id,
-        human_id,
-        fundraiser: fund.id,
+        ref_code,
+        timestamp: new Date().getTime(),
         amount: entered_amount.value,
         currency: entered_amount_currency.value,
-        recurring: selected_recurring.value,
+        recurring: selected_recurring.value!,
         email: entered_email.value,
         name: entered_name.value.trim(),
+        contact: '',
         means: selected_option.value.title ?? "Unknown",
         appreciate: fund.content.activities.find(a => a.id === props.activity)?.title ?? null,
-    } as Pledge
+    }
 })
 
 
@@ -567,7 +567,7 @@ const do_pay_step_tasks = () => {
     // Get Stripe URL if needed
     if (selected_type.value === 'stripe'){
         stripe_url.value = null
-        gen_stripe_url(pledge.value).then(url => {
+        gen_stripe_url(fund.id, pledge.value).then(url => {
             stripe_url.value = url === null ? false : url
         }, () => {
             stripe_url.value = false
@@ -580,16 +580,20 @@ const do_pay_step_tasks = () => {
 const open_stripe = () => {
     // Save pledge in case something goes wrong with Stripe
     // Can consider donor as committed at this stage since they have confirmed all the details
+    if (!submitted.value){
+        void create_pledge(fund.id, pledge.value)
+    }
     submitted.value = true
-    void save_pledge(pledge.value)
     self.open(stripe_url.value as string, '_blank')
 }
 
 
 // Confirm the pledge to transfer and reveal ref code
 const confirm_transfer = () => {
+    if (!submitted.value){
+        void create_pledge(fund.id, pledge.value)
+    }
     submitted.value = true
-    void save_pledge(pledge.value)
 }
 
 

@@ -45,7 +45,7 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
     // E.g. Don't accept name of fundraiser as could become "Subscribe to [malicious text]"
     const data = request.data as Record<string, unknown>
     const fundraiser = String(data['fundraiser'])
-    const pledge_id = String(data['id'])
+    const ref_code = String(data['ref_code'])
     const email = String(data['email'])
     const recurring = data['recurring'] === 'month' ? 'month' : 'single'
     const currency = String(data['currency']).toLowerCase()
@@ -81,7 +81,7 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
     // Helper for creating a session with optional inclusion of email address
     const create_session = (with_email:boolean) => {
         return stripe_instance.checkout.sessions.create({
-            metadata: {colabor_id: pledge_id},
+            metadata: {colabor_ref: ref_code},
             mode: recurring === 'single' ? 'payment' : 'subscription',
             success_url: `${domain_origin}/${fundraiser}#stripe={CHECKOUT_SESSION_ID}`,
             ...with_email ? {customer_email: email} : {},
