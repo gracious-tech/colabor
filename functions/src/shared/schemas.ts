@@ -25,9 +25,11 @@ export const pledge_schema = z.object({
     means: z.string(),
     name: z.string(),
     email: z.string(),  // Not validating as should allow empty string
-    contact: z.string(), // Cannot be set by supporters / manually set if contact created from this
     appreciate: z.string().nullable(),
+    // Any public user input is overridden for following:
     timestamp: z.number(),
+    contact: z.string(), // Cannot be set by supporters / manually set if contact created from this
+    ip: z.string(),
 })
 export type Pledge = z.infer<typeof pledge_schema>
 export type PledgeWithId = WithId<Pledge>

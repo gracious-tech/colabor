@@ -505,9 +505,10 @@ const pledge = computed<Pledge>(() => {
         recurring: selected_recurring.value!,
         email: entered_email.value,
         name: entered_name.value.trim(),
-        contact: '',
         means: selected_option.value.title ?? "Unknown",
         appreciate: fund.content.activities.find(a => a.id === props.activity)?.title ?? null,
+        contact: '',
+        ip: '',
     }
 })
 
