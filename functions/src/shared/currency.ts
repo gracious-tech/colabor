@@ -74,7 +74,7 @@ export function display_to_cents(amount:string, currency:string):number{
 
 
 // Display integer-based amount with expected decimal places for given currency
-export function cents_to_display(cents:number, currency:string, fractional=true):string{
+export function cents_to_display(cents:number, currency:string, parseable=false, fractional=true):string{
 
     // Determine decimal places used when converting to integer
     let decimal_places = 2
@@ -86,6 +86,10 @@ export function cents_to_display(cents:number, currency:string, fractional=true)
 
     // Convert to main denomination
     const dollars = cents / Math.pow(10, decimal_places)
+
+    // If want parseable (i.e. user-input format), don't add anything but digits and period
+    if (parseable)
+        return dollars.toFixed(decimal_places)
 
     // Display with expected symbol
     try {

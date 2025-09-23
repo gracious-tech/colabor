@@ -5,7 +5,6 @@ import {getFirestore} from 'firebase-admin/firestore'
 import {Stripe} from 'stripe'
 
 import {gen_stripe_url_schema} from './shared/requests.js'
-import {dollars_to_cents} from './shared/currency.js'
 
 
 // Init firebase
@@ -39,8 +38,6 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
     // E.g. Don't accept name of fundraiser as could become "Subscribe to [malicious text]"
     const data = gen_stripe_url_schema.parse(request.data)
 
-    // Convert amount to cents/equiv (which Stripe requires)
-
     // Get the Stripe private key for the fundraiser
     const private_data = await fire_db.doc(`fundraisers/${data.fundraiser}/private/0`).get()
     const stripe_key = private_data.data()?.['stripe_key'] as string|undefined
@@ -73,7 +70,7 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
                 quantity: 1,
                 price_data: {
                     currency: data.currency,
-                    unit_amount: dollars_to_cents(data.dollars, data.currency),
+                    unit_amount: data.cents,
                     product_data: {
                         name: product_name,
                     },

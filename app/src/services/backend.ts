@@ -8,7 +8,7 @@ import {onUnmounted, ref} from 'vue'
 import {contact_schema, fundraiser_schema, payment_schema} from '@/shared/schemas'
 
 import type {Contact, ContactWithId, Fundraiser, FundraiserWithId, Payment, PaymentWithId, Pledge, PledgeWithId} from '@/shared/schemas'
-import {gen_stripe_url_schema} from '@/shared/requests'
+import {gen_stripe_url_schema, type GenStripeUrlInput} from '@/shared/requests'
 
 
 // Init firebase
@@ -40,9 +40,16 @@ export function data_url(fundraiser:string){
 
 
 // Get a URL for a Stripe checkout session with given settings
-export async function gen_stripe_url(fundraiser:string, {ref_code, currency, amount, recurring, email}:Pledge){
-    const resp = await fire_gen_stripe_url(gen_stripe_url_schema.parse(
-        {ref_code, currency, amount, recurring, email, fundraiser}))
+export async function gen_stripe_url(fundraiser:string,
+        {ref_code, currency, cents, recurring, email}:Pledge){
+    const resp = await fire_gen_stripe_url(gen_stripe_url_schema.parse({
+        ref_code,
+        currency,
+        recurring,
+        email,
+        fundraiser,
+        cents,
+    } as GenStripeUrlInput))
     return (resp.data as {stripe_url:string|null}).stripe_url
 }
 

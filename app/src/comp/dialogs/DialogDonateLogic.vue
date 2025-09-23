@@ -155,6 +155,7 @@ import {inject, computed, ref, watch} from 'vue'
 import {bank_code_label, currency_str, random_human_id, disclaimer, get_tax_notice}
     from '@/services/utils'
 import {gen_stripe_url, create_pledge} from '@/services/backend'
+import {dollars_to_cents} from '@/shared/currency'
 
 import type {Fundraiser, PaymentOption} from '@/types'
 import type {Pledge} from '@/shared/schemas'
@@ -498,7 +499,8 @@ const pledge = computed<Pledge>(() => {
     return {
         ref_code,
         timestamp: new Date().getTime(),
-        amount: entered_amount.value,
+        cents: entered_amount.value ?
+            dollars_to_cents(entered_amount.value, entered_amount_currency.value) : null,
         currency: entered_amount_currency.value,
         recurring: selected_recurring.value!,
         email: entered_email.value,

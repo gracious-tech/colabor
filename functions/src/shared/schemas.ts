@@ -20,7 +20,7 @@ export type FundraiserWithId = WithId<Fundraiser>
 export const pledge_schema = z.object({
     ref_code: z.string(),
     currency: z.string(),
-    amount: z.number().nullable(),  // Null if third-party platform handling payment
+    cents: z.number().nullable(),  // Null if third-party platform handling payment
     recurring: z.enum(['single', 'month']),
     means: z.string(),
     name: z.string(),
@@ -45,7 +45,7 @@ export type ContactWithId = WithId<Contact>
 export const payment_schema = z.object({
     contact: z.string(),
     date: z.iso.date(),
-    amount: z.number(),
+    cents: z.number(),
     currency: z.string(),
     ref_code: z.string(),
     means: z.string(),
