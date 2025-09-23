@@ -1,4 +1,5 @@
 // Handling of storage and display of currency values
+// "dollars" refers to main denomination of currency, and "cents" refers to lowest denomination
 
 
 // Relying on Stripe for decimal place data for currencies
@@ -11,7 +12,7 @@ const three_decimal = ['bhd', 'jod', 'kwd', 'omr', 'tnd']
 
 
 // Take user input and return integer in lowest denomination of currency
-export function money_to_integer(amount:string, currency:string):number{
+export function display_to_cents(amount:string, currency:string):number{
 
     // Remove all characters except digits and period
     const normalized = amount.replace(/[^\d.]/g, '')
@@ -43,7 +44,7 @@ export function money_to_integer(amount:string, currency:string):number{
 
 
 // Display integer-based amount with expected decimal places for given currency
-export function integer_to_money(integer:number, currency:string, fractional=true):string{
+export function cents_to_display(cents:number, currency:string, fractional=true):string{
 
     // Determine decimal places used when converting to integer
     let decimal_places = 2
@@ -54,11 +55,11 @@ export function integer_to_money(integer:number, currency:string, fractional=tru
         decimal_places = 3
 
     // Convert to main denomination
-    const amount = integer / Math.pow(10, decimal_places)
+    const dollars = cents / Math.pow(10, decimal_places)
 
     // Display with expected symbol
     try {
-        return amount.toLocaleString('en-US', {
+        return dollars.toLocaleString('en-US', {
             style: 'currency',
             currencyDisplay: 'narrowSymbol',
             currency: currency,
@@ -67,7 +68,7 @@ export function integer_to_money(integer:number, currency:string, fractional=tru
         }) + ' ' + currency.toUpperCase()
     } catch {
         // WARN Old webkit will throw when given 'currencyDisplay' arg
-        return amount.toLocaleString('en-US', {
+        return dollars.toLocaleString('en-US', {
             style: 'currency',
             currency: currency,
             minimumFractionDigits: fractional ? decimal_places : 0,
