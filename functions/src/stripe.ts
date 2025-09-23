@@ -4,14 +4,8 @@ import {initializeApp} from 'firebase-admin/app'
 import {getFirestore} from 'firebase-admin/firestore'
 import {Stripe} from 'stripe'
 
-
-// Stripe takes amounts in cents/lowest-denomination, so need to know decimal places
-// See https://docs.stripe.com/currencies#zero-decimal
-// NOTE Stripe lists UGX as zero-decimal but then says it's still 2dec for compatibility
-const zero_decimal = ['bif', 'clp', 'djf', 'gnf', 'jpy', 'kmf', 'krw', 'mga', 'pyg', 'rwf',
-    'vnd', 'vuv', 'xaf', 'xof', 'xpf']
-// See https://support.stripe.com/questions/which-payments-methods-and-products-are-available-in-the-uae
-const three_decimal = ['bhd', 'jod', 'kwd', 'omr', 'tnd']
+import {gen_stripe_url_schema} from './shared/requests.js'
+import {dollars_to_cents} from './shared/currency.js'
 
 
 // Init firebase
@@ -43,37 +37,26 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
     // Extract data
     // SECURITY Only accept data relating to how much to give, not anything on the fundraiser itself
     // E.g. Don't accept name of fundraiser as could become "Subscribe to [malicious text]"
-    const data = request.data as Record<string, unknown>
-    const fundraiser = String(data['fundraiser'])
-    const ref_code = String(data['ref_code'])
-    const email = String(data['email'])
-    const recurring = data['recurring'] === 'month' ? 'month' : 'single'
-    const currency = String(data['currency']).toLowerCase()
-    let amount = Math.max(1, parseInt(String(data['amount']), 10))  // In dollars/equiv
+    const data = gen_stripe_url_schema.parse(request.data)
 
     // Convert amount to cents/equiv (which Stripe requires)
-    if (three_decimal.includes(currency)){
-        amount *= 1000
-    } else if (!zero_decimal.includes(currency)){
-        amount *= 100  // Default to 2 decimal unless know otherwise
-    }
 
     // Get the Stripe private key for the fundraiser
-    const private_data = await fire_db.doc(`fundraisers/${fundraiser}/private/0`).get()
+    const private_data = await fire_db.doc(`fundraisers/${data.fundraiser}/private/0`).get()
     const stripe_key = private_data.data()?.['stripe_key'] as string|undefined
     if (!stripe_key){
-        return notify_fundraiser(fundraiser, 'missing_key')
+        return notify_fundraiser(data.fundraiser, 'missing_key')
     }
     const stripe_instance = new Stripe(stripe_key)
 
     // Get the name of the fundraiser
-    const fund_data = await fire_db.doc(`fundraisers/${fundraiser}`).get()
+    const fund_data = await fire_db.doc(`fundraisers/${data.fundraiser}`).get()
     const fund_name = (fund_data.data()?.['name'] as string|undefined) || "fundraiser"
 
     // Determine what to call the payment
     // NOTE Important to include fundraiser name in case Stripe used for multiple fundraisers
     let product_name = `Donate to ${fund_name}`
-    if (recurring !== 'single'){
+    if (data.recurring !== 'single'){
         // WARN Stripe will actually call this "Subscribe to {product_name}"
         product_name = `donate to ${fund_name}`
     }
@@ -81,20 +64,20 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
     // Helper for creating a session with optional inclusion of email address
     const create_session = (with_email:boolean) => {
         return stripe_instance.checkout.sessions.create({
-            metadata: {colabor_ref: ref_code},
-            mode: recurring === 'single' ? 'payment' : 'subscription',
-            success_url: `${domain_origin}/${fundraiser}#stripe={CHECKOUT_SESSION_ID}`,
-            ...with_email ? {customer_email: email} : {},
-            submit_type: recurring === 'single' ? 'donate' : 'subscribe',  // Can't change subscr.
+            metadata: {colabor_ref: data.ref_code},
+            mode: data.recurring === 'single' ? 'payment' : 'subscription',
+            success_url: `${domain_origin}/${data.fundraiser}#stripe={CHECKOUT_SESSION_ID}`,
+            ...with_email ? {customer_email: data.email} : {},
+            submit_type: data.recurring === 'single' ? 'donate' : 'subscribe',
             line_items: [{
                 quantity: 1,
                 price_data: {
-                    currency: currency,
-                    unit_amount: amount,
+                    currency: data.currency,
+                    unit_amount: dollars_to_cents(data.dollars, data.currency),
                     product_data: {
                         name: product_name,
                     },
-                    ...recurring === 'single' ? {} : {recurring:{interval: 'month'}},
+                    ...data.recurring === 'single' ? {} : {recurring:{interval: 'month'}},
                 },
             }],
         })
@@ -112,10 +95,10 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
             session = await create_session(false)
         } else if (error instanceof Stripe.errors.StripeAuthenticationError){
             // Key given is invalid
-            return notify_fundraiser(fundraiser, 'invalid_key')
+            return notify_fundraiser(data.fundraiser, 'invalid_key')
         } else if (error instanceof Stripe.errors.StripePermissionError){
             // Stripe key is valid but lacks permission to write checkout sessions
-            return notify_fundraiser(fundraiser, 'no_permission')
+            return notify_fundraiser(data.fundraiser, 'no_permission')
         } else {
             // Anything else is developer responsibility to fix
             throw error

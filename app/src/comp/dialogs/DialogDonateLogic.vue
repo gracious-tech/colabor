@@ -157,7 +157,7 @@ import {bank_code_label, currency_str, random_human_id, disclaimer, get_tax_noti
 import {gen_stripe_url, create_pledge} from '@/services/backend'
 
 import type {Fundraiser, PaymentOption} from '@/types'
-import type {Pledge} from '@/schemas'
+import type {Pledge} from '@/shared/schemas'
 
 
 const steps = ['intro', 'option', 'amount', 'contact', 'pay'] as const
