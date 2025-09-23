@@ -11,6 +11,36 @@ const zero_decimal = ['bif', 'clp', 'djf', 'gnf', 'jpy', 'kmf', 'krw', 'mga', 'p
 const three_decimal = ['bhd', 'jod', 'kwd', 'omr', 'tnd']
 
 
+// Convert main denomination to lowest denomination for internal use
+// NOTE dollars must be an integer (use cents arg if any)
+export function dollars_to_cents(dollars:number, currency:string, cents=0):number{
+    const currency_lower = currency.toLowerCase()
+    if (zero_decimal.includes(currency_lower))
+        return dollars
+    if (three_decimal.includes(currency_lower))
+        return dollars * 1000 + cents
+    return dollars * 100 + cents
+}
+
+
+// Convert lowest denomination to main denomination
+// NOTE Since fractions can't be accurately preserved, always returns an integer
+export function cents_to_dollars(cents:number, currency:string,
+        rounding:'round'|'ceil'|'floor'='round'):number{
+    const currency_lower = currency.toLowerCase()
+
+    // Just return if no difference
+    if (zero_decimal.includes(currency_lower))
+        return cents
+
+    // Adjust number
+    const divisor = three_decimal.includes(currency_lower) ? 1000 : 100
+    const fn = rounding === 'ceil' ? Math.ceil :
+        (rounding === 'floor' ? Math.floor : Math.round)
+    return fn(cents / divisor)
+}
+
+
 // Take user input and return integer in lowest denomination of currency
 export function display_to_cents(amount:string, currency:string):number{
 
