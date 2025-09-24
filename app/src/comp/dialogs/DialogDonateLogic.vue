@@ -511,7 +511,7 @@ const pledge = computed<Pledge>(() => {
         timestamp: new Date().getTime(),
         contact: '',
         ip: '',
-        active: true,
+        status: 'pending',
     }
 })
 

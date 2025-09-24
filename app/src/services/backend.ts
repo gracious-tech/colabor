@@ -189,3 +189,12 @@ export function use_payments(fundraiser:string){
 
     return payments
 }
+
+
+
+// MODIFY
+
+export async function change_pledge_status(fundraiser:string, pledge:string,
+        status:'pending'|'finished'|'unpaid'){
+    await setDoc(doc(fire_db, 'fundraisers', fundraiser, 'pledges', pledge), {status})
+}

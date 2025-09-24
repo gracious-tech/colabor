@@ -31,7 +31,7 @@ export const pledge_schema = z.object({
     timestamp: z.number(),
     contact: z.string(), // Cannot be set by supporters / manually set if contact created from this
     ip: z.string(),
-    active: z.boolean(),
+    status: z.enum(['pending', 'finished', 'unpaid']),
 })
 export type Pledge = z.infer<typeof pledge_schema>
 export type PledgeWithId = WithId<Pledge>

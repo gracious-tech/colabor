@@ -40,7 +40,7 @@ export const create_pledge = onCall({
     pledge.timestamp = new Date().getTime()
     pledge.contact = ''
     pledge.ip = request.rawRequest.ip ?? 'unavailable'
-    pledge.active = true
+    pledge.status = 'pending'
 
     // Get info from fundraiser
     const fundraiser_doc = await firestore.collection('fundraisers').doc(fundraiser).get()
