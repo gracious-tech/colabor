@@ -6,9 +6,9 @@ import {getFirestore, setDoc, addDoc, doc, connectFirestoreEmulator, collection,
 import {getFunctions, httpsCallable, connectFunctionsEmulator} from 'firebase/functions'
 import {onUnmounted, ref} from 'vue'
 
-import {contact_schema, fundraiser_schema, payment_schema} from '@/shared/schemas'
+import {contact_schema, fundraiser_schema, payment_schema, statement_schema} from '@/shared/schemas'
 
-import type {Contact, ContactWithId, Fundraiser, FundraiserWithId, Payment, PaymentWithId, Pledge, PledgeWithId} from '@/shared/schemas'
+import type {Contact, ContactWithId, Fundraiser, FundraiserWithId, Payment, PaymentWithId, Pledge, PledgeWithId, Statement, StatementWithId} from '@/shared/schemas'
 import {gen_stripe_url_schema, type GenStripeUrlInput} from '@/shared/requests'
 
 
@@ -195,6 +195,27 @@ export function use_payments(fundraiser:string){
     })
 
     return payments
+}
+
+
+// Composable for listening to statements
+export function use_statements(fundraiser:string){
+
+    const statements = ref<StatementWithId[]>([])
+
+    const colRef = collection(fire_db, 'fundraisers', fundraiser, 'statements')
+    const unsub = onSnapshot(colRef, (snapshot) => {
+        statements.value = snapshot.docs.map(doc => ({
+            ...statement_schema.parse(doc.data() as Statement),
+            id: doc.id,
+        })).sort((a, b) => a.start.localeCompare(b.start))
+    })
+
+    onUnmounted(() => {
+        unsub()
+    })
+
+    return statements
 }
 
 

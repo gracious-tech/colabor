@@ -69,12 +69,12 @@ export type Statement = z.infer<typeof statement_schema>
 export type StatementWithId = WithId<Statement>
 
 
-export const statement_contact = z.object({
+export const statement_item = z.object({
     contact: z.string(),
     cents: z.number(),
     currency: z.string(),
     ref_codes: z.array(z.string()),
     record_sent: z.boolean(),
 })
-export type StatementContact = z.infer<typeof statement_contact>
-export type StatementContactWithId = WithId<StatementContact>
+export type StatementItem = z.infer<typeof statement_item>
+export type StatementItemWithId = WithId<StatementItem>
