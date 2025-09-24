@@ -3,7 +3,7 @@
 
 v-list-item(:class='status_class')
     template(#prepend)
-        div(class='d-flex' style='width: 140px')
+        div(class='d-flex mr-4' style='width: 140px')
             AppIcon(:name='pledge.recurring === "single" ? "looks_one" : "event_repeat"' class='mr-4')
             div.amount {{ amount }}
     v-list-item-title
