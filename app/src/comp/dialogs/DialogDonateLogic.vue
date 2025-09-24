@@ -120,7 +120,7 @@ VCardText.content
                         textarea(:value='selected_option.data.other' readonly rows='3')
                 div(class='mt-6')
                     template(v-if='submitted')
-                        div Please include #[strong(class='text-secondary text-h5') {{ ref_code }}] in the reference for your transfer.
+                        div Please include #[strong.ref_code(class='text-secondary') {{ ref_code }}] in the reference for your transfer.
                         div(class='font-italic opacity-60 mt-2') Thanks for your support!
                     template(v-else)
                         VBtn(@click='confirm_transfer' color='secondary' variant='elevated')
@@ -734,6 +734,9 @@ h2
 
 .actions
     border-top: 1px solid #eee
+
+.ref_code
+    font-size: 24px
 
 
 </style>
