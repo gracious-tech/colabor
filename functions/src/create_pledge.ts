@@ -55,8 +55,9 @@ export const create_pledge = onCall({
     // Generate HTML
     const amount_str = pledge.cents ? cents_to_display(pledge.cents, pledge.currency) : "TBC"
     const hue = 340
+    const contact_name = pledge.name || pledge.email || "[Anonymous]"
     const html = render_email_pledge(fundraiser, fund_data.title, hue,
-        amount_str, pledge.means, pledge.ref_code, pledge.name || pledge.email, pledge.recurring)
+        amount_str, pledge.means, pledge.ref_code, contact_name, pledge.recurring)
 
     // Send the email
     await ses.send(new SendEmailCommand({

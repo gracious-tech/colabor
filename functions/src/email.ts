@@ -114,7 +114,7 @@ export function render_email_receipt(fund_id:string, fund_name:string, hue:numbe
 export function render_email_pledge(fund_id:string, fund_name:string, hue:number,
         amount:string, method:string, reference:string, contact_name:string, recurring:string){
 
-    const url = `https://colabor.ing/${fund_id}`
+    const admin_url = `https://colabor.ing/admin/fundraisers/${fund_id}/pledges`
 
     const contents = `
         <h1 style='text-align: center; font-weight: normal; margin-bottom: 48px'>New Pledge</h1>
@@ -134,7 +134,7 @@ export function render_email_pledge(fund_id:string, fund_name:string, hue:number
         </div>
         <p><strong>Payment method:</strong> ${html_escape(method)}</p>
         <p>&nbsp;</p>
-        <p style='text-align: right;'><strong><a href='${url}'>Fundraiser Information</a></strong></p>
+        <p style='text-align: right;'><strong><a href='${admin_url}'>View in admin</a></strong></p>
     `
 
     return render_email(fund_id, fund_name, hue, contents, "")
