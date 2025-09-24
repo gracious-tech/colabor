@@ -57,3 +57,24 @@ export const payment_schema = z.object({
 })
 export type Payment = z.infer<typeof payment_schema>
 export type PaymentWithId = WithId<Payment>
+
+
+export const statement_schema = z.object({
+    title: z.string(),
+    start: z.iso.date(),
+    end: z.iso.date(),
+    message: z.string(),
+})
+export type Statement = z.infer<typeof statement_schema>
+export type StatementWithId = WithId<Statement>
+
+
+export const statement_contact = z.object({
+    contact: z.string(),
+    cents: z.number(),
+    currency: z.string(),
+    ref_codes: z.array(z.string()),
+    record_sent: z.boolean(),
+})
+export type StatementContact = z.infer<typeof statement_contact>
+export type StatementContactWithId = WithId<StatementContact>
