@@ -1,7 +1,7 @@
 
 <template lang="pug">
 
-v-list-item(:class='{recurring: pledge.recurring !== "single"}')
+v-list-item(:class='status_class')
     template(#prepend)
         div(class='d-flex' style='width: 140px')
             AppIcon(:name='pledge.recurring === "single" ? "looks_one" : "event_repeat"' class='mr-4')
@@ -21,20 +21,27 @@ v-list-item(:class='{recurring: pledge.recurring !== "single"}')
             v-list
                 v-list-item(@click='emit("payment")')
                     v-list-item-title Record related payment
+                v-list-item(@click='delete_pledge_action')
+                    v-list-item-title Delete pledge
 
 </template>
 
 
 <script setup lang="ts">
 
+import {computed, defineEmits, defineProps, inject} from 'vue'
+
 import {clear_date} from '@/services/utils'
 import {cents_to_display} from '@/shared/currency'
-import {computed, defineEmits, defineProps} from 'vue'
+import {delete_pledge} from '@/services/backend'
 
-import type {Pledge} from '@/shared/schemas'
+import type {Ref} from 'vue'
+import type {PledgeWithId} from '@/shared/schemas'
 
 
-const props = defineProps<{pledge:Pledge}>()
+const fundraiser = inject('fundraiser') as Ref<string>
+
+const props = defineProps<{pledge:PledgeWithId}>()
 const emit = defineEmits<{(e:'payment'):void}>()
 
 
@@ -49,6 +56,21 @@ const amount = computed(() => {
     return cents_to_display(props.pledge.cents, props.pledge.currency)
 })
 
+const status_class = computed(() => {
+    // Deal with inactive first...
+    if (props.pledge.status === 'unpaid')
+        return 'unpaid'
+    if (props.pledge.status === 'finished')
+        return 'finished'
+    // Leaves pending...
+    return props.pledge.recurring === 'single' ? '' : 'recurring'
+})
+
+
+function delete_pledge_action(){
+    delete_pledge(fundraiser.value, props.pledge.id)
+}
+
 
 </script>
 
@@ -57,5 +79,11 @@ const amount = computed(() => {
 
 .recurring
     background-color: #0f02
+
+.unpaid
+    background-color: #f002
+
+.finished
+    background-color: #0002
 
 </style>

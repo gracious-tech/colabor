@@ -1,7 +1,8 @@
 
 import {initializeApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
-import {getFirestore, setDoc, addDoc, doc, connectFirestoreEmulator, collection, onSnapshot, deleteDoc, query, where} from 'firebase/firestore'
+import {getFirestore, setDoc, addDoc, doc, connectFirestoreEmulator, collection, onSnapshot,
+    deleteDoc, query, where, updateDoc} from 'firebase/firestore'
 import {getFunctions, httpsCallable, connectFunctionsEmulator} from 'firebase/functions'
 import {onUnmounted, ref} from 'vue'
 
@@ -101,6 +102,12 @@ export async function create_payment(fundraiser:string, data:Payment){
     await addDoc(collection(fire_db, 'fundraisers', fundraiser, 'payments'), cleaned)
 }
 
+
+export async function delete_pledge(fundraiser:string, pledge:string){
+    await deleteDoc(doc(fire_db, 'fundraisers', fundraiser, 'pledges', pledge))
+}
+
+
 export async function delete_payment(fundraiser:string, payment:string){
     await deleteDoc(doc(fire_db, 'fundraisers', fundraiser, 'payments', payment))
 }
@@ -196,5 +203,5 @@ export function use_payments(fundraiser:string){
 
 export async function change_pledge_status(fundraiser:string, pledge:string,
         status:'pending'|'finished'|'unpaid'){
-    await setDoc(doc(fire_db, 'fundraisers', fundraiser, 'pledges', pledge), {status})
+    await updateDoc(doc(fire_db, 'fundraisers', fundraiser, 'pledges', pledge), {status})
 }

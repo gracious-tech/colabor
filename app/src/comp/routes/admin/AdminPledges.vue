@@ -1,13 +1,13 @@
 
 <template lang="pug">
 
-h2 Active
+h2(class='mt-8 mb-2') Active
 
 v-list
     AdminPledgesItem(v-for="pledge in active_pledges" :key="pledge.id" :pledge='pledge'
         @payment='show_payment_dialog(pledge)')
 
-h2 Inactive
+h2(class='mt-8 mb-2') Inactive
 
 v-list
     AdminPledgesItem(v-for="pledge in inactive_pledges" :key="pledge.id" :pledge='pledge'
