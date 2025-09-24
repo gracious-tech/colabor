@@ -26,10 +26,12 @@ export const pledge_schema = z.object({
     name: z.string(),
     email: z.string(),  // Not validating as should allow empty string
     appreciate: z.string().nullable(),
+    note: z.string(),  // TODO Implement in UI
     // Any public user input is overridden for following:
     timestamp: z.number(),
     contact: z.string(), // Cannot be set by supporters / manually set if contact created from this
     ip: z.string(),
+    active: z.boolean(),
 })
 export type Pledge = z.infer<typeof pledge_schema>
 export type PledgeWithId = WithId<Pledge>

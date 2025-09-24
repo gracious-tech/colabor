@@ -498,7 +498,6 @@ const selected_type = computed(() => {
 const pledge = computed<Pledge>(() => {
     return {
         ref_code,
-        timestamp: new Date().getTime(),
         cents: entered_amount.value ?
             dollars_to_cents(entered_amount.value, entered_amount_currency.value) : null,
         currency: entered_amount_currency.value,
@@ -507,8 +506,12 @@ const pledge = computed<Pledge>(() => {
         name: entered_name.value.trim(),
         means: selected_option.value.title ?? "Unknown",
         appreciate: fund.content.activities.find(a => a.id === props.activity)?.title ?? null,
+        note: '',
+        // These are overriden by server anyway:
+        timestamp: new Date().getTime(),
         contact: '',
         ip: '',
+        active: true,
     }
 })
 
@@ -531,8 +534,7 @@ const contact_explanation = computed(() => {
     if (selected_type.value === 'contact'){
         return ''  // Won't be arranging payment yet so don't talk about receipts
     } else if (!email_required.value){
-        return `Please provide if you'd like to receive a receipt.
-            However, you can remain anonymous if you prefer.`
+        return `Please provide if you'd like to receive a receipt.`
     }
     return "Please provide so you can receive a receipt."
 })
