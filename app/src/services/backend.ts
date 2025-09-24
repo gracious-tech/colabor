@@ -15,7 +15,7 @@ import {gen_stripe_url_schema, type GenStripeUrlInput} from '@/shared/requests'
 export const fire_app = initializeApp({
     projectId: 'colabor-ing',
     apiKey: 'AIzaSyCjYxh-QqVvjEScs6JHBsPwRgIILm8JCPI',
-    authDomain: 'colabor-ing.firebaseapp.com',
+    authDomain: import.meta.env.DEV ? 'colabor-ing.firebaseapp.com' : 'colabor.ing',
 })
 const fire_functions = getFunctions(fire_app, 'us-west1')
 const fire_db = getFirestore(fire_app)
