@@ -6,9 +6,8 @@ v-dialog(v-model="show" max-width="400")
         v-card-title Add Record of Payment
         v-card-text
             v-date-input(v-model='date' label="Date")
-            div(class='d-flex my-4')
-                v-text-field(v-model='amount' label="Amount")
-                v-text-field(v-model='currency' max-width='100' label="Currency" class='ml-2')
+            AppAmount(:cents='cents' :currency='currency' @update:cents='cents = $event'
+                @update:currency='currency = $event')
             SelectContact(v-model='contact')
             v-text-field(v-model='means' label="Payment method")
             v-text-field(v-model='ref_code' label="Reference code")
@@ -28,9 +27,9 @@ v-dialog(v-model="show" max-width="400")
 import {inject, ref, type Ref} from 'vue'
 import {VDateInput} from 'vuetify/labs/VDateInput'
 
+import AppAmount from '@/comp/global/AppAmount.vue'
 import {use_waiter} from '@/services/composables'
 import {update_pledge, create_contact, create_payment} from '@/services/backend'
-import {cents_to_display, display_to_cents} from '@/shared/currency'
 import SelectContact, {type id_or_details} from './SelectContact.vue'
 
 import type {ContactWithId, PledgeWithId} from '@/shared/schemas'
@@ -47,8 +46,7 @@ const contacts = inject('contacts') as Ref<ContactWithId[]>
 
 
 const contact = ref<id_or_details>({name: props.pledge.name, email: props.pledge.email})
-const amount = ref(props.pledge.cents ?
-    cents_to_display(props.pledge.cents, props.pledge.currency, true) : '')
+const cents = ref(props.pledge.cents ?? 0)
 const currency = ref(props.pledge.currency)
 const date = ref<string|null>(null)
 const means = ref(props.pledge.means)
@@ -67,8 +65,7 @@ async function submit(){
         return
     }
 
-    const cents = display_to_cents(amount.value, currency.value)
-    if (cents <= 0){
+    if (cents.value <= 0){
         error.value = "Amount is invalid"
         return
     }
@@ -83,7 +80,7 @@ async function submit(){
 
     run(() => create_payment(fundraiser.value, {
         contact: contact_id,
-        cents,
+        cents: cents.value,
         currency: currency.value.toLowerCase(),
         date: date.value!,
         means: means.value,

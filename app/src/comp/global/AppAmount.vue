@@ -19,23 +19,29 @@ import {cents_to_display, display_to_cents, top_currencies} from '@/shared/curre
 
 
 const {cents, currency, fixed_currency=false}
-    = defineProps<{cents:number, currency:string, fixed_currency:boolean}>()
+    = defineProps<{cents:number, currency:string, fixed_currency?:boolean}>()
 const emit = defineEmits(['update:cents', 'update:currency'])
+
+
+function render_cents(){
+    // Empty string for zero
+    return cents ? cents_to_display(cents, currency, true) : ''
+}
 
 
 // Initial set of editable representations of values (used in fields)
 const editable_currency = ref(currency)
-const editable_amount = ref(cents_to_display(cents, currency))
+const editable_amount = ref(render_cents())
 
 
 // Watch for changes to props and re-convert to editable values
 watch(() => currency, () => {
     editable_currency.value = currency
     // A change of currency affects how cents is interpreted
-    editable_amount.value = cents_to_display(cents, currency)
+    editable_amount.value = render_cents()
 })
 watch(() => cents, () => {
-    editable_amount.value = cents_to_display(cents, currency)
+    editable_amount.value = render_cents()
 })
 
 
