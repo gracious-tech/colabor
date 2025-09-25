@@ -155,7 +155,7 @@ import {inject, computed, ref, watch} from 'vue'
 import {bank_code_label, currency_str, random_human_id, disclaimer, get_tax_notice}
     from '@/services/utils'
 import {gen_stripe_url, create_pledge} from '@/services/backend'
-import {dollars_to_cents} from '@/shared/currency'
+import {dollars_to_cents, top_currencies} from '@/shared/currency'
 
 import type {Fundraiser, PaymentOption} from '@/types'
 import type {Pledge} from '@/shared/schemas'
@@ -182,16 +182,6 @@ Moment of commitment
     Once committed, the fundraiser should be comfortable following them up
         Since missing payment is likely to be a mistake rather than confusion regarding the pledge
 */
-
-
-// List top currencies to choose from (UI also allows entering custom if missing)
-const top_currencies = [
-    'USD', 'EUR', 'GBP', 'JPY', 'CNY', 'CHF', 'CAD', 'AUD', 'SGD', 'HKD',
-    'KRW', 'INR', 'BRL', 'MXN', 'ZAR', 'RUB', 'TRY', 'NZD', 'THB', 'MYR',
-    'IDR', 'PHP', 'VND', 'SAR', 'AED', 'SEK', 'NOK', 'DKK', 'PLN', 'HUF',
-    'CZK', 'ILS', 'TWD', 'ARS', 'CLP', 'COP', 'PEN', 'EGP', 'QAR', 'KWD',
-    'OMR', 'BDT', 'PKR', 'LKR', 'RON', 'BGN', 'HRK', 'UYU', 'KZT', 'UAH',
-].sort()
 
 
 const props = defineProps<{activity:string|null}>()
