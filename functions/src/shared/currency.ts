@@ -84,7 +84,11 @@ export function display_to_cents(amount:string, currency:string):number{
 
 
 // Display integer-based amount with expected decimal places for given currency
-export function cents_to_display(cents:number, currency:string, parseable=false, fractional=true):string{
+// parseable=true will display simple number with no currency signs
+// fractional=false will round to dollar ($1.01 -> $1), true will always show ($1.00)
+//     and undefined will strip cents only if zero ($1.00 -> $1)
+export function cents_to_display(cents:number, currency:string, parseable=false,
+        fractional?:boolean):string{
 
     // Determine decimal places used when converting to integer
     let decimal_places = 2
@@ -97,6 +101,13 @@ export function cents_to_display(cents:number, currency:string, parseable=false,
     // Convert to main denomination
     const dollars = cents / Math.pow(10, decimal_places)
 
+    // Ignore any remaining cents depending on fractional setting
+    const has_remainder = cents % Math.pow(10, decimal_places) !== 0
+    if (fractional === false || (fractional === undefined && !has_remainder)){
+        // NOTE Value of `decimal_places` is now only used for display purposes
+        decimal_places = 0
+    }
+
     // If want parseable (i.e. user-input format), don't add anything but digits and period
     if (parseable)
         return dollars.toFixed(decimal_places)
@@ -107,16 +118,16 @@ export function cents_to_display(cents:number, currency:string, parseable=false,
             style: 'currency',
             currencyDisplay: 'narrowSymbol',
             currency: currency,
-            minimumFractionDigits: fractional ? decimal_places : 0,
-            maximumFractionDigits: fractional ? decimal_places : 0,
+            minimumFractionDigits: decimal_places,
+            maximumFractionDigits: decimal_places,
         }) + ' ' + currency.toUpperCase()
     } catch {
         // WARN Old webkit will throw when given 'currencyDisplay' arg
         return dollars.toLocaleString('en-US', {
             style: 'currency',
             currency: currency,
-            minimumFractionDigits: fractional ? decimal_places : 0,
-            maximumFractionDigits: fractional ? decimal_places : 0,
+            minimumFractionDigits: decimal_places,
+            maximumFractionDigits: decimal_places,
         }) + ' ' + currency.toUpperCase()
     }
 }
