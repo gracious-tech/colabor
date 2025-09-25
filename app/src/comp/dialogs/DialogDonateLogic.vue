@@ -58,10 +58,10 @@ VCardText.content
 
         VWindowItem(value='contact')
             VTextField(v-model='entered_name' :rules='[check_name]'
-                :label='"Name" + (name_required ? "" : " (optional)")' class='mt-2 mb-5')
+                :label='"Name" + (name_required ? "" : " (optional)")' class='my-2')
             VTextField(v-model.trim='entered_email' :rules='[check_email]'
                 :label='"Email address" + (email_required ? "" : " (optional)")')
-            div(class='mt-8') {{ contact_explanation }}
+            div(class='mt-2') {{ contact_explanation }}
 
         VWindowItem(value='pay')
 

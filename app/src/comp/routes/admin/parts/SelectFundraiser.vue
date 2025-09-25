@@ -1,8 +1,8 @@
 
 <template lang='pug'>
 
-v-select(:items='fundraisers.map(f => f.id)' v-model='fundraiser'
-    @update:modelValue='change_fundraiser' max-width='300' density='compact' class='ml-4')
+v-select(:items='fundraisers.map(f => f.id)' v-model='fundraiser' class='ml-4' hide-details
+    @update:modelValue='change_fundraiser' max-width='300' density='compact')
 
 </template>
 
