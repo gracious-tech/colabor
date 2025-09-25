@@ -36,6 +36,11 @@ service cloud.firestore {
                 allow read: if is_owner();
                 allow write: if is_owner();
             }
+
+            match /statements/{statement}/items/{item} {
+                allow read: if is_owner();
+                allow write: if is_owner();
+            }
         }
     }
 }

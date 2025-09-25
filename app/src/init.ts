@@ -114,11 +114,11 @@ app.use(createVuetify({
         },
     },
     defaults: {
-        global: {
-            hideDetails: true,
-        },
         VTextField: {
             color: 'secondary',
+        },
+        VDateInput: {
+            displayFormat: 'fullDate',
         },
     },
     icons: {

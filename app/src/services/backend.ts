@@ -6,9 +6,9 @@ import {getFirestore, setDoc, addDoc, doc, connectFirestoreEmulator, collection,
 import {getFunctions, httpsCallable, connectFunctionsEmulator} from 'firebase/functions'
 import {onUnmounted, ref} from 'vue'
 
-import {contact_schema, fundraiser_schema, payment_schema, statement_schema} from '@/shared/schemas'
+import {contact_schema, fundraiser_schema, payment_schema, pledge_schema, statement_item_schema, statement_schema} from '@/shared/schemas'
 
-import type {Contact, ContactWithId, Fundraiser, FundraiserWithId, Payment, PaymentWithId, Pledge, PledgeWithId, Statement, StatementWithId} from '@/shared/schemas'
+import type {Contact, ContactWithId, Fundraiser, FundraiserWithId, Payment, PaymentWithId, Pledge, PledgeWithId, Statement, StatementItem, StatementItemWithId, StatementWithId} from '@/shared/schemas'
 import {gen_stripe_url_schema, type GenStripeUrlInput} from '@/shared/requests'
 
 
@@ -100,6 +100,21 @@ export async function create_contact(fundraiser:string, data:Contact){
 export async function create_payment(fundraiser:string, data:Payment){
     const cleaned = payment_schema.parse(data)
     await addDoc(collection(fire_db, 'fundraisers', fundraiser, 'payments'), cleaned)
+}
+
+
+export async function create_statement(fundraiser:string, data:Statement){
+    const statements_col = collection(fire_db, 'fundraisers', fundraiser, 'statements')
+    const result = await addDoc(statements_col, statement_schema.parse(data))
+    return result.id
+}
+
+
+export async function create_statement_item(fundraiser:string, statement:string, data:StatementItem){
+    const items_col =
+        collection(fire_db, 'fundraisers', fundraiser, 'statements', statement, 'items')
+    const result = await addDoc(items_col, statement_item_schema.parse(data))
+    return result.id
 }
 
 
@@ -219,10 +234,66 @@ export function use_statements(fundraiser:string){
 }
 
 
+// Composable for listening to a statement
+export function use_statement(fundraiser:string, statement:string){
 
-// MODIFY
+    const statement_ref = ref<StatementWithId>()
 
-export async function change_pledge_status(fundraiser:string, pledge:string,
-        status:'pending'|'finished'|'unpaid'){
-    await updateDoc(doc(fire_db, 'fundraisers', fundraiser, 'pledges', pledge), {status})
+    const fire_ref = doc(fire_db, 'fundraisers', fundraiser, 'statements', statement)
+    const unsub = onSnapshot(fire_ref, snapshot => {
+        statement_ref.value = {
+            ...statement_schema.parse(snapshot.data() as Statement),
+            id: statement,
+        }
+    })
+
+    onUnmounted(() => {
+        unsub()
+    })
+
+    return statement_ref
+}
+
+
+// Composable for listening to statement items
+export function use_statement_items(fundraiser:string, statement:string){
+
+    const items = ref<StatementItemWithId[]>([])
+
+    const colRef = collection(fire_db, 'fundraisers', fundraiser, 'statements', statement, 'items')
+    const unsub = onSnapshot(colRef, (snapshot) => {
+        items.value = snapshot.docs.map(doc => ({
+            ...statement_item_schema.parse(doc.data() as StatementItem),
+            id: doc.id,
+        }))
+    })
+
+    onUnmounted(() => {
+        unsub()
+    })
+
+    return items
+}
+
+
+
+// UPDATE
+
+export async function update_pledge(fundraiser:string, pledge:string, partial:Partial<Pledge>){
+    const doc_ref = doc(fire_db, 'fundraisers', fundraiser, 'pledges', pledge)
+    await updateDoc(doc_ref, pledge_schema.partial().parse(partial))
+}
+
+
+export async function update_statement(fundraiser:string, statement:string,
+        partial:Partial<Statement>){
+    const doc_ref = doc(fire_db, 'fundraisers', fundraiser, 'statements', statement)
+    await updateDoc(doc_ref, statement_schema.partial().parse(partial))
+}
+
+
+export async function update_statement_item(fundraiser:string, statement:string, item:string,
+        partial:Partial<StatementItem>){
+    const doc_ref = doc(fire_db, 'fundraisers', fundraiser, 'statements', statement, 'items', item)
+    await updateDoc(doc_ref, statement_item_schema.partial().parse(partial))
 }

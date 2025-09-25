@@ -5,7 +5,7 @@ v-dialog(v-model="show" max-width="400")
     v-card
         v-card-title Add Record of Payment
         v-card-text
-            v-date-input(v-model='date' display-format='fullDate' label="Date")
+            v-date-input(v-model='date' label="Date")
             div(class='d-flex my-4')
                 v-text-field(v-model='amount' label="Amount")
                 v-text-field(v-model='currency' max-width='100' label="Currency" class='ml-2')
@@ -29,7 +29,7 @@ import {inject, ref, type Ref} from 'vue'
 import {VDateInput} from 'vuetify/labs/VDateInput'
 
 import {use_waiter} from '@/services/composables'
-import {change_pledge_status, create_contact, create_payment} from '@/services/backend'
+import {update_pledge, create_contact, create_payment} from '@/services/backend'
 import {cents_to_display, display_to_cents} from '@/shared/currency'
 import SelectContact, {type id_or_details} from './SelectContact.vue'
 
@@ -92,7 +92,7 @@ async function submit(){
     }).then(() => {
         // If pledge doesn't recur, then assume it has been fulfilled
         if (props.pledge.status === 'pending' && props.pledge.recurring === 'single'){
-            change_pledge_status(fundraiser.value, props.pledge.id, 'finished')
+            update_pledge(fundraiser.value, props.pledge.id, {status: 'finished'})
         }
     }))
 
