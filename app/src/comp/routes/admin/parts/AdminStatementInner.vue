@@ -17,7 +17,7 @@ v-list(class='mt-12')
 import {computed, inject, type Ref} from 'vue'
 
 import AppHtml from '@/comp/global/AppHtml.vue'
-import StatementItem from './parts/AdminStatementItem.vue'
+import StatementItem from './AdminStatementItem.vue'
 import {format_date_string} from '@/services/utils'
 import {update_statement, use_statement_items} from '@/services/backend'
 

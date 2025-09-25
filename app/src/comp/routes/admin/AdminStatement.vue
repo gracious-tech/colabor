@@ -11,7 +11,7 @@ v-alert(v-else type='error' color='error') ...
 
 import {inject, type Ref} from 'vue'
 import {useRoute} from 'vue-router'
-import AdminStatementInner from './AdminStatementInner.vue'
+import AdminStatementInner from './parts/AdminStatementInner.vue'
 import {use_statement} from '@/services/backend'
 
 const fundraiser = inject('fundraiser') as Ref<string>
