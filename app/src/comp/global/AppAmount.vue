@@ -30,13 +30,13 @@ function render_cents(){
 
 
 // Initial set of editable representations of values (used in fields)
-const editable_currency = ref(currency)
+const editable_currency = ref(currency.toUpperCase())
 const editable_amount = ref(render_cents())
 
 
 // Watch for changes to props and re-convert to editable values
 watch(() => currency, () => {
-    editable_currency.value = currency
+    editable_currency.value = currency.toUpperCase()
     // A change of currency affects how cents is interpreted
     editable_amount.value = render_cents()
 })
@@ -46,7 +46,7 @@ watch(() => cents, () => {
 
 
 function on_currency_change(){
-    emit('update:currency', editable_currency.value)
+    emit('update:currency', editable_currency.value.toLowerCase())
 }
 
 
