@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 h3 Statements
-v-list
+v-list(class='mt-4 mb-6')
     AdminStatementsItem(v-for='statement of statements' :key='statement.id' :statement='statement')
 
 v-btn(@click='show_dialog = true') New Statement
