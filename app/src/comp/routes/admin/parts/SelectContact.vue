@@ -2,12 +2,13 @@
 <template lang='pug'>
 
 div(v-if='new_contact')
-    v-text-field(v-model='name' label="New supporter")
-    v-text-field(v-model='email' label="Email")
-    v-btn(@click='new_contact = false') Find existing contact
-div(v-else)
-    v-autocomplete(v-model='existing_id' :items='contacts_list')
-    v-btn(@click='new_contact = true') Add new contact
+    div(class='d-flex align-center mb-4')
+        v-text-field(v-model='name' label="Name of new supporter" hide-details class='mr-2')
+        v-text-field(v-model='email' label="Email" hide-details)
+        v-btn(@click='new_contact = false' variant='text') Find existing
+div(v-else class='d-flex align-center mb-4')
+    v-autocomplete(v-model='existing_id' :items='contacts_list' hide-details placeholder="Select supporter...")
+    v-btn(@click='new_contact = true' variant='text') Add new
 
 </template>
 
@@ -29,7 +30,7 @@ const model = defineModel<id_or_details>({required: true})
 
 const name = ref('')
 const email = ref('')
-const existing_id = ref<string>('')
+const existing_id = ref<string|null>(null)
 
 
 const contacts_list = computed(() => {
@@ -40,7 +41,7 @@ const contacts_list = computed(() => {
 // Only apply props on initial load so don't wipe out user input
 if (typeof model.value === 'string'){
     if (contacts.value.find(c => c.id === (model.value as string))){
-        existing_id.value = model.value
+        existing_id.value = model.value || null
     }
 } else {
     // Try match an existing contact based on email if given
@@ -70,7 +71,7 @@ watch([new_contact, name, email, existing_id], () => {
             model.value = {name: trimmed_name, email: trimmed_email}
         }
     } else {
-        model.value = existing_id.value  // Should be empty string if no selection
+        model.value = existing_id.value ?? ''  // Should be empty string if no selection
     }
 })
 

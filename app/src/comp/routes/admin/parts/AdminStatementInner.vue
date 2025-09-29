@@ -7,7 +7,8 @@ h3(class='mb-6') {{ formatted_start }} - {{ formatted_end }}
 AppHtml(:html='statement.message' @changed='update_message')
 
 v-list(class='mt-12')
-    StatementItem(v-for="item of statement_items" :key="item.id" :item="item")
+    StatementItem(v-for="item of statement_items" :key="item.id" :item="item"
+        :statement='statement.id')
 
 v-btn(class='my-4' @click='create_item') Add Item
 

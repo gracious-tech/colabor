@@ -21,6 +21,7 @@ import Checkbox from '@material-symbols/svg-400/rounded/check_box.svg?component'
 import RadioChecked from '@material-symbols/svg-400/rounded/radio_button_checked.svg?component'
 import RadioUnchecked from '@material-symbols/svg-400/rounded/radio_button_unchecked.svg?component'
 import CalendarMonth from '@material-symbols/svg-400/outlined/calendar_month.svg?component'
+import ArrowDropDown from '@material-symbols/svg-400/outlined/arrow_drop_down.svg?component'
 
 import AppMain from './comp/AppMain.vue'
 import AppIcon from './comp/global/AppIcon.vue'
@@ -128,6 +129,7 @@ app.use(createVuetify({
             radioOn: RadioChecked,
             radioOff: RadioUnchecked,
             calendar: CalendarMonth,
+            dropdown: ArrowDropDown,
         },
     },
     date: {

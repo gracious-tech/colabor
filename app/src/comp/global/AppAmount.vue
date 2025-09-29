@@ -1,12 +1,12 @@
 
 <template lang='pug'>
 
-div.amount(class='d-flex align-center')
+div.amount(class='d-flex align-center flex-grow-1')
     VTextField(v-model='editable_amount' max-width='200' label='Amount' class='mr-3'
-        @change='on_amount_change')
+        @change='on_amount_change' hide-details)
     //- NOTE Not limiting to 3 chars since crypto etc may require more
     VCombobox(v-model='editable_currency' :items='top_currencies' max-width='125' label='Currency'
-        @change='on_currency_change' :readonly='fixed_currency')
+        @change='on_currency_change' :readonly='fixed_currency' hide-details)
 
 </template>
 
