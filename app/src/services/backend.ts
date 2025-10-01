@@ -30,6 +30,7 @@ if (import.meta.env.DEV){
 // Access to cloud functions
 const fire_gen_stripe_url = httpsCallable(fire_functions, 'gen_stripe_url')
 const fire_send_receipt = httpsCallable(fire_functions, 'send_receipt')
+const fire_send_statement = httpsCallable(fire_functions, 'send_statement')
 const fire_create_pledge = httpsCallable(fire_functions, 'create_pledge')
 
 
@@ -61,12 +62,17 @@ export async function send_receipt(data:{fundraiser:string, payment:string}){
 }
 
 
+export async function send_statement(data:{fundraiser:string, statement:string, item:string}){
+    await fire_send_statement(data)
+}
+
+
 export async function create_pledge(fundraiser:string, pledge:Pledge){
     await fire_create_pledge({fundraiser, pledge})
 }
 
 
-export async function create_fundraiser(id:string, title:string){
+export async function create_fundraiser(id:string, title:string, steward_name:string){
 
     if (!fire_auth.currentUser){
         throw new Error("Not signed in")
@@ -85,7 +91,10 @@ export async function create_fundraiser(id:string, title:string){
             email: fire_auth.currentUser.email,
         },
         receipt_thanks: "Thanks for your support!",
-    })
+        steward: {
+            organiser_name: steward_name,
+        },
+    } as Fundraiser)
     await setDoc(doc_ref, data)
 }
 
@@ -125,6 +134,10 @@ export async function delete_pledge(fundraiser:string, pledge:string){
 
 export async function delete_payment(fundraiser:string, payment:string){
     await deleteDoc(doc(fire_db, 'fundraisers', fundraiser, 'payments', payment))
+}
+
+export async function delete_statement_item(fundraiser:string, statement:string, item:string){
+    await deleteDoc(doc(fire_db, 'fundraisers', fundraiser, 'statements', statement, 'items', item))
 }
 
 

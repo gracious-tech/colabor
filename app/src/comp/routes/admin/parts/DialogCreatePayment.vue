@@ -1,11 +1,11 @@
 
 <template lang="pug">
 
-v-dialog(v-model="show" max-width="400")
+v-dialog(v-model="show" max-width="800")
     v-card
         v-card-title Add Record of Payment
         v-card-text
-            v-date-input(v-model='date' label="Date")
+            v-date-input(v-model='date' label="Date" hide-details)
             AppAmount(:cents='cents' :currency='currency' @update:cents='cents = $event'
                 @update:currency='currency = $event')
             SelectContact(v-model='contact')

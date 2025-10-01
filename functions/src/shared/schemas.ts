@@ -12,6 +12,9 @@ export const fundraiser_schema = z.object({
     contact: z.object({
         email: z.email(),
     }),
+    steward: z.object({
+        organiser_name: z.string(),
+    }),
 })
 export type Fundraiser = z.infer<typeof fundraiser_schema>
 export type FundraiserWithId = WithId<Fundraiser>

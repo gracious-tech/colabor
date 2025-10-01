@@ -1,7 +1,7 @@
 
 <template lang='pug'>
 
-div.amount(class='d-flex align-center flex-grow-1')
+div.amount(class='d-flex align-center flex-grow-1 my-4')
     VTextField(v-model='editable_amount' max-width='200' label='Amount' class='mr-3'
         @change='on_amount_change' hide-details)
     //- NOTE Not limiting to 3 chars since crypto etc may require more
