@@ -170,7 +170,30 @@ export function use_pledges(fundraiser:string){
 
     const colRef = collection(fire_db, 'fundraisers', fundraiser, 'pledges')
     const unsub = onSnapshot(colRef, (snapshot) => {
-        pledges.value = snapshot.docs.map(doc => ({
+        pledges.value = snapshot.docs.map(doc => {
+            // TODO rm this map after migration
+            const data = doc.data() as Pledge
+            if (!data.status){
+                const new_data:Pledge = {
+                    ref_code: data.human_id,
+                    currency: data.currency,
+                    cents: data.amount * 100,
+                    recurring: data.recurring,
+                    means: data.means,
+                    name: data.name,
+                    email: data.email,
+                    appreciate: data.appreciate,
+                    note: '',
+                    timestamp: data.date.seconds * 1000,
+                    contact: '',
+                    ip: 'unavailable',
+                    status: 'pending',
+                }
+                setDoc(doc.ref, new_data)
+            }
+            return doc
+        })
+        .map(doc => ({
             ...pledge_schema.parse(doc.data() as Pledge),
             id: doc.id,
         })).sort((a, b) => a.timestamp - b.timestamp)
