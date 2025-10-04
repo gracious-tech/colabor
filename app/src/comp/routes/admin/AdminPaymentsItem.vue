@@ -1,7 +1,7 @@
 <template lang="pug">
 
 v-list-item
-    v-list-item-title {{ date }} | {{ amount }} | {{ contact_name }}
+    v-list-item-title {{ date }} | {{ amount }} | {{ contact_display }}
     v-list-item-subtitle {{ payment.means }}
     template(#append)
         v-btn(icon variant='text' @click='send_receipt_action' :color='payment.receipt_sent ? "green" : ""')
@@ -39,8 +39,15 @@ const props = defineProps<{payment:PaymentWithId}>()
 const send_state = use_waiter()
 
 
-const contact_name = computed(() => {
-    return contacts.value.find(c => c.id === props.payment.contact)?.name
+const contact = computed(() => {
+    return contacts.value.find(c => c.id === props.payment.contact)
+})
+
+const contact_display = computed(() => {
+    if (!contact.value){
+        return "[unknown]"
+    }
+    return `${contact.value.name} <${contact.value.email}>`
 })
 
 const amount = computed(() => {
@@ -52,7 +59,7 @@ const date = computed(() => {
 })
 
 function send_receipt_action(){
-    if (!props.payment.receipt_sent && !send_state.loading.value){
+    if (!props.payment.receipt_sent && contact.value?.email && !send_state.loading.value){
         send_state.run(() => {
             send_receipt({fundraiser: fundraiser.value, payment: props.payment.id})
         })
