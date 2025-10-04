@@ -171,7 +171,7 @@ export function use_pledges(fundraiser:string){
     const colRef = collection(fire_db, 'fundraisers', fundraiser, 'pledges')
     const unsub = onSnapshot(colRef, (snapshot) => {
         pledges.value = snapshot.docs.map(doc => ({
-            ...doc.data() as Pledge,
+            ...pledge_schema.parse(doc.data() as Pledge),
             id: doc.id,
         })).sort((a, b) => a.timestamp - b.timestamp)
     })
