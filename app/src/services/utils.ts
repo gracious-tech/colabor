@@ -142,6 +142,14 @@ export function format_date_string(date:string){
 }
 
 
+// Get date as YYYY-MM-DD from date object in user's timezone
+export function to_date_string(date:Date){
+    return date.getFullYear() + '-' +
+        String(date.getMonth() + 1).padStart(2, '0') + '-' +
+        String(date.getDate()).padStart(2, '0')
+}
+
+
 // Get the most appropriate label for a bank code field
 export function bank_code_label(currency:string){
     if (currency === 'aud'){

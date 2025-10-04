@@ -29,6 +29,7 @@ import {VDateInput} from 'vuetify/labs/VDateInput'
 
 import AppAmount from '@/comp/global/AppAmount.vue'
 import {use_waiter} from '@/services/composables'
+import {to_date_string} from '@/services/utils'
 import {update_pledge, create_contact, create_payment} from '@/services/backend'
 import SelectContact, {type id_or_details} from './SelectContact.vue'
 
@@ -48,7 +49,8 @@ const contacts = inject('contacts') as Ref<ContactWithId[]>
 const contact = ref<id_or_details>({name: props.pledge.name, email: props.pledge.email})
 const cents = ref(props.pledge.cents ?? 0)
 const currency = ref(props.pledge.currency)
-const date = ref<string|null>(null)
+const date = ref<string|null>(props.pledge.recurring === 'single'
+    ? to_date_string(new Date(props.pledge.timestamp)) : null)
 const means = ref(props.pledge.means)
 const ref_code = ref(props.pledge.ref_code)
 
