@@ -175,9 +175,9 @@ export function use_pledges(fundraiser:string){
             const data = doc.data() as Pledge
             if (!data.status){
                 const new_data:Pledge = {
-                    ref_code: data.human_id,
+                    ref_code: data.human_id || 'A000',
                     currency: data.currency,
-                    cents: data.amount * 100,
+                    cents: data.amount ? data.amount * 100 : null,
                     recurring: data.recurring,
                     means: data.means,
                     name: data.name,
@@ -189,7 +189,7 @@ export function use_pledges(fundraiser:string){
                     ip: 'unavailable',
                     status: 'pending',
                 }
-                setDoc(doc.ref, new_data)
+                setDoc(doc.ref, pledge_schema.parse(new_data))
             }
             return doc
         })
