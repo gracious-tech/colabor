@@ -48,7 +48,7 @@ export const gen_stripe_url = onCall(async (request):Promise<{stripe_url:string|
 
     // Get the name of the fundraiser
     const fund_data = await fire_db.doc(`fundraisers/${data.fundraiser}`).get()
-    const fund_name = (fund_data.data()?.['name'] as string|undefined) || "fundraiser"
+    const fund_name = (fund_data.data()?.['title'] as string|undefined) || "fundraiser"
 
     // Determine what to call the payment
     // NOTE Important to include fundraiser name in case Stripe used for multiple fundraisers
