@@ -321,6 +321,12 @@ export async function update_pledge(fundraiser:string, pledge:string, partial:Pa
 }
 
 
+export async function update_payment(fundraiser:string, payment:string, partial:Partial<Payment>){
+    const doc_ref = doc(fire_db, 'fundraisers', fundraiser, 'payments', payment)
+    await updateDoc(doc_ref, payment_schema.partial().parse(partial))
+}
+
+
 export async function update_statement(fundraiser:string, statement:string,
         partial:Partial<Statement>){
     const doc_ref = doc(fire_db, 'fundraisers', fundraiser, 'statements', statement)

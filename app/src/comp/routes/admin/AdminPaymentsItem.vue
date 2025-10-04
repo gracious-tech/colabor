@@ -11,6 +11,8 @@ v-list-item
                 v-btn(icon v-bind="props" variant='text')
                     app-icon(name='more_vert')
             v-list
+                v-list-item(@click='toggle_receipt_sent')
+                    v-list-item-title Toggle receipt sent status
                 v-list-item(@click='delete_payment_action')
                     v-list-item-title Delete payment record
 
@@ -21,7 +23,7 @@ v-list-item
 
 import {computed, inject, type Ref} from 'vue'
 
-import {delete_payment, send_receipt} from '@/services/backend'
+import {delete_payment, send_receipt, update_payment} from '@/services/backend'
 import {format_date_string} from '@/services/utils'
 import {cents_to_display} from '@/shared/currency'
 import {use_waiter} from '@/services/composables'
@@ -59,6 +61,10 @@ function send_receipt_action(){
 
 function delete_payment_action(){
     delete_payment(fundraiser.value, props.payment.id)
+}
+
+function toggle_receipt_sent(){
+    update_payment(fundraiser.value, props.payment.id, {receipt_sent: !props.payment.receipt_sent})
 }
 
 
