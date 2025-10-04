@@ -15,9 +15,9 @@ export function gen_invite_styles(hue:number){
     // WARN Don't use 'em' as SpamAssassin thinks it's hiding words when less than 0 (e.g. 0.8em)
     // See https://github.com/apache/spamassassin/blob/d092a416336117b34ca49ef57be31b8c0b5b0422/rulesrc/sandbox/jhardin/20_misc_testing.cf#L2569
     return {
-        wrapper: `padding-top: 36px; padding-bottom: 150px; background-color: ${bg_color}; color: white; font-family: sans-serif;`,
+        wrapper: `padding-top: 36px; padding-bottom: 150px; padding-left: 12px; padding-right: 12px; background-color: ${bg_color}; color: white; font-family: sans-serif;`,
         image: `border-radius: 50%; background-color: ${bg_color}; margin-right: 12px; border: 1px solid #999999;`,
-        container: `border-radius: 12px; max-width: 600px; margin: 0 auto;`,
+        container: `max-width: 600px; margin: 0 auto;`,
         name: `color: white; font-size: 20px; text-decoration: none; font-weight: bold;`,
         contents: `padding: 24px; margin-top: 24px; background-color: white; color: #222222; border-radius: 12px;`,
         success_box: `background-color: #cceecc; color: black; padding: 24px; margin: 24px 0; font-size: 20px; text-align: center;`,
@@ -95,7 +95,7 @@ export function render_email_statement(fund_id:string, fund_name:string, hue:num
     const url = `https://colabor.ing/${fund_id}`
     const styles = gen_invite_styles(hue)
     const contents = `
-        <h1 style='${styles.title}'>
+        <h1 style='text-align: center; font-weight: normal;'>
             ${html_escape(title)}
         </h1>
         <h2 style='${styles.title}'>
