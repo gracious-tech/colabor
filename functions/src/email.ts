@@ -41,6 +41,13 @@ export function render_email(fund_id:string, fund_name:string, hue:number, conte
     const url = `https://colabor.ing/${fund_id}`
     const fund_img = `https://colabor.ing/dev/${fund_id}/profile.jpg`
 
+    // Don't insert div if no pre_message exists to avoid too much margin
+    const pre_message_div = !pre_message ? '' : `
+        <div style='margin-bottom: 48px; color: white; font-size: 26px; font-family: serif'>
+            ${pre_message}
+        </div>
+    `
+
     // NOTE meta color-scheme ensures Apple etc apply user's scheme rather than default to light
     return `
         <html>
@@ -65,9 +72,7 @@ export function render_email(fund_id:string, fund_name:string, hue:number, conte
                     </tr>
                 </table>
 
-                <div style='margin-bottom: 48px; color: white; font-size: 26px; font-family: serif'>
-                    ${pre_message}
-                </div>
+                ${pre_message_div}
 
                 <div style='${styles.contents}'>
                     ${contents}
