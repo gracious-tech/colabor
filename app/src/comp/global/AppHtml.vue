@@ -35,6 +35,9 @@ const config = {
     plugins: 'lists advlist link',
     toolbar1: 'bold italic underline superscript subscript | link unlink | blocks bullist numlist | alignleft aligncenter alignright alignjustify | hr | undo redo',
     content_style: content_css + content_skin_css,
+    // Don't convert absolute links to relative
+    relative_urls: false,
+    remove_script_host: false,
 }
 
 
