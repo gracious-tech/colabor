@@ -19,6 +19,7 @@ import 'tinymce/skins/ui/oxide/skin.min.css'
 // Optional plugins
 import 'tinymce/plugins/lists'
 import 'tinymce/plugins/advlist'
+import 'tinymce/plugins/link'
 
 // These styles need to be inserted within the sandboxed iframe
 import content_css from 'tinymce/skins/content/default/content.css?raw'
