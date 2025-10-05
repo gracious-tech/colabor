@@ -43,7 +43,7 @@ export function render_email(fund_id:string, fund_name:string, hue:number, conte
 
     // Don't insert div if no pre_message exists to avoid too much margin
     const pre_message_div = !pre_message ? '' : `
-        <div style='margin-bottom: 48px; color: white; font-size: 26px; font-family: serif'>
+        <div style='margin-bottom: 48px; color: white; font-family: serif'>
             ${pre_message}
         </div>
     `
