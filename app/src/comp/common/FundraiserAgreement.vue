@@ -17,7 +17,6 @@ ol.root
             li I will #[GO(href='https://copy.church') free all works] produced from copyright restrictions
             li I will not seek a personal income that is excessive for my circumstances
             li I will pause the fundraiser if I exceed my stated goal (keeping existing donors)
-            li I will pause the fundraiser if my income exceeds $200,000 USD per year or my personal assets exceed $500,000 USD (excluding a single home of residence, or savings for one)
     li In terms of my beliefs, I affirm:
         ol
             li The Apostles' Creed

@@ -41,7 +41,7 @@ div.cs-positive
 
 h2 2. Non-profit #[span.np (whether an individual or organization)]
 
-p We only allow fundraisers where there is a real need for funding; where money does not excessively accumulate or go towards things that are not ministry. Our definition is different to that of "non-profit" organizations in that we also consider high salaries and large savings as a form of profit. We do not allow anyone to fundraise if their personal income is more than $200,000 USD/year or if they have personal assets (aside from a single home of residence or savings for one) that exceed $500,000 USD.
+p We only allow fundraisers where there is a real need for funding; where money does not excessively accumulate or go towards things that are not ministry. Our definition is different to that of "non-profit" organizations in that we also consider high salaries and large savings as a form of profit.
 
 div.cs-negative
     div
