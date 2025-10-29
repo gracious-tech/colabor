@@ -77,6 +77,14 @@ VCardText.content
                             target='_blank' color='secondary' class='mb-2')
                         | Continue
 
+            template(v-else-if='selected_option.data.type === "paypal"')
+                div(class='mb-8') Please continue to PayPal for secure payment.
+                div
+                    VBtn(@click='open_paypal' color='secondary')
+                        template(#prepend)
+                            AppIcon(name='paypal')
+                        | Donate {{ commitment }}
+
             template(v-else-if='selected_option.data.type === "stripe"')
                 div(v-if='stripe_url !== false' class='mb-8 text-body-2')
                     | Please continue to the secure card payment platform, Stripe.
@@ -212,6 +220,7 @@ const title = computed(() => {
     if (step.value === 'pay'){
         return {
             stripe: "Send donation",
+            paypal: "Send donation",
             transfer: `You'll send ${commitment.value} to`,
             contact: `Please contact ${fund.steward.organiser_name}`,
             custom: '\u00A0',
@@ -366,6 +375,7 @@ const options = computed(() => {
     for (const option of fund.payment.options){
         if (option.type === 'transfer'){
             const recommended = selected_currency.value === option.currency
+                && option.currency !== 'usd'
             const opt_title = option.currency === 'usd' ? "Direct deposit" : "Bank transfer"
             items.push({
                 data: option,
@@ -373,7 +383,7 @@ const options = computed(() => {
                 title: `${opt_title} (${option.currency.toUpperCase()})`,
                 desc: recommended
                     ? "No fees and you stay in control of donation amount and frequency."
-                    : "Suitable for one-off large donations when transferring internationally.",
+                    : "Best suited for one-off large donations to reduce transfer fees.",
                 international: !!option.swift,
                 recommended,
                 classes: [],
@@ -387,13 +397,42 @@ const options = computed(() => {
                     // Comparing to a domestic option, so mention fee difference
                     // NOTE Stripe domestic lowest fee: AU single 1.7% + 30c
                     // NOTE Stripe domestic highest fee: US recurring 2.9% + 0.7% + 30c
-                    ? "2%-4% of donation lost to fees but convenient for international payments."
+                    ? "2-4% of donation lost to fees but convenient for international payments."
                     // Not comparing to a domestic alternative, so don't cause worry about fees
-                    : "A convenient payment option, both domestically and internationally.",
+                    : "Give using your Visa, Mastercard, or other payment card.",
                 international: true,
                 recommended: false,
                 classes: [],
             }))
+        } else if (option.type === 'paypal'){
+            items.push(({
+                data: option,
+                icon: 'paypal',
+                title: "PayPal",
+                desc: selected_currency.value && selected_currency.value !== 'other'
+                    // Comparing to a domestic option, so mention fee difference
+                    // NOTE US: 2.89% + fixed fee + 1.5% international + bad exchange rates (AU similar)
+                    ? "4-6% of donation lost to fees but convenient for international payments."
+                    // Not comparing to a domestic alternative, so don't cause worry about fees
+                    : "Give using your PayPal balance or linked accounts.",
+                international: true,
+                recommended: false,
+                classes: [],
+            }))
+            if (option.show_cards_option){
+                // Use PayPal as card processor as well, showing separate option for it
+                items.push(({
+                    data: {...option, id: option.id + '-cards'},
+                    icon: 'credit_card',
+                    title: "Credit/Debit card",
+                    desc: selected_currency.value && selected_currency.value !== 'other'
+                        ? "4-6% of donation lost to fees but convenient for international payments."
+                        : "Give using your Visa, Mastercard, or other payment card.",
+                    international: true,
+                    recommended: false,
+                    classes: [],
+                }))
+            }
         } else if (option.type === 'custom'){
             items.push(({
                 data: option,
@@ -515,6 +554,7 @@ const name_required = computed(() => {
 // Whether email is required or not
 const email_required = computed(() => {
     // Stripe requires email anyway so may as well collect now so record even if Stripe fails
+    // PayPal does too but it can't be prefilled so don't make them enter twice
     return name_required.value || selected_type.value === 'stripe'
 })
 
@@ -571,24 +611,49 @@ const do_pay_step_tasks = () => {
 }
 
 
-// Open link to Stripe
-const open_stripe = () => {
-    // Save pledge in case something goes wrong with Stripe
-    // Can consider donor as committed at this stage since they have confirmed all the details
+// Create the pledge if haven't done so already
+const create_pledge_once = () => {
     if (!submitted.value){
         void create_pledge(fund.id, pledge.value)
     }
     submitted.value = true
+}
+
+
+// Open link to Stripe
+const open_stripe = () => {
+    // Save pledge in case something goes wrong with Stripe
+    // Can consider donor as committed at this stage since they have confirmed all the details
+    create_pledge_once()
     self.open(stripe_url.value as string, '_blank')
+}
+
+
+// Open link to PayPal
+const open_paypal = () => {
+
+    // For types sake
+    if (selected_option.value.data.type !== 'paypal'){
+        return
+    }
+
+    // Prepare params for PayPal
+    const params = new URLSearchParams({
+        business: selected_option.value.data.business,
+        item_name: selected_option.value.data.message,
+        currency_code: entered_amount_currency.value.toUpperCase(),
+        amount: String(entered_amount.value ?? ''),
+        no_recurring: '0',  // Show option to donate monthly
+    })
+
+    create_pledge_once()
+    self.open(`https://www.paypal.com/donate/?` + params.toString(), '_blank')
 }
 
 
 // Confirm the pledge to transfer and reveal ref code
 const confirm_transfer = () => {
-    if (!submitted.value){
-        void create_pledge(fund.id, pledge.value)
-    }
-    submitted.value = true
+    create_pledge_once()
 }
 
 

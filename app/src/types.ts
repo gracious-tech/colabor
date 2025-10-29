@@ -103,8 +103,16 @@ export interface PaymentOptionStripe {
     type:'stripe'
 }
 
-// NOTE Stick any options like PayPal in as "custom" items as the UX will still be the same as for
-//      an unknown third-party service, and can build a nice admin UI for choosing PayPal instead
+export interface PaymentOptionPaypal {
+    id:string
+    type:'paypal'
+    business:string  // Not necessarily a business account though
+    message:string  // Max 127 chars
+    show_cards_option:boolean  // Whether to show separate card payment option as well
+}
+
+// For services that can't be pre-programmed with amount/recurrance/currency etc
+// The admin UI can still auto-populate common services, but this form skips recurr/amount steps
 export interface PaymentOptionCustom {
     id:string
     type:'custom'
@@ -119,4 +127,4 @@ export interface PaymentOptionCustom {
     url:string
 }
 
-export type PaymentOption = PaymentOptionTransfer|PaymentOptionStripe|PaymentOptionCustom
+export type PaymentOption = PaymentOptionTransfer|PaymentOptionStripe|PaymentOptionPaypal|PaymentOptionCustom

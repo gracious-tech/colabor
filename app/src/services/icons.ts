@@ -34,3 +34,4 @@ export * as mark_email_read from '@material-symbols/svg-400/outlined/mark_email_
 export * as send from '@material-symbols/svg-400/outlined/send.svg?component'
 
 export * as facebook from '@/assets/icons/facebook.svg?component'
+export * as paypal from '@/assets/icons/paypal.svg?component'
