@@ -5,5 +5,5 @@ import {setGlobalOptions} from 'firebase-functions/v2'
 
 setGlobalOptions({
     region: 'us-west1',
-    memory: '128MiB',  // Lowest
+    memory: '256MiB',  // 128 resulted in errors
 })
