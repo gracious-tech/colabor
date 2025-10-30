@@ -38,9 +38,9 @@ VCardText.content
                             | {{ option.title }}
                         VCardText
                             | {{ option.desc }}
-                            div.recommend(v-if='option.recommended')
+                            div.recommend(v-if='option.fees === 0')
                                 AppIcon(name='thumb_up')
-                                | Recommended
+                                | No fees for fundraiser
 
         VWindowItem(value='amount')
             VRadioGroup(v-if='fund.payment.allow_recurring' v-model='selected_recurring' inline
@@ -355,9 +355,13 @@ interface PaymentOptionUI {
     title:string
     desc:string
     international:boolean
-    recommended:boolean
+    fees:number // 0 is zero, others are relative (1 ok, 2 a lot, 3 really bad)
     classes:string[]
 }
+
+
+// Currencies/countries that generally don't have free bank transfers
+const non_free_transfers = ['usd', 'jpy', 'krw', 'cad', 'chf']
 
 
 // Access to payment options that includes props helpful to UI
@@ -375,18 +379,18 @@ const options = computed(() => {
 
     for (const option of fund.payment.options){
         if (option.type === 'transfer'){
-            const recommended = selected_currency.value === option.currency
-                && option.currency !== 'usd'
+            const same_currency = selected_currency.value === option.currency
+            const fee_free = same_currency && !non_free_transfers.includes(option.currency)
             const opt_title = option.currency === 'usd' ? "Direct deposit" : "Bank transfer"
             items.push({
                 data: option,
                 icon: 'account_balance',
                 title: `${opt_title} (${option.currency.toUpperCase()})`,
-                desc: recommended
-                    ? "No fees and you stay in control of donation amount and frequency."
-                    : "Best suited for one-off large donations to reduce transfer fees.",
+                desc: fee_free
+                    ? "No fees, and you stay in control of donation amount and frequency."
+                    : "Best suited for one-off large donations to minimize transfer fees.",
                 international: !!option.swift,
-                recommended,
+                fees: same_currency ? (fee_free ? 0 : 2) : 3,
                 classes: [],
             })
         } else if (option.type === 'stripe'){
@@ -402,7 +406,7 @@ const options = computed(() => {
                     // Not comparing to a domestic alternative, so don't cause worry about fees
                     : "Give using your Visa, Mastercard, or other payment card.",
                 international: true,
-                recommended: false,
+                fees: 1,
                 classes: [],
             }))
         } else if (option.type === 'paypal'){
@@ -417,7 +421,7 @@ const options = computed(() => {
                     // Not comparing to a domestic alternative, so don't cause worry about fees
                     : "Give using your PayPal balance or linked accounts.",
                 international: true,
-                recommended: false,
+                fees: 3,
                 classes: [],
             }))
             if (option.show_cards_option){
@@ -430,7 +434,7 @@ const options = computed(() => {
                         ? "4-6% of donation lost to fees but convenient for international payments."
                         : "Give using your Visa, Mastercard, or other payment card.",
                     international: true,
-                    recommended: false,
+                    fees: 3,
                     classes: [],
                 }))
             }
@@ -441,7 +445,7 @@ const options = computed(() => {
                 title: option.title,
                 desc: option.desc,
                 international: option.international,
-                recommended: false,
+                fees: 1,  // Unknown...
                 classes: [],
             }))
         }
@@ -458,14 +462,13 @@ const options = computed(() => {
             title: "Something else",
             desc: `Ask the fundraiser if another option may be possible.`,
             international: true,
-            recommended: false,
+            fees: 99,  // Always sort last
             classes: ['type-contact'],
         })
     }
 
-    // Ensure recommended option comes first
-    // @ts-ignore Boolean math does work
-    items.sort((a, b) => b.recommended - a.recommended)
+    // Sort by fees
+    items.sort((a, b) => a.fees - b.fees)
 
     // Add selected class
     for (const item of items){
