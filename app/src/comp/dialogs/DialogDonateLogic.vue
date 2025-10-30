@@ -406,9 +406,10 @@ const options = computed(() => {
                 icon: 'credit_card',
                 title: "Credit/Debit card",
                 desc: no_fee_available
+                    // Compare to no-fee transfer when domestic (otherwise don't mention)
                     // NOTE Stripe domestic lowest fee: AU single 1.7% + 30c
                     // NOTE Stripe domestic highest fee: US recurring 2.9% + 0.7% + 30c
-                    ? "2-4% of donation lost to fees but convenient for international payments."
+                    ? "Payment processor takes 2-4% in fees."
                     : "Give using your Visa, Mastercard, or other payment card.",
                 international: true,
                 fees: 1,
@@ -420,11 +421,18 @@ const options = computed(() => {
                 icon: 'paypal',
                 title: "PayPal",
                 desc: no_fee_available
-                    // NOTE US: 2.89% + fixed fee + 1.5% international + bad exchange rates (AU similar)
-                    ? "4-6% of donation lost to fees but convenient for international payments."
+                    // Compare to no-fee transfer when domestic (otherwise don't mention)
+                    /* PayPal can be better or worse than Stripe
+                        * It has specific pricing for donations
+                        * It does not change if donations are recurring or not
+                        * It is more expensive than Stripe for AU domestic single
+                        * But less expensive than Stripe for US domestic recurring
+                        * But any currency conversion raises fees far above Stripe
+                    */
+                    ? "PayPal takes ~3% in fees."
                     : "Give using your PayPal balance or linked accounts.",
                 international: true,
-                fees: 3,
+                fees: 3,  // Since can get very expensive, even if not always
                 classes: [],
             }))
             if (option.show_cards_option){
@@ -434,7 +442,7 @@ const options = computed(() => {
                     icon: 'credit_card',
                     title: "Credit/Debit card",
                     desc: no_fee_available
-                        ? "4-6% of donation lost to fees but convenient for international payments."
+                        ? "Payment processor takes ~3% in fees."
                         : "Give using your Visa, Mastercard, or other payment card.",
                     international: true,
                     fees: 3,
