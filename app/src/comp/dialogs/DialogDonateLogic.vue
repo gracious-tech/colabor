@@ -40,7 +40,7 @@ VCardText.content
                             | {{ option.desc }}
                             div.recommend(v-if='option.fees === 0')
                                 AppIcon(name='thumb_up')
-                                | No fees for fundraiser
+                                strong Recommended
 
         VWindowItem(value='amount')
             VRadioGroup(v-if='fund.payment.allow_recurring' v-model='selected_recurring' inline
