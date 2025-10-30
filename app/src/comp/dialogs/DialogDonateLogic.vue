@@ -10,12 +10,12 @@ VCardText.content
     VWindow(v-model='step')
 
         VWindowItem(value='intro')
-            p(class='text-h6')
-                | You'll be donating directly to
-                br
+            p(class='text-h5 mt-0')
                 em {{ fund.steward.organiser_name }}
+            p
+                | to minimize transaction fees
                 br
-                | with ZERO platform fees 🎉
+                | (and ZERO platform fees 🎉)
             p(v-if='options.length > 1').
             template(v-else)
                 h6(class='text-subtitle-1 font-weight-bold mt-8') Supported payment method
@@ -227,6 +227,7 @@ const title = computed(() => {
         }[selected_type.value]
     }
     return {
+        intro: "You'll be donating directly to",
         option: "Payment method",
         amount: "Amount",
         contact: "Your contact details",
