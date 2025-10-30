@@ -426,7 +426,7 @@ const options = computed(() => {
             }))
             if (option.show_cards_option){
                 // Use PayPal as card processor as well, showing separate option for it
-                items.push(({
+                items.unshift(({  // NOTE Add before PayPal option since more common
                     data: {...option, id: option.id + '-cards'},
                     icon: 'credit_card',
                     title: "Credit/Debit card",
