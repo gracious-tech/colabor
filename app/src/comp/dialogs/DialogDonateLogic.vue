@@ -40,7 +40,7 @@ VCardText.content
                             | {{ option.desc }}
                             div.recommend(v-if='option.fees === 0')
                                 AppIcon(name='thumb_up')
-                                strong Recommended
+                                | Recommended
 
         VWindowItem(value='amount')
             VRadioGroup(v-if='fund.payment.allow_recurring' v-model='selected_recurring' inline
@@ -729,9 +729,10 @@ const payid_possible = computed(() => {
         display: flex
         align-items: center
         justify-content: flex-end
-        color: rgb(var(--v-theme-secondary))
+        color: #0a0
         font-size: 13px
         font-family: Roboto Condensed, Roboto, sans-serif
+        font-weight: 500
         line-height: 1
         svg
             margin-right: 8px
