@@ -377,6 +377,13 @@ const options = computed(() => {
         }[icon] ?? 'send_money'
     }
 
+    // Detect if a no-fee option is available, as will affect text shown for other options
+    const no_fee_available = !!fund.payment.options.find(option =>
+        option.type === 'transfer'
+        && selected_currency.value === option.currency
+        && !non_free_transfers.includes(option.currency)
+    )
+
     for (const option of fund.payment.options){
         if (option.type === 'transfer'){
             const same_currency = selected_currency.value === option.currency
@@ -398,12 +405,10 @@ const options = computed(() => {
                 data: option,
                 icon: 'credit_card',
                 title: "Credit/Debit card",
-                desc: selected_currency.value && selected_currency.value !== 'other'
-                    // Comparing to a domestic option, so mention fee difference
+                desc: no_fee_available
                     // NOTE Stripe domestic lowest fee: AU single 1.7% + 30c
                     // NOTE Stripe domestic highest fee: US recurring 2.9% + 0.7% + 30c
                     ? "2-4% of donation lost to fees but convenient for international payments."
-                    // Not comparing to a domestic alternative, so don't cause worry about fees
                     : "Give using your Visa, Mastercard, or other payment card.",
                 international: true,
                 fees: 1,
@@ -414,11 +419,9 @@ const options = computed(() => {
                 data: option,
                 icon: 'paypal',
                 title: "PayPal",
-                desc: selected_currency.value && selected_currency.value !== 'other'
-                    // Comparing to a domestic option, so mention fee difference
+                desc: no_fee_available
                     // NOTE US: 2.89% + fixed fee + 1.5% international + bad exchange rates (AU similar)
                     ? "4-6% of donation lost to fees but convenient for international payments."
-                    // Not comparing to a domestic alternative, so don't cause worry about fees
                     : "Give using your PayPal balance or linked accounts.",
                 international: true,
                 fees: 3,
@@ -430,7 +433,7 @@ const options = computed(() => {
                     data: {...option, id: option.id + '-cards'},
                     icon: 'credit_card',
                     title: "Credit/Debit card",
-                    desc: selected_currency.value && selected_currency.value !== 'other'
+                    desc: no_fee_available
                         ? "4-6% of donation lost to fees but convenient for international payments."
                         : "Give using your Visa, Mastercard, or other payment card.",
                     international: true,
