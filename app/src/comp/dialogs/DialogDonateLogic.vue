@@ -13,9 +13,9 @@ VCardText.content
             p(class='text-h5 mt-0')
                 em {{ fund.steward.organiser_name }}
             p
-                | to minimize transaction fees
+                | Donating directly minimizes transaction fees
                 br
-                | (and ZERO platform fees 🎉)
+                | (with ZERO platform fees 🎉)
             p(v-if='options.length > 1').
             template(v-else)
                 h6(class='text-subtitle-1 font-weight-bold mt-8') Supported payment method
