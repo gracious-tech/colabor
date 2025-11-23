@@ -26,7 +26,7 @@ const fundraiser = computed(() => {
 })
 
 provide('fundraiser', fundraiser)
-provide('contacts', use_contacts(fundraiser.value))
+provide('contacts', use_contacts(fundraiser))
 
 
 </script>

@@ -4,7 +4,7 @@ import {getAuth} from 'firebase/auth'
 import {getFirestore, setDoc, addDoc, doc, connectFirestoreEmulator, collection, onSnapshot,
     deleteDoc, query, where, updateDoc} from 'firebase/firestore'
 import {getFunctions, httpsCallable, connectFunctionsEmulator} from 'firebase/functions'
-import {onUnmounted, ref} from 'vue'
+import {onUnmounted, ref, watch, type Ref} from 'vue'
 
 import {contact_schema, fundraiser_schema, payment_schema, pledge_schema, statement_item_schema, statement_schema} from '@/shared/schemas'
 
@@ -185,21 +185,33 @@ export function use_pledges(fundraiser:string){
 
 
 // Composable for listening to contacts
-export function use_contacts(fundraiser:string){
+export function use_contacts(fundraiser:string|Ref<string>){
 
+    // Init ref that will be returned
     const contacts = ref<ContactWithId[]>([])
 
-    const colRef = collection(fire_db, 'fundraisers', fundraiser, 'contacts')
-    const unsub = onSnapshot(colRef, (snapshot) => {
-        contacts.value = snapshot.docs.map(doc => ({
-            ...contact_schema.parse(doc.data() as Contact),
-            id: doc.id,
-        }))
-    })
+    // Reset the ref whenever fundraiser changes
+    watch(ref(fundraiser), value => {
 
-    onUnmounted(() => {
-        unsub()
-    })
+        // Clear in case previous values
+        contacts.value = []
+
+        // Replace entire array whenever there's a change
+        const colRef = collection(fire_db, 'fundraisers', value, 'contacts')
+        const unsub = onSnapshot(colRef, (snapshot) => {
+            contacts.value = snapshot.docs.map(doc => ({
+                ...contact_schema.parse(doc.data() as Contact),
+                id: doc.id,
+            }))
+        })
+
+        // Unsub when no longer needed
+        // TODO May want to unsub if fundraiser changes too...
+        onUnmounted(() => {
+            unsub()
+        })
+
+    }, {immediate: true})
 
     return contacts
 }
